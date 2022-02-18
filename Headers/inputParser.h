@@ -1,0 +1,4 @@
+#pragma once 
+
+
+//INSERT INPUT PARSING FUNCTIONS HERE 

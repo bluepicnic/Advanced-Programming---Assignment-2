@@ -1,0 +1,20 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <regex>
+
+#include "utilities.h"
+#include "udt.h"
+#include "board.h"
+#include "ship.h"
+#include "player.h"
+#include "aiPlayer.h"
+#include "fileParser.h"
+#include "game.h"
+#include "humanPlayer.h"
+#include "inputParser.h"
+#include "constants.h"
