@@ -2,7 +2,7 @@
 
 HumanPlayer::HumanPlayer()
 {
-  cout << "I'm a human player";
+  cout << "I'm a human player" << endl;
   mPlayerName = declarePlayerName(); //set player name through input
 }
           
@@ -27,9 +27,10 @@ string HumanPlayer::getPlayerName()
   return mPlayerName;
 }
 
-string declarePlayerName()
+string HumanPlayer::declarePlayerName()
 {
   //
   //cin player name
   //check all is ok using input parser()
+  return "john";
 }

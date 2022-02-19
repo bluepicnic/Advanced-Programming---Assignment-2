@@ -1,13 +1,17 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
+#include <iostream> //For input/output operations
+#include <vector> //to access the vector varaible size data container
+#include <string> //to perform string operations beyond simple C-style char* 
+#include <algorithm> 
 #include <fstream>
-#include <sstream>
+#include <sstream> //In order to perform operations on strings and
 #include <iomanip>
-#include <regex>
+#include <regex> //
+#include <unistd.h>
+#include <termios.h>
+
 
 #include "utilities.h"
+#include "constants.h"
 #include "udt.h"
 #include "board.h"
 #include "ship.h"
@@ -17,4 +21,3 @@
 #include "game.h"
 #include "humanPlayer.h"
 #include "inputParser.h"
-#include "constants.h"

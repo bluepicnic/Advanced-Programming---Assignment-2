@@ -12,7 +12,7 @@ Player::~Player()
 
 void Player::deployBoats()
 {
-  std::cout << "I'm not wrong!";
+  
 }
 
 
@@ -20,7 +20,6 @@ void Player::deployBoats(int remainingBoats)
 {
 
 }
-
 
 void Player::deployMines()
 {

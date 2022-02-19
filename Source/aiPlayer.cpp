@@ -3,7 +3,7 @@
 
 AIPlayer::AIPlayer()
 {
-  
+  cout << "I'm an AI Player" << endl; 
 }
 
 
