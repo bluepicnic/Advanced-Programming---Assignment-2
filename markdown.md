@@ -34,7 +34,11 @@ Initially done from a physical battleship game point of view, was then adapted f
 All of em
 ### b. Phase 1 development: tasks, code review and changes (linked to 1d,1e).
 Phase 1 development consisted of wider helper functions that dealt with output, input and file parsing and implementing polymorphism. 
-Considered how current code state would affect future development during review. Initial structure of many classes changed. Initially over-relied on pointers, but scaled their uses back to just the abstract player class. Which wasn't originally meant to remain an abstract class.
+Considered how current code state would affect future development during review. 
+
+Initial structure of many classes changed. Initially over-relied on pointers, but scaled their uses back to just the abstract player class. Which wasn't originally meant to remain an abstract class.
+
+Refactored during and after a development phase was complete
 ### c. ..repeated for each development phase.
 ### d. Phase n development: tasks, code review and changes (linked to 1d,1e).
 ### e. Ensuring quality through testing and resolving bugs (linked to 1a, 1b, 2a, 2b..2c).

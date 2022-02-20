@@ -12,7 +12,7 @@ class Game {
   private:
         Player* generatePlayers(int selection, int index); //Use a factory of sorts to return a new human or computer player instance, depending on menu selection
         GameType selectGameType(int selection);
-        Player* mPlayers [numPlayers]; //Only ever two players in a game of battleship
+        Player* mPlayers [num_Players]; //Only ever two players in a game of battleship
         Player* mcurrentPlayer;
         Player* mInactivePlayer;
         GameState mGameState;

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream> //In order to perform operations on strings and
 #include <iomanip>
-#include <regex> //
+#include <regex> //To perform regex operations to check against input
 #include <unistd.h>
 #include <termios.h>
 
@@ -21,3 +21,5 @@
 #include "game.h"
 #include "humanPlayer.h"
 #include "inputParser.h"
+#include "ui.h"
+#include "mainMenu.h"

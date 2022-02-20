@@ -29,7 +29,6 @@ string HumanPlayer::getPlayerName()
 
 string HumanPlayer::declarePlayerName()
 {
-  //
   //cin player name
   //check all is ok using input parser()
   return "john";

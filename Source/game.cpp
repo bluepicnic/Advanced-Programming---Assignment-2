@@ -2,9 +2,9 @@
 
 Game::Game(int menuSelection)
 {
-  for(int p = 0; p < numPlayers; ++p)
+  for(int p = 0; p < num_Players; ++p)
   {
-    mPlayers[p] = generatePlayers(menuSelection, p);
+     mPlayers[p] = generatePlayers(menuSelection, p);
      //create an array of 2 players, which we do not know whether they will be AI or Human players until they are created. 
   }
   mGameType = selectGameType(menuSelection);
@@ -12,12 +12,16 @@ Game::Game(int menuSelection)
 
 Game::~Game()
 {
-
+  cout << "Things are being deleted!!" << endl << endl;
+  for (int i = 0; i < num_Players; ++i)
+  {
+    delete mPlayers[i];
+  }
 }
 
 void Game::setup()
 {
-   
+   //call function to read from file
 }
 
 void Game::playGame()
@@ -73,5 +77,6 @@ GameType Game::selectGameType(int selection)
       break;
     case 9: return GameType::Mines_AI;
       break;
+    
   }
 }
