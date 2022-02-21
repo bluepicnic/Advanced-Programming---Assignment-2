@@ -2,7 +2,8 @@
 
 Player::Player()
 {
-
+  parseFile(mPlayerBoards, mFleet);
+  
 }
 
 Player::~Player()
@@ -29,7 +30,7 @@ void Player::deployMines()
 
 Coordinates Player::selectTarget()
 {
-
+  return {9, 1};
 }
 
 

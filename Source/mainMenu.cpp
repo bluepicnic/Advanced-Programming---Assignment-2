@@ -15,7 +15,7 @@ void mainMenu()
         if(selection != 0 ) { 
           //only go ahead with game creation if string is valid
           Game newGame(selection);
-          //newGame.setup();
+          newGame.setup();
         }
         
       

@@ -8,6 +8,7 @@
 #include <regex> //To perform regex operations to check against input
 #include <unistd.h>
 #include <termios.h>
+#include <sys/stat.h>
 
 
 #include "utilities.h"

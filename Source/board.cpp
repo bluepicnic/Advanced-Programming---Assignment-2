@@ -3,6 +3,25 @@
 Board::Board()
 {
   //initialise Board member variables on creation
+  cout << "board has been created" << endl; 
+}
+
+Board::Board(int width, int height)
+{
+  mWidth = width;
+  mHeight = height;
+
+  vector <Space> tmpSpaces;
+
+  for (int i = 0; i < height; i++)
+  {
+    for (int j = 0; j < width; i++)
+    {
+      tmpSpaces.push_back({i, j});
+    } 
+    spaces.push_back(tmpSpaces);
+    tmpSpaces.clear();
+  }
 }
 
 

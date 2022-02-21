@@ -4,6 +4,7 @@
 AIPlayer::AIPlayer()
 {
   cout << "I'm an AI Player" << endl; 
+  mPlayerName = "Player";
 }
 
 
@@ -32,4 +33,6 @@ Coordinates AIPlayer::selectTarget()
 
 
   //reset once a ship has sunk 
+
+  return {9, 1};
 }

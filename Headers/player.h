@@ -7,12 +7,14 @@ class Player {
         void deployBoats();
         void deployBoats(int remainingBoats);
         void deployMines();
+        //void setupBoards(); <- set width and height 
         virtual Coordinates selectTarget();
         //virtual bool isHuman = 0 <- Might be useful for more marks/quickly determining if an instance is human or not.
         void displayBoards();
         void fleetStatus();
   private:
-        Board mTargetBoard;
-        Board mShipBoard;
+        Board mPlayerBoards [2];
         vector<Ship> mFleet; 
+  protected:
+        string mPlayerName;
 };

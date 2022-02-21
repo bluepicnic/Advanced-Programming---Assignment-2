@@ -21,7 +21,7 @@ Game::~Game()
 
 void Game::setup()
 {
-   //call function to read from file
+   mPlayers[0]->displayBoards();
 }
 
 void Game::playGame()
@@ -77,6 +77,7 @@ GameType Game::selectGameType(int selection)
       break;
     case 9: return GameType::Mines_AI;
       break;
+    default: return GameType::Invalid_Game;
     
   }
 }

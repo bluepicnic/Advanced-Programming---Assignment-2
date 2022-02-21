@@ -9,7 +9,7 @@ enum class SpaceStatus {
 };
 
 enum class GameType {
-  Regular_1P, Regular_2P, Regular_AI, Salvo_1P, Salvo_2P, Salvo_AI, Mines_1P, Mines_2P, Mines_AI
+  Invalid_Game, Regular_1P, Regular_2P, Regular_AI, Salvo_1P, Salvo_2P, Salvo_AI, Mines_1P, Mines_2P, Mines_AI
 };
 
 enum class Direction {
@@ -27,17 +27,19 @@ struct Coordinates {
 
 struct Space {
   
-
   Space(int col, int row)
   {
     location.cosPos = col;
     location.rowPos = row;
     outputValue = "*";
+    status = SpaceStatus::Unoccupied;
   };
 
   Coordinates location;
   SpaceStatus status;
   string outputValue;
+
+  
 
 };
 

@@ -12,5 +12,5 @@ class HumanPlayer :
           string getPlayerName();
     private:
           string declarePlayerName();
-          string mPlayerName;
+          
 };

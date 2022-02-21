@@ -3,6 +3,11 @@
 
 //Game parameter constants 
 const int num_Players = 2;
+const int num_Boards = 2;
+
+//string literal file name constants
+const string inFile = "adaship_config.ini";
+
 
 //String Literal constants for menu items
 const string welcome_Message = "Welcome to Battleship!";
@@ -35,3 +40,4 @@ const string clear_Console_Screen_Bottom("\x1b[0J\r"); //clear to bottom and ret
 
 //String literal constants for regular expression patterns
 const regex regex_Menu_Selection("^[0-9]+$");
+const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
