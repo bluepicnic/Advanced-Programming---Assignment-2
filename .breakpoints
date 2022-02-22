@@ -2,18 +2,10 @@
   "files": {
     "Source/fileParser.cpp": [
       {
-        "id": "c7eaf86d-ebc6-45ad-8d8d-bfdad13fdb15",
-        "line": 10,
-        "version": 2154,
-        "index": 252
-      }
-    ],
-    "Source/inputParser.cpp": [
-      {
-        "id": "ccedec4b-f0c6-48b4-a23d-50589fbb180f",
-        "line": 8,
-        "version": 414,
-        "index": 176
+        "id": "4534a0ab-2697-42c2-85f5-08fc0860e7d3",
+        "line": 16,
+        "version": 2234,
+        "index": 404
       }
     ]
   }

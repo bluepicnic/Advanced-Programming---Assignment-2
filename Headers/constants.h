@@ -30,7 +30,8 @@ const string invalid_Menu_Input = "That selection is invalid, please try again";
 const string text_Colour_Default("\x1b[0m");
 const string text_Colour_Cyan("\u001b[36;1m");
 
-
+//string literal unicode symbols
+const string symbol_Square(" \u25A0 ");
 
 //String literal constants for clearing part or all of the console screen
 const string clear_Console_Screen("\x1b[2J\x1b[1;1H"); //Clear entire console screen

@@ -12,3 +12,4 @@ using std::regex;
 string getSingleKeyInput();
 string convertToLower(string format);
 void removeLeadTrailSpaces(string &stringToChange);
+string getLineSingleKey();

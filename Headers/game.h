@@ -7,6 +7,7 @@ class Game {
         void setup();
         void playGame();
         Player* swapTurn();
+        string gameType();
         
 
   private:

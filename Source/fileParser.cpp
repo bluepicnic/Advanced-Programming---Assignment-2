@@ -23,7 +23,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
       
       
       getline(configFile, type, ':');
-      convertToLower(type);
+      type = convertToLower(type);
       
       if (type == "board")
       {

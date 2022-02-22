@@ -1,6 +1,12 @@
 #include "../Headers/headers.h"
 
+void ui_clearScreen()
+{
+  cout << clear_Console_Screen;
+}
+
 void ui_displayMainMenu() {
+    ui_clearScreen();
     cout << text_Colour_Cyan << welcome_Message << endl; 
     cout << select_Game_Mode << endl << text_Colour_Default;
     cout << single_Player_Game << endl;
@@ -13,3 +19,4 @@ void ui_displayMainMenu() {
     cout << ai_Only_Mines << endl;
     cout << endl;
 }
+

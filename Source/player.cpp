@@ -36,10 +36,15 @@ Coordinates Player::selectTarget()
 
 void Player::displayBoards()
 {
-
+  mPlayerBoards[0].displayBoard();
 }
         
 void Player::fleetStatus()
 {
   
+}
+
+string Player::sayName()
+{
+  return mPlayerName;
 }

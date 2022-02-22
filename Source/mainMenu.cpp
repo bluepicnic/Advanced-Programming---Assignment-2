@@ -1,7 +1,5 @@
 #include "../Headers/headers.h"
 
-string help();
-
 void mainMenu()
 {
   int selection = -1;
@@ -10,7 +8,7 @@ void mainMenu()
       ui_displayMainMenu(); //display main menu text
 
       //get a character input from the user and check input is ok
-        selection = stoi(help());   
+        selection = stoi(getLineSingleKey());   
 
         if(selection != 0 ) { 
           //only go ahead with game creation if string is valid
@@ -23,13 +21,3 @@ void mainMenu()
 }
 
 
-string help(){
-  bool isValid = false;
-  string ohNo = "";
-
-  while(isValid != true){
-    ohNo = getSingleKeyInput();
-    isValid = validateString(ohNo, regex_Menu_Selection, invalid_Menu_Input);
-  }
-  return ohNo;
-}

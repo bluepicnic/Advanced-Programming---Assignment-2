@@ -31,7 +31,7 @@ struct Space {
   {
     location.cosPos = col;
     location.rowPos = row;
-    outputValue = "*";
+    outputValue = symbol_Square;
     status = SpaceStatus::Unoccupied;
   };
 

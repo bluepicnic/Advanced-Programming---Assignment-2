@@ -58,3 +58,14 @@ void removeLeadTrailSpaces(string &stringToChange)
 	size_t lastChar = stringToChange.find_last_not_of(" \t\v\r\n");
 	stringToChange = stringToChange.substr(firstChar, lastChar - firstChar + 1);
 }
+
+string getLineSingleKey(){
+  bool isValid = false;
+  string ohNo = "";
+
+  while(isValid != true){
+    ohNo = getSingleKeyInput();
+    isValid = validateString(ohNo, regex_Menu_Selection, invalid_Menu_Input);
+  }
+  return ohNo;
+}

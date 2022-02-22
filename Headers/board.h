@@ -9,6 +9,7 @@ class Board {
           void updateBoard();
 
     private:
+          void boardHorizLine();
           vector<vector<Space>> spaces;
           int mWidth;
           int mHeight;

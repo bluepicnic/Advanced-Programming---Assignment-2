@@ -21,7 +21,12 @@ Game::~Game()
 
 void Game::setup()
 {
-   mPlayers[0]->displayBoards();
+  ui_clearScreen();
+  cout << text_Colour_Cyan;
+  cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl << endl;
+  mPlayers[0]->displayBoards();
+
+  getLineSingleKey();
 }
 
 void Game::playGame()
@@ -37,7 +42,7 @@ Player* Game::swapTurn()
 
 Player* Game::generatePlayers(int selection, int index)
 {
-   //Player 1 will always be human unless its AI vs AI
+  //Player 1 will always be human unless its AI vs AI
   if (index == 0 && (selection % 3 != 0)) {
     return new HumanPlayer;
   }
@@ -45,13 +50,14 @@ Player* Game::generatePlayers(int selection, int index)
     return new AIPlayer;
   }
 
+  //Player 2 will be an AI unless its a multiplayer game 
   if (index == 1 && (selection != 2 && selection != 5 && selection != 8)){
     return new AIPlayer;
   }
   else if (index == 1) {
     return new HumanPlayer;
   }
-  //Player 2 will be an AI unless its a multiplayer game 
+  
 
 } 
 
@@ -80,4 +86,21 @@ GameType Game::selectGameType(int selection)
     default: return GameType::Invalid_Game;
     
   }
+}
+
+string Game::gameType()
+{
+  string gameMode = "Regular";
+  if (mGameType == GameType::Salvo_1P || mGameType == GameType::Salvo_2P || mGameType == GameType::Salvo_AI) {
+    gameMode = "Salvo";
+  }
+  
+  else if (mGameType == GameType::Mines_1P || mGameType == GameType::Mines_2P || mGameType == GameType::Mines_AI) {
+    gameMode = "Mines";
+  }
+
+  gameMode += " game - ";
+
+  return gameMode;
+
 }
