@@ -2,6 +2,7 @@
 
 class Ship {
     public:
+    Ship(string name, int size, int index);
     BoatStatus reportStatus();
     Coordinates reportLocation();
     

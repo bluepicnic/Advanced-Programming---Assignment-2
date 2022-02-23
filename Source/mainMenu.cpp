@@ -2,13 +2,15 @@
 
 void mainMenu()
 {
+  
+  convertToLetter()
   int selection = -1;
   string selectionString;
   do { //outer game loop, all other game functions originate from here
       ui_displayMainMenu(); //display main menu text
 
       //get a character input from the user and check input is ok
-        selection = stoi(getLineSingleKey());   
+        selection = stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));   
 
         if(selection != 0 ) { 
           //only go ahead with game creation if string is valid

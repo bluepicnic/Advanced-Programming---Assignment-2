@@ -4,7 +4,7 @@
 AIPlayer::AIPlayer()
 {
   cout << "I'm an AI Player" << endl; 
-  mPlayerName = "Player";
+  mPlayerName = "Player"; //give AI players generic names
 }
 
 

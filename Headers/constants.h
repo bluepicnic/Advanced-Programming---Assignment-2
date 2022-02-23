@@ -27,16 +27,24 @@ const string invalid_Menu_Input = "That selection is invalid, please try again";
 
 
 //String literal constants for setting string colours using ANSI codes
-const string text_Colour_Default("\x1b[0m");
-const string text_Colour_Cyan("\u001b[36;1m");
+const string text_Colour_Default = "\x1b[0m";
+const string text_Colour_Cyan = "\u001b[36;1m";
+const string text_Colour_Black = "\x1b[30m";
+
+//String literal constants for setting string background colours using ANSI codes
+const string background_Colour_Grey = "\x1b[47m"; //defined as WHITE but Ubuntu gives it a grey hue
 
 //string literal unicode symbols
-const string symbol_Square(" \u25A0 ");
+const string symbol_Vertical_Line = "\u2502";
+const string symbol_Vertical_Horizontal_Line = "\u253F";
+const string symbol_Horizontal_Line = "\u2501";
+const string symbol_Square = " \u25A0 "; //with spaces to avoid having to add later
+
 
 //String literal constants for clearing part or all of the console screen
-const string clear_Console_Screen("\x1b[2J\x1b[1;1H"); //Clear entire console screen
-const string clear_Console_Line("\x1b[2K\r"); //clear line and return cursor (\r) to start of line
-const string clear_Console_Screen_Bottom("\x1b[0J\r"); //clear to bottom and return cursor (\r) to start of line
+const string clear_Console_Screen = "\x1b[2J\x1b[1;1H"; //Clear entire console screen
+const string clear_Console_Line = "\x1b[2K\r"; //clear line and return cursor (\r) to start of line
+const string clear_Console_Screen_Bottom = "\x1b[0J\r"; //clear to bottom and return cursor (\r) to start of line
 
 
 //String literal constants for regular expression patterns

@@ -51,21 +51,22 @@ string convertToLower(string format)
    return format;
 }
 
-void removeLeadTrailSpaces(string &stringToChange)
+string removeLeadTrailSpaces(string stringToChange)
 {
   //find the first and last instance of anything that generates whitespace
 	size_t firstChar = stringToChange.find_first_not_of(" \t\v\r\n"); 
 	size_t lastChar = stringToChange.find_last_not_of(" \t\v\r\n");
 	stringToChange = stringToChange.substr(firstChar, lastChar - firstChar + 1);
+  return stringToChange;
 }
 
-string getLineSingleKey(){
+string getLineSingleKey(regex pattern, string error){
   bool isValid = false;
   string ohNo = "";
 
-  while(isValid != true){
-    ohNo = getSingleKeyInput();
-    isValid = validateString(ohNo, regex_Menu_Selection, invalid_Menu_Input);
+  while(isValid != true){ //continue to prompt if input is invalid
+    ohNo = getSingleKeyInput(); 
+    isValid = validateString(ohNo, pattern, error);
   }
   return ohNo;
 }

@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-  parseFile(mPlayerBoards, mFleet);
+  parseFile(mPlayerBoards, mFleet); //all types of player classes need to initalise their private members using the configurations from the input file.
   
 }
 
@@ -36,7 +36,7 @@ Coordinates Player::selectTarget()
 
 void Player::displayBoards()
 {
-  mPlayerBoards[0].displayBoard();
+  mPlayerBoards[0].displayBoard(); //shipboard
 }
         
 void Player::fleetStatus()

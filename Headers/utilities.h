@@ -11,5 +11,5 @@ using std::regex;
 
 string getSingleKeyInput();
 string convertToLower(string format);
-void removeLeadTrailSpaces(string &stringToChange);
-string getLineSingleKey();
+string removeLeadTrailSpaces(string stringToChange);
+string getLineSingleKey(regex pattern, string error);

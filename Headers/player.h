@@ -9,7 +9,7 @@ class Player {
         void deployMines();
         //void setupBoards(); <- set width and height 
         virtual Coordinates selectTarget();
-        //virtual bool isHuman = 0 <- Might be useful for more marks/quickly determining if an instance is human or not.
+        //virtual bool isHuman = 0 <- Might be useful for more marks/quickly determining if an instance is human or not. If typeof player doesn't work 
         void displayBoards();
         void fleetStatus();
         string sayName();
