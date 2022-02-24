@@ -39,11 +39,6 @@ void Board::displayBoard()
   using std::setw; //used to set the width of an output stream 
   using std::left; //used to align an input stream to the left
 
-  string placeholder = "";
-
-  for (int r = 0; r < 2; r++) {
-		r == 1 ? placeholder = RIGHT_BEND : placeholder = "";
-    
 	//output board edges
 
   //output individual board instance, using test from earlier
