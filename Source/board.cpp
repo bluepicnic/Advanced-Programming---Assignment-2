@@ -40,7 +40,12 @@ void Board::displayBoard()
   using std::left; //used to align an input stream to the left
 
 	//output board edges
-
+  /*for (int i = 0; i < 702; i++) {
+    cout << i << " ";
+    string output = convertToLetter(i);
+    cout << output << endl;
+  } */
+  
   //output individual board instance, using test from earlier
   for (int i = 0; i < mHeight; i++)
   {

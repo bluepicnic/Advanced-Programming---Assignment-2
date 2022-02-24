@@ -1,5 +1,7 @@
 #include "../Headers/headers.h"
 
+
+
 Game::Game(int menuSelection)
 {
   for(int p = 0; p < num_Players; ++p)
@@ -24,7 +26,10 @@ void Game::setup()
   ui_clearScreen();
   cout << text_Colour_Cyan; //set colour for title
   cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl << endl;
+
   mPlayers[0]->displayBoards();
+  
+  
 
   getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input);
 }
@@ -104,3 +109,6 @@ string Game::gameType()
   return gameMode;
 
 }
+
+
+

@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <termios.h>
 #include <sys/stat.h>
+#include <cmath.h> //For "pow" function to allow for more dynamic letter calculation
 
 
 #include "utilities.h"

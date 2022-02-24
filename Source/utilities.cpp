@@ -70,3 +70,20 @@ string getLineSingleKey(regex pattern, string error){
   }
   return ohNo;
 }
+
+string convertToLetter(int numToConvert) 
+{
+  std::string reference = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  string letters = "";
+  int remainder = 0;
+  cout << "this has run" << numToConvert << "times     ";
+  while (--numToConvert >= 0) {
+      remainder = numToConvert % 26;
+      char ch = ('A' + remainder);
+      letters += ch;
+      numToConvert /= 26;
+    }
+    reverse(letters.begin(), letters.end());
+    return letters; 
+  
+}
