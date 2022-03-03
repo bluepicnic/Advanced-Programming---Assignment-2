@@ -1,5 +1,7 @@
 #include "../Headers/headers.h"
 
+void outputLetters();
+
 Board::Board()
 {
   //initialise Board member variables on creation
@@ -14,7 +16,6 @@ Board::Board(int width, int height)
 
   vector <Space> tmpSpaces; //the data structure used in the board class is a vector of vectors, so we need a temporary vector to push back
 
-  
 
   for (int i = 0; i < height; i++)
   {
@@ -38,26 +39,37 @@ void Board::displayBoard()
 {
   using std::setw; //used to set the width of an output stream 
   using std::left; //used to align an input stream to the left
+  using std::right;
+  using std::internal;
 
-	//output board edges
-  /*for (int i = 0; i < 702; i++) {
-    cout << i << " ";
-    string output = convertToLetter(i);
-    cout << output << endl;
-  } */
+	//output column labels
   
+  cout << endl << setw(2) << right << "" << " " << setw(1) << right << std::setfill(' ') << "" << " " << text_Colour_Default;
+  
+  for (int i = 0; i <= mWidth; i++) {
+    string output = convertToLetter(i);
+    cout << output << setw(4) << left;
+  } 
+  cout << endl;
+  
+  for(int i = 0; i < mWidth * 4; i++) {
+    cout << symbol_Horizontal_Line;
+  }
+
   //output individual board instance, using test from earlier
-  for (int i = 0; i < mHeight; i++)
-  {
-    //start a vert
-    for (int j = 0; j < mWidth; j++)
-    {
+  for (int i = 0; i < mHeight; i++) {
+    //start a vertical line
+    cout << endl << setw(2) << right << (i + 1) << " " << setw(2) << right << symbol_Vertical_Line << text_Colour_Default;
+    
+    for (int j = 0; j < mWidth; j++) {
       cout << text_Colour_Black << background_Colour_Grey << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
 
     }
     boardHorizLine();
     
   }
+
+  cout << endl << endl;
 }
 
 
@@ -68,10 +80,14 @@ void Board::updateBoard()
 
 void Board::boardHorizLine()
 {
-  int lineIntersection = 3; //need a fixed location to place each line cross symbol that makes up the corner of every board space
+  using std::setw;
+  using std::right;
+  
+  int lineIntersection = 0; //need a fixed location to place each line cross symbol that makes up the corner of every board space
 
-  cout << endl; //each horizontal line starts on its own line
-  for (int i = 0; i < mWidth * 4; i++)
+  //each horizontal line starts on its own line
+  cout << endl << setw(2) << right << "   " << setw(4) << right << text_Colour_Default;
+  for (int i = 0; i < (mWidth * 4) + 1; i++)
   {
     if (i == lineIntersection) { //place a corner symbol
       cout << symbol_Vertical_Horizontal_Line;
@@ -82,5 +98,14 @@ void Board::boardHorizLine()
     } 
     
   }
-  cout << endl;
+}
+
+
+
+void outputLetters() {
+  using std::setw; //used to set the width of an output stream 
+  using std::left; //used to align an input stream to the left
+  using std::internal;
+  
+  
 }

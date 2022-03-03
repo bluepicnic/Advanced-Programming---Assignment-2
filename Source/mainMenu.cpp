@@ -5,8 +5,8 @@ void mainMenu()
 {
   
   
-  int selection = -1;
-  string selectionString;
+  int selection = -1; //all valid menu inputs are positive integers, so initialise as a negative
+  string selectionString = "";
   do { //outer game loop, all other game functions originate from here
       ui_displayMainMenu(); //display main menu text
 
@@ -16,7 +16,7 @@ void mainMenu()
         if(selection != 0 ) { 
           //only go ahead with game creation if string is valid
           Game newGame(selection);
-          newGame.setup();
+          newGame.playGame();
         }
         
       

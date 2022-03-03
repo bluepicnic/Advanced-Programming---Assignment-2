@@ -23,20 +23,49 @@ Game::~Game()
 
 void Game::setup()
 {
-  ui_clearScreen();
-  cout << text_Colour_Cyan; //set colour for title
-  cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl << endl;
+  
 
-  mPlayers[0]->displayBoards();
+  for (int i = 0; i < num_Players; i++) {
+    ui_clearScreen();
+    cout << text_Colour_Cyan; //set colour for title
+    cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl; //game title with player names
+    
+    mPlayers[i]->displayBoards(); //output select player boards
+    mPlayers[i]->fleetStatus(); //output boat statuses
+    ui_displayBoatPlacement(); //output menu options
+    
+    int boatMenuSelection = stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
+
+    switch (boatMenuSelection) {
+      case 1: 
+      
+      
+    }
+  }
+  
+  
   
   
 
-  getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input);
+  
 }
 
 void Game::playGame()
 {
+  setup();
 
+  //title
+
+  //ship board output
+
+  //target board output
+
+  //player input
+  //check if input format is correct
+  //check if input ranges are correct
+
+  //if hit
+  //upda
 }
         
         

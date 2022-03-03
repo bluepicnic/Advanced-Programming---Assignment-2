@@ -41,6 +41,12 @@ void Player::displayBoards()
         
 void Player::fleetStatus()
 {
+  ui_boatStatusColTitles();
+  for (auto &it : mFleet) {
+    it.reportStatus();
+  }
+
+  cout << endl;
   
 }
 

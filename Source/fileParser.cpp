@@ -14,7 +14,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
   int boardHeight = 0;
   ifstream configFile(inFile);
   vector <string> parameters;
-  int index;
+  int index = 0;
 
   if (!configFile) { //check if file exists
     cout << "Config file does not exist";
@@ -32,7 +32,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
         if(line.find('x')) { //look for a lower case 
           delim = 'x';
         }
-        else {
+        else { //just in case the board 
           delim = 'X';
         }
         getline(configFile, line);
@@ -58,6 +58,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
         string shipName = removeLeadTrailSpaces(parameters[0]);
         int sizeHealth = stoi(removeLeadTrailSpaces(parameters[1]));
         Ship tmpShip(shipName, sizeHealth, index);
+        index++;
 
         ships.push_back(tmpShip);
       }

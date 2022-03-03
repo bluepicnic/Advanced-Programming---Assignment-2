@@ -8,9 +8,14 @@ Ship::Ship(string name, int size, int index)
   mIndex = index;
 }
 
-BoatStatus Ship::reportStatus()
+void Ship::reportStatus()
 {
-  return mStatus;
+  cout << endl << 
+	std::setw(2) << std::right << mIndex << "  " <<
+	std::setw(17) << std::left << mName << 
+	std::setw(8) << std::left << mSize <<
+	std::setw(8) << std::left << mHealth <<
+	"Status";
 }
 
 

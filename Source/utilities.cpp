@@ -64,10 +64,15 @@ string getLineSingleKey(regex pattern, string error){
   bool isValid = false;
   string ohNo = "";
 
-  while(isValid != true){ //continue to prompt if input is invalid
+  while (isValid != true){ //continue to prompt if input is invalid
     ohNo = getSingleKeyInput(); 
     isValid = validateString(ohNo, pattern, error);
+
+    if (isValid == true) {
+      cout << console_Move_Cursor_Up << clear_Console_Line;
+    }
   }
+  
   return ohNo;
 }
 
@@ -76,7 +81,6 @@ string convertToLetter(int numToConvert)
   std::string reference = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   string letters = "";
   int remainder = 0;
-  cout << "this has run" << numToConvert << "times     ";
   while (--numToConvert >= 0) {
       remainder = numToConvert % 26;
       char ch = ('A' + remainder);
