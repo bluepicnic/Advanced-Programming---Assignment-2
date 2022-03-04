@@ -112,8 +112,10 @@ int convertFromLetter(string charsToConvert)
   for (int i = 0; i < charsToConvert.size(); i++) {
     current = charsToConvert[i]; 
     ch = current - 65;
-    index += ch * pow(26, (i - charsToConvert.size()) - 1); //something like this...
+    index += ch * pow(26, (charsToConvert.size() - i) - 1); //something like this...
   }
+
+  return index;
 }
 
 string getLineString(regex pattern, string error) {
@@ -123,8 +125,9 @@ string getLineString(regex pattern, string error) {
   while (validString != true) {
     getline(cin, inputStr);
     validString = validateString(inputStr, pattern, error);
-    
-    cout << console_Move_Cursor_Up << clear_Console_Line <<  error << ": ";
+    ui_returnCursorPos();
+    cout << "\x1b[0J\r";
+    cout << clear_Console_Line <<  error << ": ";
     cin.clear();
     if (validString == true) {
       cout.flush();
@@ -146,8 +149,9 @@ vector <string> separateCommands(string command) {
 
   //remove any whitespace
   idNo = removeLeadTrailSpaces(idNo);
+  coordinate = removeLeadTrailSpaces(coordinate);
   orientation = removeLeadTrailSpaces(orientation);
-  coordinate = removeLeadTrailSpaces(orientation);
+  
 
   commands.insert(commands.end(), {idNo,coordinate, orientation});
   return commands;

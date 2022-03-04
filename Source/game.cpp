@@ -44,10 +44,19 @@ void Game::setup()
           //ui stuff
           ui_returnCursorPos();
           cout << "\x1b[0J\r";
-          cout << "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+          cout << "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): " << endl;
+          ui_saveCursorPos();
           
           //actual placement
-          mPlayers[i]->deployBoat();
+          bool validCommand = false;
+          
+          while (validCommand != true) {
+            
+            string boatSelection = getLineString(regex_Board_Setup, "That command is invalid: please try again");
+            boatSelection = convertToUpper(boatSelection);
+            validCommand = mPlayers[i]->deployBoat(boatSelection);
+          }
+          
           break;
         }
         case 2: break;

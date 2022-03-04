@@ -4,7 +4,8 @@ class Player {
   public:
         Player();
         ~Player();
-        virtual void deployBoat();
+        bool deployBoat(string command);
+        void deployBoat(int boatID);
         void deployBoats(int remainingBoats);
         void deployMines();
         //void setupBoards(); <- set width and height 

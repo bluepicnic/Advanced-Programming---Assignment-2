@@ -55,11 +55,13 @@ string ui_moveCursorUp(int noLines)
 void ui_saveCursorPos() 
 {
   cout << "\033[s";
+  cout.flush();
 }
 
 void ui_returnCursorPos()
 {
   cout << "\033[u";
+  cout.flush();
 }
 
 
