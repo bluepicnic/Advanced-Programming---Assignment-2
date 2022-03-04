@@ -5,7 +5,8 @@ void ui_clearScreen()
   cout << clear_Console_Screen;
 }
 
-void ui_displayMainMenu() {
+void ui_displayMainMenu() 
+{
     ui_clearScreen();
     cout << text_Colour_Cyan << welcome_Message << endl; 
     cout << select_Game_Mode << endl << text_Colour_Default;
@@ -20,7 +21,8 @@ void ui_displayMainMenu() {
     cout << endl << endl;
 }
 
-void ui_boatStatusColTitles() {
+void ui_boatStatusColTitles() 
+{
   cout << endl << text_Colour_Yellow << 
 	std::setw(2) << std::right << "Id" << "  " <<
 	std::setw(17) << std::left << "Name" << 
@@ -29,18 +31,35 @@ void ui_boatStatusColTitles() {
 	"Status" << text_Colour_Default;
 }
 
-void ui_displayBoatPlacement() {
+void ui_displayBoatPlacement() 
+{
   //don't clear screen, we need board to be displayed 
   
-  cout << manual_Boat_Selection << endl
-  << auto_Boat_Selection << endl
+  cout << endl << manual_Boat_Selection << endl //manually place ship
+  << auto_Boat_Selection << endl //place ship
   << auto_Place_Remaining << endl
   << auto_Place_All << endl
   << reset_Boats << endl
   << complete_Setup << endl << endl
-  << exit_text;//manually place ship
-  //place ship 
+  << exit_text << endl << endl << endl;
 }
 
+string ui_moveCursorUp(int noLines)
+{
+  using std::to_string;
+  string cursor = "\u001b[" + to_string(noLines) + "A";
+
+  return cursor;
+}
+
+void ui_saveCursorPos() 
+{
+  cout << "\033[s";
+}
+
+void ui_returnCursorPos()
+{
+  cout << "\033[u";
+}
 
 

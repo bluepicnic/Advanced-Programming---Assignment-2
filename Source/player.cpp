@@ -11,7 +11,7 @@ Player::~Player()
   
 }
 
-void Player::deployBoats()
+void Player::deployBoat()
 {
   
 }
@@ -46,7 +46,8 @@ void Player::fleetStatus()
     it.reportStatus();
   }
 
-  cout << endl;
+  cout << endl << endl;
+  ui_saveCursorPos();
   
 }
 

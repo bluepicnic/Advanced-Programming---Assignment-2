@@ -1,6 +1,6 @@
 #include "../Headers/headers.h"
 
-
+vector <string> separateCommands(string command);
 
 Game::Game(int menuSelection)
 {
@@ -23,23 +23,41 @@ Game::~Game()
 
 void Game::setup()
 {
+  int boatMenuSelection = -1;
   
-
   for (int i = 0; i < num_Players; i++) {
-    ui_clearScreen();
-    cout << text_Colour_Cyan; //set colour for title
-    cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl; //game title with player names
-    
-    mPlayers[i]->displayBoards(); //output select player boards
-    mPlayers[i]->fleetStatus(); //output boat statuses
-    ui_displayBoatPlacement(); //output menu options
-    
-    int boatMenuSelection = stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
-
-    switch (boatMenuSelection) {
-      case 1: 
+    while (boatMenuSelection != 0 || boatMenuSelection != 6) {
+      ui_clearScreen();
+      cout << text_Colour_Cyan; //set colour for title
+      cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl; //game title with player names
+      
+      mPlayers[i]->displayBoards(); //output select player boards
+      mPlayers[i]->fleetStatus(); //output boat statuses
+  
+      //human player functionality only 
+      ui_displayBoatPlacement(); //output menu options
+      
+      int boatMenuSelection = stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
+  
+      switch (boatMenuSelection) {
+        case 1: {
+          //ui stuff
+          ui_returnCursorPos();
+          cout << "\x1b[0J\r";
+          cout << "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+          //actual placement
+          string boatSelection = getLineString(regex_Board_Setup, "wrong");
+          separateCommands(boatSelection);
+          getLineSingleKey(regex_Alphanumeric, "pls ignore");
+          mPlayers[i]->deployBoat();
+          break;
+        }
+        case 2: break;
+        default: break;
       
       
+        
+      }
     }
   }
   
@@ -65,7 +83,11 @@ void Game::playGame()
   //check if input ranges are correct
 
   //if hit
-  //upda
+  //update current player target board and inactive player ship board
+  //update ship statuses and health
+
+  //if miss
+  //update current player target board
 }
         
         
@@ -140,4 +162,22 @@ string Game::gameType()
 }
 
 
+vector <string> separateCommands(string command) {
+  vector <string> commands; 
 
+  size_t idNoPos = command.find_first_of("123456789");
+  size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
+  size_t orientationPos = command.find_last_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
+
+  string idNo = removeLeadTrailSpaces(command.substr(idNoPos, startOfCoord));
+  string orientation = removeLeadTrailSpaces(command.substr(orientationPos));
+  string coordinate = removeLeadTrailSpaces(command.substr(startOfCoord, orientationPos - 1));
+
+  
+  commands.insert(commands.end(), {idNo, orientation, coordinate});
+
+  
+  
+  
+  return commands;
+}

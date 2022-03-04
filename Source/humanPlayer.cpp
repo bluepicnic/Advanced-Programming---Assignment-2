@@ -11,6 +11,19 @@ HumanPlayer::~HumanPlayer()
 {
 
 }
+
+void HumanPlayer::deployBoat(string command)
+{
+  //split command into three parts using function
+
+  //check if boat ID is valid
+
+    //check if coordinate is in range, depending on orientation 
+      //if a boat already exists there, reject
+      //if not, accept
+
+  
+}
           
 int HumanPlayer::recallBoat(int numBoats)
 {

@@ -9,7 +9,6 @@ bool validateString(string userInput, regex validation, string errorMessage) //c
     return true;
   }
   else {
-    cout << console_Move_Cursor_Up << errorMessage << endl;
     return false;
   }
 }

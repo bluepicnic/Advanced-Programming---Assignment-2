@@ -47,8 +47,10 @@ bool fileExists(string file)
 
 string convertToLower(string format)
 {
-   std::transform(format.begin(), format.end(), format.begin(), ::tolower);
-   return format;
+  using std::transform;
+  
+  transform(format.begin(), format.end(), format.begin(), ::tolower);
+  return format;
 }
 
 string removeLeadTrailSpaces(string stringToChange)
@@ -60,21 +62,24 @@ string removeLeadTrailSpaces(string stringToChange)
   return stringToChange;
 }
 
-string getLineSingleKey(regex pattern, string error){
+string getLineSingleKey(regex pattern, string error) 
+{
   bool isValid = false;
-  string ohNo = "";
+  string input = "";
 
-  while (isValid != true){ //continue to prompt if input is invalid
-    ohNo = getSingleKeyInput(); 
-    isValid = validateString(ohNo, pattern, error);
-
+  while (isValid != true) { //continue to prompt if input is invalid
+    input = getSingleKeyInput(); 
+    isValid = validateString(input, pattern, error);
+    cout << console_Move_Cursor_Up << error << endl;
     if (isValid == true) {
       cout << console_Move_Cursor_Up << clear_Console_Line;
     }
   }
   
-  return ohNo;
+  return input;
 }
+
+
 
 string convertToLetter(int numToConvert) 
 {
@@ -90,4 +95,22 @@ string convertToLetter(int numToConvert)
     reverse(letters.begin(), letters.end());
     return letters; 
   
+}
+
+string getLineString(regex pattern, string error) {
+  bool validString = false;
+  string inputStr = "";
+
+  while (validString != true) {
+    getline(cin, inputStr);
+    validString = validateString(inputStr, pattern, error);
+    
+    cout << console_Move_Cursor_Up << clear_Console_Line <<  error << ": ";
+    cin.clear();
+    if (validString == true) {
+      cout.flush();
+    }
+  }
+
+  return inputStr;
 }

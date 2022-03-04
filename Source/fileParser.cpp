@@ -32,7 +32,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
         if(line.find('x')) { //look for a lower case 
           delim = 'x';
         }
-        else { //just in case the board 
+        else { //just in case the board attempts to 
           delim = 'X';
         }
         getline(configFile, line);

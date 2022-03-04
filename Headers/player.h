@@ -4,7 +4,7 @@ class Player {
   public:
         Player();
         ~Player();
-        void deployBoats();
+        void deployBoat();
         void deployBoats(int remainingBoats);
         void deployMines();
         //void setupBoards(); <- set width and height 

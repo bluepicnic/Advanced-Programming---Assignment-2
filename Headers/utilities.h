@@ -14,3 +14,4 @@ string convertToLower(string format);
 string removeLeadTrailSpaces(string stringToChange);
 string getLineSingleKey(regex pattern, string error);
 string convertToLetter(int numToConvert);
+string getLineString(regex pattern, string error);
