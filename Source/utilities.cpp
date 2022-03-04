@@ -53,6 +53,14 @@ string convertToLower(string format)
   return format;
 }
 
+string convertToUpper(string format)
+{
+  using std::transform;
+  
+  transform(format.begin(), format.end(), format.begin(), ::toupper);
+  return format;
+}
+
 string removeLeadTrailSpaces(string stringToChange)
 {
   //find the first and last instance of anything that generates whitespace
@@ -83,7 +91,7 @@ string getLineSingleKey(regex pattern, string error)
 
 string convertToLetter(int numToConvert) 
 {
-  std::string reference = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  string reference = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   string letters = "";
   int remainder = 0;
   while (--numToConvert >= 0) {
@@ -94,7 +102,18 @@ string convertToLetter(int numToConvert)
     }
     reverse(letters.begin(), letters.end());
     return letters; 
-  
+}
+
+int convertFromLetter(string charsToConvert) 
+{
+  int index = 0;
+  int ch = 0;
+  char current = '-';
+  for (int i = 0; i < charsToConvert.size(); i++) {
+    current = charsToConvert[i]; 
+    ch = current - 65;
+    index += ch * pow(26, (i - charsToConvert.size()) - 1); //something like this...
+  }
 }
 
 string getLineString(regex pattern, string error) {
@@ -113,4 +132,23 @@ string getLineString(regex pattern, string error) {
   }
 
   return inputStr;
+}
+
+vector <string> separateCommands(string command) {
+  vector <string> commands; //return commands as list separated by index
+  size_t idNoPos = command.find_first_of("123456789"); //boat ID will always be the first segement of a boat placement command
+  size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz"); //
+  size_t orientationPos = command.find_last_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
+  //create separated strings based on the positions of these elements
+  string idNo = command.substr(idNoPos, startOfCoord);
+  string orientation = command.substr(orientationPos);
+  string coordinate = command.substr(startOfCoord, orientationPos - 1);
+
+  //remove any whitespace
+  idNo = removeLeadTrailSpaces(idNo);
+  orientation = removeLeadTrailSpaces(orientation);
+  coordinate = removeLeadTrailSpaces(orientation);
+
+  commands.insert(commands.end(), {idNo,coordinate, orientation});
+  return commands;
 }

@@ -7,7 +7,8 @@ class HumanPlayer :
     public:
           HumanPlayer(); //use constructor to set name 
           ~HumanPlayer();
-          void deployBoat(string command);
+          void deployBoat();
+          bool deployBoat(string command);
           int recallBoat(int numBoats);
           Coordinates selectTarget();
           string getPlayerName();

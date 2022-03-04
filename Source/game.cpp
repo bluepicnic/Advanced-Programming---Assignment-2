@@ -45,10 +45,8 @@ void Game::setup()
           ui_returnCursorPos();
           cout << "\x1b[0J\r";
           cout << "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+          
           //actual placement
-          string boatSelection = getLineString(regex_Board_Setup, "wrong");
-          separateCommands(boatSelection);
-          getLineSingleKey(regex_Alphanumeric, "pls ignore");
           mPlayers[i]->deployBoat();
           break;
         }
@@ -159,25 +157,4 @@ string Game::gameType()
 
   return gameMode;
 
-}
-
-
-vector <string> separateCommands(string command) {
-  vector <string> commands; 
-
-  size_t idNoPos = command.find_first_of("123456789");
-  size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
-  size_t orientationPos = command.find_last_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
-
-  string idNo = removeLeadTrailSpaces(command.substr(idNoPos, startOfCoord));
-  string orientation = removeLeadTrailSpaces(command.substr(orientationPos));
-  string coordinate = removeLeadTrailSpaces(command.substr(startOfCoord, orientationPos - 1));
-
-  
-  commands.insert(commands.end(), {idNo, orientation, coordinate});
-
-  
-  
-  
-  return commands;
 }

@@ -9,14 +9,38 @@ HumanPlayer::HumanPlayer()
           
 HumanPlayer::~HumanPlayer()
 {
-
+  
 }
 
-void HumanPlayer::deployBoat(string command)
-{
-  //split command into three parts using function
+void HumanPlayer::deployBoat()
+{ 
+  bool validCommand = false;
 
-  //check if boat ID is valid
+  while (validCommand != true) {
+    string boatSelection = getLineString(regex_Board_Setup, "wrong");
+    boatSelection = convertToUpper(boatSelection);
+    deployBoat(boatSelection);
+  }
+  
+}
+
+bool HumanPlayer::deployBoat(string command)
+{
+  bool deployment = false;
+  //split command into three parts
+  vector <string> commands = separateCommands(command);
+  int boatID = stoi(commands[0]);
+  string coords = commands[1];
+  string rowPos = coords.substr(coords.find_first_of("0123456789"));
+  //need to convert any characters to numbers
+  
+  Coordinates targetPos;
+  targetPos.colPos = ;
+
+  
+
+  //check if boat ID is valid 
+  if (commands[0] <= mFleet.size() - 1 )
 
     //check if coordinate is in range, depending on orientation 
       //if a boat already exists there, reject
