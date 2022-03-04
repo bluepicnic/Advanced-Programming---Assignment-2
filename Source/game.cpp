@@ -89,9 +89,9 @@ void Game::playGame()
 }
         
         
-Player* Game::swapTurn()
+void Game::swapTurn()
 {
-  return nullptr;
+  
 }
 
 Player* Game::generatePlayers(int selection, int index)
