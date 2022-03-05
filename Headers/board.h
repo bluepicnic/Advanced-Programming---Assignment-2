@@ -6,7 +6,9 @@ class Board {
           Board(int width, int height);
           ~Board();
           void displayBoard();
-          void updateBoard();
+          void updateBoard(Coordinates coordsToUpdate);
+          int getWidth();
+          int getHeight();
 
     private:
           void boardHorizLine();

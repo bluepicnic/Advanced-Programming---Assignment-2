@@ -34,18 +34,25 @@ bool Player::deployBoat(string command)
   targetPos.rowPos = stoi(rowPos);
   targetPos.rowPos--;
 
-  
-  cout << colPos << " = " << targetPos.colPos << " | " << targetPos.rowPos << endl;
 
   //check if boat ID is valid 
   if (boatID <= mFleet.size() - 1 ) {
-    //reset existing boa
+    //reset existing boats
     //check if coordinate is in range, depending on orientation 
-    if(orientation == "V" && (targetPos.colPos + 4) < 10) {
-      deployment = true;
-    }
-    else if (orientation == "H" && (targetPos.rowPos + 4) < 10) {
-      deployment = true;
+    if(targetPos.colPos < mPlayerBoards[0].getWidth() && targetPos.rowPos < mPlayerBoards[0].getHeight()) {
+    
+      if(orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) < mPlayerBoards[0].getHeight()) {
+        for (int i = 0; i < mFleet[boatID].reportSize(); i++) {
+            int help = targetPos.rowPos + i;
+            mPlayerBoards[0].updateBoard({help, targetPos.colPos});
+        }
+        deployment = true;
+      } 
+        
+      else if (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) < mPlayerBoards[0].getWidth()) {
+        deployment = true;
+      }
+      
     }
       //if a boat already exists there, reject
       //if not, accept

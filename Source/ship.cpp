@@ -24,3 +24,8 @@ Coordinates Ship::reportLocation()
   Coordinates location;
   return location;
 }
+
+int Ship::reportSize() 
+{
+  return mSize;
+}

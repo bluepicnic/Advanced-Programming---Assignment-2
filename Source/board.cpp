@@ -1,7 +1,5 @@
 #include "../Headers/headers.h"
 
-void outputLetters();
-
 Board::Board()
 {
   //initialise Board member variables on creation
@@ -62,7 +60,7 @@ void Board::displayBoard()
     cout << endl << setw(2) << right << (i + 1) << " " << setw(2) << right << symbol_Vertical_Line << text_Colour_Default;
     
     for (int j = 0; j < mWidth; j++) {
-      cout << text_Colour_Black << background_Colour_Grey << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
+      cout << spaces[i][j].outputColour << background_Colour_Grey << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
 
     }
     boardHorizLine();
@@ -73,9 +71,10 @@ void Board::displayBoard()
 }
 
 
-void Board::updateBoard()
+void Board::updateBoard(Coordinates coordsToUpdate)
 {
   //update board for whatever reason, possibly to record a hit
+  spaces[coordsToUpdate.rowPos][coordsToUpdate.colPos].outputColour = text_Colour_Yellow;
 }
 
 void Board::boardHorizLine()
@@ -102,10 +101,12 @@ void Board::boardHorizLine()
 
 
 
-void outputLetters() {
-  using std::setw; //used to set the width of an output stream 
-  using std::left; //used to align an input stream to the left
-  using std::internal;
-  
-  
+int Board::getWidth() 
+{
+  return mWidth;
+}
+
+int Board::getHeight()
+{
+  return mHeight;
 }

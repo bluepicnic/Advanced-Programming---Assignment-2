@@ -40,7 +40,7 @@ const string invalid_Menu_Input = "That selection is invalid, please try again";
 const string text_Colour_Default = "\x1b[0m";
 const string text_Colour_Cyan = "\u001b[36;1m";
 const string text_Colour_Black = "\x1b[30m";
-const string text_Colour_Yellow = "\u001b[33m";
+const string text_Colour_Yellow = "\x1b[93m";
 
 //String literal constants for setting string background colours using ANSI codes
 const string background_Colour_Grey = "\x1b[47m"; //defined as WHITE but Ubuntu gives it a grey hue

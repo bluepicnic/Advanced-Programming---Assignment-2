@@ -5,6 +5,7 @@ class Ship {
     Ship(string name, int size, int index);
     void reportStatus();
     Coordinates reportLocation();
+    int reportSize();
     
     private:
     int mSize;
