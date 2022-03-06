@@ -15,7 +15,7 @@ HumanPlayer::~HumanPlayer()
           
 int HumanPlayer::recallBoat(int numBoats)
 {
-  return 1;
+  
 }
           
           

@@ -9,6 +9,7 @@ class Board {
           void updateBoard(Coordinates coordsToUpdate);
           int getWidth();
           int getHeight();
+          bool isOccupied(Coordinates chkCoords);
 
     private:
           void boardHorizLine();

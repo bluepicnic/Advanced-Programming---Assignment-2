@@ -36,7 +36,7 @@ const string placement_Prompt = "Input a position using the following format: Bo
 
 //String constants for invalid input error messages
 const string invalid_Menu_Input = "That selection is invalid: please try again";
-const string invalid_Placement_Command = "That command is invalid: please try again"
+const string invalid_Placement_Command = "That command is invalid: please try again";
 
 
 //String literal constants for setting string colours using ANSI codes

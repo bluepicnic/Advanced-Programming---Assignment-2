@@ -110,3 +110,9 @@ int Board::getHeight()
 {
   return mHeight;
 }
+
+
+bool Board::isOccupied(Coordinates chkCoords) 
+{
+  return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceStatus::Occupied);
+}

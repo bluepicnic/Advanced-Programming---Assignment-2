@@ -14,6 +14,7 @@ class Player {
         void displayBoards();
         void fleetStatus();
         string sayName();
+        void recallBoat(int boatNo);
   private:
         Board mPlayerBoards [2];
         vector<Ship> mFleet; 

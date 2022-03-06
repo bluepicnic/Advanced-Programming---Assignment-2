@@ -11,10 +11,19 @@
 #include <sys/stat.h>
 #include <cmath> //For "pow" function to allow for more dynamic letter calculation
 
+using std::cout;
+using std::cin;
+using std::stoi;
+using std::endl;
+using std::string;
+using std::vector;
+using std::ifstream;
+using std::regex;
+using std::stringstream;
 
-#include "utilities.h"
 #include "constants.h"
 #include "udt.h"
+#include "utilities.h"
 #include "board.h"
 #include "ship.h"
 #include "player.h"

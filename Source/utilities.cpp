@@ -158,7 +158,21 @@ vector <string> separateCommands(string command)
   return commands;
 }
 
-Coordinates splitCoords(string coords) 
+Coordinates splitCoords(string coordsToSplit) 
 {
-  
+  //find the locations of letters and numbers in a coordinate input
+  size_t rowStringPos = coordsToSplit.find_first_of("0123456789");
+  size_t colStringPos = coordsToSplit.find_first_not_of("0123456789");
+
+  //separate into two values
+  string rowPos = coordsToSplit.substr(rowStringPos);
+  string colPos = coordsToSplit.substr(colStringPos, rowStringPos);
+
+  //store in Coordinates object to return
+  Coordinates splitCoords;
+  splitCoords.colPos = convertFromLetter(colPos);
+  splitCoords.rowPos = stoi(rowPos);
+  splitCoords.rowPos--; //minus one from numerical side of the input to be in line with numbers for arrays
+
+  return splitCoords;
 }

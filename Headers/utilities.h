@@ -1,15 +1,5 @@
 #pragma once
 
-using std::cout;
-using std::cin;
-using std::stoi;
-using std::endl;
-using std::string;
-using std::vector;
-using std::ifstream;
-using std::regex;
-using std::stringstream;
-
 string getSingleKeyInput();
 string convertToLower(string format);
 string convertToUpper(string format);

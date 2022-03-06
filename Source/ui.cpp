@@ -49,7 +49,7 @@ void ui_BoatPlacementPrompt()
 {
   ui_returnCursorPos();
   cout << clear_Console_Screen_Bottom;
-  cout << placement_prompt << endl;
+  cout << placement_Prompt << endl;
   ui_saveCursorPos();
 }
 

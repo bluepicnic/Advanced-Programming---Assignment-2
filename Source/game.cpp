@@ -23,9 +23,8 @@ Game::~Game()
 
 void Game::setup()
 {
-  int boatMenuSelection = -1;
-  
   for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
+    int boatMenuSelection = -1;
     while (boatMenuSelection != 0 || boatMenuSelection != 6) {
       mCurrentPlayer = i;
       mGameState = GameState::Setup;
@@ -35,7 +34,7 @@ void Game::setup()
       mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   
       //human player functionality only 
-      int boatMenuSelection = ui_displayBoatPlacement(); //output menu options
+      boatMenuSelection = ui_displayBoatPlacement(); //output menu options
 
       switch (boatMenuSelection) {
         case 1: {
