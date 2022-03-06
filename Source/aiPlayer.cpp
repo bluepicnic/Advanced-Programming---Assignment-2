@@ -1,10 +1,12 @@
 #include "../Headers/headers.h"
 
 
-AIPlayer::AIPlayer()
+AIPlayer::AIPlayer(int playerNo)
 {
-  cout << "I'm an AI Player" << endl; 
-  mPlayerName = "Player"; //give AI players generic names
+  playerNo++;
+  stringstream playerNameNo;
+  playerNameNo << "Player " << playerNo;
+  mPlayerName = playerNameNo.str();
 }
 
 

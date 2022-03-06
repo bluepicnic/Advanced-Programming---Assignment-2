@@ -3,7 +3,7 @@
 class AIPlayer : 
   public Player {
     public:
-          AIPlayer();
+          AIPlayer(int playerNo);
           ~AIPlayer();
           void deployBoats();
           Coordinates selectTarget();

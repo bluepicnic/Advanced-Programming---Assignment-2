@@ -137,7 +137,8 @@ string getLineString(regex pattern, string error) {
   return inputStr;
 }
 
-vector <string> separateCommands(string command) {
+vector <string> separateCommands(string command) 
+{
   vector <string> commands; //return commands as list separated by index
   size_t idNoPos = command.find_first_of("123456789"); //boat ID will always be the first segement of a boat placement command
   size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz"); //
@@ -155,4 +156,9 @@ vector <string> separateCommands(string command) {
 
   commands.insert(commands.end(), {idNo,coordinate, orientation});
   return commands;
+}
+
+Coordinates splitCoords(string coords) 
+{
+  
 }

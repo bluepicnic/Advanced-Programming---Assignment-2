@@ -8,6 +8,7 @@ class Game {
         void playGame(); //contains full game loop
         void swapTurn(); //used to change and access mCurrentPlayer and mInactive player to determine which player's variables should be used
         string gameType(); //used to get the chosen game type
+        void gameHeader(); //display information about the current game (type, players, current player etc)
         
 
   private:

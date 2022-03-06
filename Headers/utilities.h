@@ -8,6 +8,7 @@ using std::string;
 using std::vector;
 using std::ifstream;
 using std::regex;
+using std::stringstream;
 
 string getSingleKeyInput();
 string convertToLower(string format);
@@ -18,3 +19,4 @@ string convertToLetter(int numToConvert);
 int convertFromLetter(string charsToConvert); 
 string getLineString(regex pattern, string error);
 vector <string> separateCommands(string command);
+Coordinates splitCoords(string coords);

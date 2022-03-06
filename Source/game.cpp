@@ -25,34 +25,28 @@ void Game::setup()
 {
   int boatMenuSelection = -1;
   
-  for (int i = 0; i < num_Players; i++) {
+  for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
     while (boatMenuSelection != 0 || boatMenuSelection != 6) {
-      ui_clearScreen();
-      cout << text_Colour_Cyan; //set colour for title
-      cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() << endl; //game title with player names
+      mCurrentPlayer = i;
+      mGameState = GameState::Setup;
       
-      mPlayers[i]->displayBoards(); //output select player boards
-      mPlayers[i]->fleetStatus(); //output boat statuses
+      gameHeader(); //display current game info at top of screen
+      mPlayers[mCurrentPlayer]->displayBoards(); //output select player boards
+      mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   
       //human player functionality only 
-      ui_displayBoatPlacement(); //output menu options
-      
-      int boatMenuSelection = stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
-  
+      int boatMenuSelection = ui_displayBoatPlacement(); //output menu options
+
       switch (boatMenuSelection) {
         case 1: {
           //ui stuff
-          ui_returnCursorPos();
-          cout << "\x1b[0J\r";
-          cout << "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): " << endl;
-          ui_saveCursorPos();
+          ui_BoatPlacementPrompt();
           
           //actual placement
           bool validCommand = false;
           
           while (validCommand != true) {
-            
-            string boatSelection = getLineString(regex_Board_Setup, "That command is invalid: please try again");
+            string boatSelection = getLineString(regex_Board_Setup, invalid_Placement_Command);
             boatSelection = convertToUpper(boatSelection);
             validCommand = mPlayers[i]->deployBoat(boatSelection);
           }
@@ -110,12 +104,12 @@ Player* Game::generatePlayers(int selection, int index)
     return new HumanPlayer;
   }
   else if (index == 0) {
-    return new AIPlayer;
+    return new AIPlayer(index);
   }
 
   //Player 2 will be an AI unless its a multiplayer game 
   if (index == 1 && (selection != 2 && selection != 5 && selection != 8)){
-    return new AIPlayer;
+    return new AIPlayer(index);
   }
   else if (index == 1) {
     return new HumanPlayer;
@@ -166,4 +160,19 @@ string Game::gameType()
 
   return gameMode;
 
+}
+
+void Game::gameHeader() 
+{
+  string currentState = "";
+  if(mGameState == GameState::Setup) {
+    currentState = " game setup";
+  }
+  else {
+    currentState = "'s turn";
+  }
+  
+  ui_clearScreen();
+  cout << text_Colour_Cyan; //set colour for title
+  cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() + " | (" + mPlayers[mCurrentPlayer]->sayName() + currentState + ")" << endl; //game title with player names
 }

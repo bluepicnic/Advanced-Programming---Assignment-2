@@ -31,10 +31,9 @@ void ui_boatStatusColTitles()
 	"Status" << text_Colour_Default;
 }
 
-void ui_displayBoatPlacement() 
+int ui_displayBoatPlacement() 
 {
   //don't clear screen, we need board to be displayed 
-  
   cout << endl << manual_Boat_Selection << endl //manually place ship
   << auto_Boat_Selection << endl //place ship
   << auto_Place_Remaining << endl
@@ -42,6 +41,16 @@ void ui_displayBoatPlacement()
   << reset_Boats << endl
   << complete_Setup << endl << endl
   << exit_text << endl << endl << endl;
+
+  return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
+}
+
+void ui_BoatPlacementPrompt() 
+{
+  ui_returnCursorPos();
+  cout << clear_Console_Screen_Bottom;
+  cout << placement_prompt << endl;
+  ui_saveCursorPos();
 }
 
 string ui_moveCursorUp(int noLines)

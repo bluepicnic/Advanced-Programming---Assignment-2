@@ -18,8 +18,6 @@ void mainMenu()
           Game newGame(selection);
           newGame.playGame();
         }
-        
-      
   } while (selection != 0); //continue until the user decides to quit
 }
 

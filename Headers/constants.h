@@ -31,9 +31,12 @@ const string reset_Boats = "4. Reset all ships";
 const string complete_Setup = "5. Confirm placements & continue...";
 const string exit_text = "0. Quit";
 
+const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+
 
 //String constants for invalid input error messages
-const string invalid_Menu_Input = "That selection is invalid, please try again";
+const string invalid_Menu_Input = "That selection is invalid: please try again";
+const string invalid_Placement_Command = "That command is invalid: please try again"
 
 
 //String literal constants for setting string colours using ANSI codes
@@ -54,8 +57,8 @@ const string symbol_Square = " \u25A0 "; //with spaces to avoid having to add la
 
 //String literal constants for clearing part or all of the console screen
 const string clear_Console_Screen = "\x1b[2J\x1b[1;1H"; //Clear entire console screen
-const string clear_Console_Line = "\x1b[2K\r"; //clear line and return cursor (\r) to start of line
-const string clear_Console_Screen_Bottom = "\x1b[0J\r"; //clear to bottom and return cursor (\r) to start of line
+const string clear_Console_Line = "\x1b[2K\r"; //clear current line and return cursor to start
+const string clear_Console_Screen_Bottom = "\x1b[0J\r"; //Clear screen from cursor position to the bottom of the screen, return cursor to start of current line
 
 //string literal constant for the movement of 
 const string console_Move_Cursor_Up = "\u001b[1A";
