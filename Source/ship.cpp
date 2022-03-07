@@ -19,13 +19,17 @@ void Ship::reportStatus()
 }
 
 
-Coordinates Ship::reportLocation()
+vector <Coordinates> Ship::reportLocation()
 {
-  Coordinates location;
-  return location;
+  return mLocations;
 }
 
 int Ship::reportSize() 
 {
   return mSize;
+}
+
+void Ship::updateLocation(vector<Coordinates> shipCoords)
+{
+  mLocations = shipCoords;
 }

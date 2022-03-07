@@ -60,7 +60,7 @@ void Board::displayBoard()
     cout << endl << setw(2) << right << (i + 1) << " " << setw(2) << right << symbol_Vertical_Line << text_Colour_Default;
     
     for (int j = 0; j < mWidth; j++) {
-      cout << spaces[i][j].outputColour << background_Colour_Grey << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
+      cout << spaces[i][j].outputColour << background_Colour_Blue << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
 
     }
     boardHorizLine();
@@ -71,10 +71,10 @@ void Board::displayBoard()
 }
 
 
-void Board::updateBoard(Coordinates coordsToUpdate)
+void Board::updateBoard(Coordinates coordsToUpdate, SpaceState newState)
 {
-  //update board for whatever reason, possibly to record a hit
-  spaces[coordsToUpdate.rowPos][coordsToUpdate.colPos].outputColour = text_Colour_Yellow;
+  spaces[coordsToUpdate.rowPos][coordsToUpdate.colPos].status = newState;
+  setStateColour(coordsToUpdate);
 }
 
 void Board::boardHorizLine()
@@ -114,5 +114,36 @@ int Board::getHeight()
 
 bool Board::isOccupied(Coordinates chkCoords) 
 {
-  return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceStatus::Occupied);
+  return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied);
+}
+
+void Board::setStateColour(Coordinates colourLocation) 
+{
+  string stateColour = "";
+  
+  switch (spaces[colourLocation.rowPos][colourLocation.colPos].status) {
+    case SpaceState::Inactive:
+    
+    case SpaceState::Unoccupied: 
+    stateColour = text_Colour_Black;
+    break;
+    
+    case SpaceState::Occupied:
+    stateColour = text_Colour_Yellow;
+    break;
+    
+    case SpaceState::Miss: 
+    
+    case SpaceState::Hit_Boat: 
+    stateColour = text_Colour_Red;
+    break;
+    
+    //case SpaceState::Hit_Mine: 
+    //case SpaceState::Hit_Mine_And_Boat:
+    default:
+    stateColour = text_Colour_Default;
+    break;
+  }
+
+  spaces[colourLocation.rowPos][colourLocation.colPos].outputColour = stateColour;
 }

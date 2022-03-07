@@ -39,14 +39,16 @@ const string invalid_Menu_Input = "That selection is invalid: please try again";
 const string invalid_Placement_Command = "That command is invalid: please try again";
 
 
-//String literal constants for setting string colours using ANSI codes
+//String literal constants for setting string colours using ANSI codes and RGB values
 const string text_Colour_Default = "\x1b[0m";
-const string text_Colour_Cyan = "\u001b[36;1m";
+const string text_Colour_Cyan = "\033[38;0;255;255m";
 const string text_Colour_Black = "\x1b[30m";
-const string text_Colour_Yellow = "\x1b[93m";
+const string text_Colour_Yellow = "\033[38;2;255;208;0m";
+const string text_Colour_Red = "\033[38;2;255;0;0m";
 
 //String literal constants for setting string background colours using ANSI codes
-const string background_Colour_Grey = "\x1b[47m"; //defined as WHITE but Ubuntu gives it a grey hue
+const string background_Colour_White = "\033[48;2;255;255;255m"; 
+const string background_Colour_Blue = "\033[48;2;0;199;255m";
 
 //string literal unicode symbols
 const string symbol_Vertical_Line = "\u2502";

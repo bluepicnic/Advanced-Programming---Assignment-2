@@ -4,7 +4,7 @@ enum class BoatStatus { //use of an enum class to prevent unwanted type conversi
   Inactive, Deployed, Recalled, Destroyed
 }; 
 
-enum class SpaceStatus {
+enum class SpaceState {
   Inactive, Unoccupied, Occupied, Miss, Hit_Boat, Hit_Mine, Hit_Mine_And_Boat 
 };
 
@@ -33,12 +33,12 @@ struct Space {
     location.colPos = col;
     location.rowPos = row;
     outputValue = symbol_Square;
-    status = SpaceStatus::Unoccupied;
+    status = SpaceState::Unoccupied;
     outputColour = text_Colour_Black;
   };
 
   Coordinates location;
-  SpaceStatus status;
+  SpaceState status;
   string outputValue;
   string outputColour;
 

@@ -26,21 +26,23 @@ bool Player::deployBoat(string command)
   
   //check if boat ID is valid 
   if (boatID <= mFleet.size() - 1 ) {
-    //reset existing boat placement, if already placed
-    recallBoat(boatID);
     //check if coordinate is in range, depending on orientation 
     if(targetPos.colPos < mPlayerBoards[0].getWidth() && targetPos.rowPos < mPlayerBoards[0].getHeight()) {
       
-      if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) < mPlayerBoards[0].getHeight()) || 
-        (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) < mPlayerBoards[0].getWidth())) {
+      if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getHeight()) || 
+        (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getWidth())) {
         
+      //reset existing boat placement, if already placed
+      recallBoat(boatID);
         int column = 0; 
         int row = 0;
+        Board tmpBoard = mPlayerBoards[0]; //store shipboard in case we wish to revert changes
         for (int i = 0; i < mFleet[boatID].reportSize(); i++) {
           
           //check if each coordinate is occupied
           if(mPlayerBoards[0].isOccupied({targetPos.rowPos + row, targetPos.colPos + column}) == false) {
-            mPlayerBoards[0].updateBoard({targetPos.rowPos + row, targetPos.colPos + column});
+            
+            mPlayerBoards[0].updateBoard({targetPos.rowPos + row, targetPos.colPos + column}, SpaceState::Occupied );
             provisionalLoc.push_back({targetPos.rowPos + row, targetPos.colPos + column});
           }
           
@@ -55,18 +57,18 @@ bool Player::deployBoat(string command)
         {
           //recall boat if we're unable to place boat in its entirety
           recallBoat(boatID);
+          mPlayerBoards[0] = tmpBoard;
           return deployment;
         }
         //if not, accept
         deployment = true;
+        mFleet[boatID].updateLocation(provisionalLoc);
+        
         
       } 
-      
     }
-    
-      
   }
-      
+  
   return deployment;
 }
 
@@ -112,6 +114,10 @@ string Player::sayName()
 
 void Player::recallBoat(int boatNo)
 {
-  Coordinates boatSpaces = mFleet[boatNo].reportLocation();
-  mPlayerBoards[0].updateBoard(boatSpaces);
+  vector<Coordinates> boatSpaces = mFleet[boatNo].reportLocation();
+  for(auto it : boatSpaces) {
+    mPlayerBoards[0].updateBoard(it, SpaceState::Unoccupied);
+  }
+
+  mFleet[boatNo].updateLocation({});
 }

@@ -140,7 +140,7 @@ string getLineString(regex pattern, string error) {
 vector <string> separateCommands(string command) 
 {
   vector <string> commands; //return commands as list separated by index
-  size_t idNoPos = command.find_first_of("123456789"); //boat ID will always be the first segement of a boat placement command
+  size_t idNoPos = command.find_first_of("0123456789"); //boat ID will always be the first segement of a boat placement command
   size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz"); //
   size_t orientationPos = command.find_last_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
   //create separated strings based on the positions of these elements
