@@ -52,31 +52,41 @@ void Game::setup()
           
           break;
         }
-        case 2: 
-          //take input
-          mPlayers[i]->deployBoat(0);
-          break;
         
-        case 3: //auto-place available
+        case 2: {
+          int killMe = stoi(getLineSingleKey(regex_Menu_Selection, "AAAAAAAAAAAAAAAA"));
+          mPlayers[i]->deployBoat(killMe);
+          break;
+        }
           
+          
+        
+        case 3: { //auto-place available 
+          mPlayers[i]->deployBoats(BoatStatus::Inactive);
           break;
+        }
 
-        case 4: //auto place all
-          mPlayers[i]->deployBoats(0);
+        case 4: {//auto place all
+          mPlayers[i]->deployBoats();
           break;
+        }
 
-        case 5:
+        case 5: {
+          mPlayers[i]->recallBoats();
           break;//reset
-
-        case 6:
-          break;
-          return;
+        }
         
-        case 0:
+        case 6: {//continue if all boats have been placed 
+          break;
+        }
+        
+        case 0: {
         return;
+        }
         
-        default: 
+        default: {
           break;
+        }
       
       
       

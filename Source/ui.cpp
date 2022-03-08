@@ -3,6 +3,7 @@
 void ui_clearScreen()
 {
   cout << clear_Console_Screen;
+  cout.flush();
 }
 
 void ui_displayMainMenu() 

@@ -8,9 +8,10 @@ Ship::Ship(string name, int size, int index)
   mIndex = index;
 }
 
-void Ship::reportStatus()
+void Ship::vesselStatusReport()
 {
   stringstream boatSpaces; 
+  
   boatSpaces << "Active @ ";
   cout << endl << 
 	std::setw(2) << std::right << mIndex << "  " <<
@@ -32,6 +33,11 @@ void Ship::reportStatus()
       cout << "Destroyed";
       break;
   }
+}
+
+BoatStatus Ship::reportStatus() 
+{
+  return mStatus;
 }
 
 

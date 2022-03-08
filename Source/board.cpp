@@ -3,7 +3,6 @@
 Board::Board()
 {
   //initialise Board member variables on creation
-  cout << "board has been created" << endl; 
 }
 
 Board::Board(int width, int height)

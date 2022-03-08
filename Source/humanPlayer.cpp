@@ -12,13 +12,6 @@ HumanPlayer::~HumanPlayer()
   
 }
 
-          
-int HumanPlayer::recallBoat(int numBoats)
-{
-  
-}
-          
-          
 Coordinates HumanPlayer::selectTarget()
 {
   return {9, 1};

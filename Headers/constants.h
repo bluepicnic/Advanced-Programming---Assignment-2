@@ -41,7 +41,7 @@ const string invalid_Placement_Command = "That command is invalid: please try ag
 
 //String literal constants for setting string colours using ANSI codes and RGB values
 const string text_Colour_Default = "\x1b[0m";
-const string text_Colour_Cyan = "\033[38;0;255;255m";
+const string text_Colour_Cyan = "\033[38;2;255;255m";
 const string text_Colour_Black = "\x1b[30m";
 const string text_Colour_Yellow = "\033[38;2;255;208;0m";
 const string text_Colour_Red = "\033[38;2;255;0;0m";

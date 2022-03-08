@@ -7,7 +7,6 @@ class HumanPlayer :
     public:
           HumanPlayer(); //use constructor to set name 
           ~HumanPlayer();
-          int recallBoat(int numBoats); 
           Coordinates selectTarget();
           string getPlayerName();
     private:

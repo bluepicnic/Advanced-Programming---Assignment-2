@@ -3,7 +3,8 @@
 class Ship {
     public:
     Ship(string name, int size, int index);
-    void reportStatus();
+    void vesselStatusReport();
+    BoatStatus reportStatus();
     vector<Coordinates>reportLocation();
     int reportSize();
     void updateLocation(vector<Coordinates> shipCoords);
