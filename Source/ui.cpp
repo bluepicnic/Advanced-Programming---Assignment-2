@@ -11,6 +11,7 @@ void ui_displayMainMenu()
     cout << text_Colour_Cyan << welcome_Message << endl; 
     cout << select_Game_Mode << endl << text_Colour_Default;
     cout << single_Player_Game << endl;
+    cout << multiplayer_Game << endl;
     cout << ai_Only_Game << endl;
     cout << single_Player_Salvo << endl;
     cout << multiplayer_Salvo << endl;

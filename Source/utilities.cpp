@@ -176,3 +176,13 @@ Coordinates splitCoords(string coordsToSplit)
 
   return splitCoords;
 }
+
+int rollRandomNumber(int max) 
+{    std::random_device roll;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(roll()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(0, max);
+
+    return distrib(gen);
+}
+
+//use standard 

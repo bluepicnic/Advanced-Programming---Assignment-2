@@ -63,6 +63,7 @@ bool Player::deployBoat(string command)
         //if not, accept
         deployment = true;
         mFleet[boatID].updateLocation(provisionalLoc);
+        mFleet[boatID].updateStatus(BoatStatus::Deployed);
         
         
       } 
@@ -72,10 +73,39 @@ bool Player::deployBoat(string command)
   return deployment;
 }
 
-
-void Player::deployBoats(int remainingBoats)
+void Player::deployBoat(int boatID)
 {
+  bool validCoords = false;
 
+  while (validCoords != true) {
+    int orientation = (rollRandomNumber(INT_MAX) % 2 == 0); //0 represents vertical, 1 represent horizontal
+
+    //if vertical we want to only roll a column value small enough to fit a boat vertically
+    int maxY = (orientation == 0) ? mPlayerBoards[0].getHeight() : mPlayerBoards[0].getHeight() - mFleet[boatID].reportSize();
+    
+    int maxX = (orientation == 1) ? mPlayerBoards[0].getWidth() : mPlayerBoards[0].getWidth() - mFleet[boatID].reportSize();
+
+    
+
+    int randCol = rollRandomNumber(maxX);
+    int randRow = rollRandomNumber(maxY);
+
+    string fuckReplit = (orientation == 0) ? "Vertical " : "Horizontal ";
+
+    cout << fuckReplit << randRow << " " << randCol << endl;
+
+    
+
+    
+  }
+}
+
+
+void Player::deployBoats()
+{
+  for (int i = 0; i < mFleet.size(); i++) {
+    deployBoat(i);
+  }
 }
 
 void Player::deployMines()

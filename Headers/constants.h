@@ -26,9 +26,9 @@ const string ai_Only_Mines = "9. Computer only Hidden Mines Game";
 const string manual_Boat_Selection = "1. Select a ship to manually place";
 const string auto_Boat_Selection = "2. Select a ship to place automatically";
 const string auto_Place_Remaining = "3. Auto-place all remaining 'available' ships";
-const string auto_Place_All = "3. Auto-place all ships";
-const string reset_Boats = "4. Reset all ships";
-const string complete_Setup = "5. Confirm placements & continue...";
+const string auto_Place_All = "4. Auto-place all ships";
+const string reset_Boats = "5. Reset all ships";
+const string complete_Setup = "6. Confirm placements & continue...";
 const string exit_text = "0. Quit";
 
 const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
@@ -69,5 +69,5 @@ const string console_Move_Cursor_Up = "\u001b[1A";
 //String literal constants for regular expression patterns
 const regex regex_Menu_Selection("^[0-9]+$");
 const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
-const regex regex_Setup_Menu_Selection("^[0-5]+$");
+const regex regex_Setup_Menu_Selection("^[0-6]+$");
 const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");

@@ -4,9 +4,10 @@ class Ship {
     public:
     Ship(string name, int size, int index);
     void reportStatus();
-    vector<Coordinates> reportLocation();
+    vector<Coordinates>reportLocation();
     int reportSize();
-    void updateLocation( vector<Coordinates> shipCoords);
+    void updateLocation(vector<Coordinates> shipCoords);
+    void updateStatus(BoatStatus update);
     
     private:
     int mSize;

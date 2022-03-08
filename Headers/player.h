@@ -6,7 +6,8 @@ class Player {
         ~Player();
         bool deployBoat(string command);
         void deployBoat(int boatID);
-        void deployBoats(int remainingBoats);
+        void deployBoats();
+        void deployBoats(BoatStatus statusToDeploy)
         void deployMines();
         //void setupBoards(); <- set width and height 
         virtual Coordinates selectTarget();

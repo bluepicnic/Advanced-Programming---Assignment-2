@@ -1,7 +1,7 @@
 #pragma once
 
 enum class BoatStatus { //use of an enum class to prevent unwanted type conversion
-  Inactive, Deployed, Recalled, Destroyed
+  Inactive, Deployed, Destroyed
 }; 
 
 enum class SpaceState {

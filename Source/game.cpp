@@ -52,8 +52,32 @@ void Game::setup()
           
           break;
         }
-        case 2: break;
-        default: break;
+        case 2: 
+          //take input
+          mPlayers[i]->deployBoat(0);
+          break;
+        
+        case 3: //auto-place available
+          
+          break;
+
+        case 4: //auto place all
+          mPlayers[i]->deployBoats(0);
+          break;
+
+        case 5:
+          break;//reset
+
+        case 6:
+          break;
+          return;
+        
+        case 0:
+        return;
+        
+        default: 
+          break;
+      
       
       
         
@@ -71,7 +95,7 @@ void Game::setup()
 void Game::playGame()
 {
   setup();
-
+  
   //title
 
   //ship board output

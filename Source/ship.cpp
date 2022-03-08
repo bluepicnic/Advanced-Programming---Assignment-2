@@ -10,12 +10,28 @@ Ship::Ship(string name, int size, int index)
 
 void Ship::reportStatus()
 {
+  stringstream boatSpaces; 
+  boatSpaces << "Active @ ";
   cout << endl << 
 	std::setw(2) << std::right << mIndex << "  " <<
 	std::setw(17) << std::left << mName << 
 	std::setw(8) << std::left << mSize <<
-	std::setw(8) << std::left << mHealth <<
-	"Status";
+	std::setw(8) << std::left << mHealth;
+
+  switch (mStatus) {
+    case BoatStatus::Inactive:
+      cout << "Inactive";
+      break;
+    case BoatStatus::Deployed:
+      for (auto it: mLocations) {
+        boatSpaces << convertToLetter(it.colPos) << it.rowPos << " ";
+      }
+      cout << boatSpaces.str();
+      break;
+    case BoatStatus::Destroyed:
+      cout << "Destroyed";
+      break;
+  }
 }
 
 
@@ -32,4 +48,9 @@ int Ship::reportSize()
 void Ship::updateLocation(vector<Coordinates> shipCoords)
 {
   mLocations = shipCoords;
+}
+
+void Ship::updateStatus(BoatStatus update)
+{
+  mStatus = update;
 }
