@@ -78,7 +78,8 @@ string getLineSingleKey(regex pattern, string error)
   while (isValid != true) { //continue to prompt if input is invalid
     input = getSingleKeyInput(); 
     isValid = validateString(input, pattern, error);
-    cout << console_Move_Cursor_Up << error << endl;
+    ui_returnCursorPos();
+    cout << error << endl;
     if (isValid == true) {
       cout << console_Move_Cursor_Up << clear_Console_Line;
     }
@@ -87,6 +88,24 @@ string getLineSingleKey(regex pattern, string error)
   return input;
 }
 
+string getLineString(regex pattern, string error) {
+  bool validString = false;
+  string inputStr = "";
+
+  while (validString != true) {
+    getline(cin, inputStr);
+    validString = validateString(inputStr, pattern, error);
+    ui_returnCursorPos();
+    cout << "\x1b[0J\r";
+    cout << clear_Console_Line <<  error << ": ";
+    cin.clear();
+    if (validString == true) {
+      cout.flush();
+    }
+  }
+
+  return inputStr;
+}
 
 
 string convertToLetter(int numToConvert) 
@@ -118,24 +137,7 @@ int convertFromLetter(string charsToConvert)
   return index;
 }
 
-string getLineString(regex pattern, string error) {
-  bool validString = false;
-  string inputStr = "";
 
-  while (validString != true) {
-    getline(cin, inputStr);
-    validString = validateString(inputStr, pattern, error);
-    ui_returnCursorPos();
-    cout << "\x1b[0J\r";
-    cout << clear_Console_Line <<  error << ": ";
-    cin.clear();
-    if (validString == true) {
-      cout.flush();
-    }
-  }
-
-  return inputStr;
-}
 
 vector <string> separateCommands(string command) 
 {
@@ -185,4 +187,11 @@ int rollRandomNumber(int max)
     return distrib(gen);
 }
 
-//use standard 
+regex generateMaxBoatRegex(int sizeOfFleet)
+{
+  stringstream boatRange;
+  boatRange << "^[0-" << sizeOfFleet << "]+$";
+  regex maxBoat(boatRange.str());
+  return maxBoat;
+}
+

@@ -20,7 +20,8 @@ void ui_displayMainMenu()
     cout << single_Player_Mines << endl;
     cout << multiplayer_Mines << endl;
     cout << ai_Only_Mines << endl;
-    cout << endl << endl;
+    cout << endl;
+    ui_saveCursorPos();
 }
 
 void ui_boatStatusColTitles() 
@@ -55,12 +56,14 @@ void ui_BoatPlacementPrompt()
   ui_saveCursorPos();
 }
 
-void ui_BoatSelectionPrompt() 
+void ui_BoatSelectionPrompt(int sizeOfFleet) 
 {
+  
   ui_returnCursorPos();
   cout << clear_Console_Screen_Bottom;
   cout << boat_Auto_Place_Prompt << endl;
   ui_saveCursorPos();
+  
 }
 
 string ui_moveCursorUp(int noLines)
