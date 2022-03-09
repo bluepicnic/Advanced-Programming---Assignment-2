@@ -31,7 +31,7 @@ string HumanPlayer::declarePlayerName()
 {
   string playerAlias = ""; //temporary string to store value, don't want to put into member variable without checking it's valid
   bool validName = false;
-  
+
   while (validName != true) {
     //cin player name
     getline(cin, playerAlias);

@@ -37,9 +37,9 @@ const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by ent
 
 
 //String constants for invalid input error messages
-const string invalid_Menu_Input = "That selection is invalid: please try again:";
-const string invalid_Placement_Command = "That command is invalid: please try again:";
-const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat:";
+const string invalid_Menu_Input = "That selection is invalid: please try again: ";
+const string invalid_Placement_Command = "That command is invalid: please try again: ";
+const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat: ";
 
 
 //String literal constants for setting string colours using ANSI codes and RGB values

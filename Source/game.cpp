@@ -69,9 +69,10 @@ void Game::setup()
           case 2: {
             //need to create custom regex based on the number of boats
             int fleetSize = mPlayers[mCurrentPlayer]->relayFleetSize() - 1;
+
             regex fleetInputRange = generateMaxBoatRegex(fleetSize);
-            
-            ui_BoatSelectionPrompt(fleetSize);
+
+            ui_BoatSelectionPrompt();
             int shipSelect = stoi(getLineSingleKey(fleetInputRange, invalid_Ship_Selection));
             mPlayers[i]->deployBoat(shipSelect);
             break;
