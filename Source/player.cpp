@@ -168,3 +168,8 @@ void Player::recallBoats()
     recallBoat(i);
   }
 }
+
+int Player::relayFleetSize() 
+{
+  return mFleet.size();
+}

@@ -25,72 +25,89 @@ void Game::setup()
 {
   for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
     int boatMenuSelection = -1;
-    while (boatMenuSelection != 0 || boatMenuSelection != 6) {
+    while (boatMenuSelection != 0 && boatMenuSelection != 6) {
       mCurrentPlayer = i;
       mGameState = GameState::Setup;
       
-      gameHeader(); //display current game info at top of screen
-      mPlayers[mCurrentPlayer]->displayBoards(); //output select player boards
-      mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
-  
-      //human player functionality only 
-      boatMenuSelection = ui_displayBoatPlacement(); //output menu options
+      
 
-      switch (boatMenuSelection) {
-        case 1: {
-          //ui stuff
-          ui_BoatPlacementPrompt();
-          
-          //actual placement
-          bool validCommand = false;
-          
-          while (validCommand != true) {
-            string boatSelection = getLineString(regex_Board_Setup, invalid_Placement_Command);
-            boatSelection = convertToUpper(boatSelection);
-            validCommand = mPlayers[i]->deployBoat(boatSelection);
+      //ai player functionality 
+      if(mPlayers[mCurrentPlayer]->isHuman() == false) {
+        mPlayers[i]->deployBoats();
+
+        setupDisplay();
+        cout << "Press any button to continue, or 0 to exit" << endl;
+
+        string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
+        boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
+      }
+
+      
+      //human player functionality only 
+      if(mPlayers[mCurrentPlayer]->isHuman() == true) {
+        
+        setupDisplay();
+        boatMenuSelection = ui_displayBoatPlacement(); //output menu options
+  
+        switch (boatMenuSelection) {
+          case 1: {
+            //ui stuff
+            ui_BoatPlacementPrompt();
+            
+            //actual placement
+            bool validCommand = false;
+            
+            while (validCommand != true) {
+              string boatSelection = getLineString(regex_Board_Setup, invalid_Placement_Command);
+              boatSelection = convertToUpper(boatSelection);
+              validCommand = mPlayers[i]->deployBoat(boatSelection);
+            }
+            
+            break;
           }
           
-          break;
-        }
-        
-        case 2: {
-          int killMe = stoi(getLineSingleKey(regex_Menu_Selection, "AAAAAAAAAAAAAAAA"));
-          mPlayers[i]->deployBoat(killMe);
-          break;
-        }
-          
-          
-        
-        case 3: { //auto-place available 
-          mPlayers[i]->deployBoats(BoatStatus::Inactive);
-          break;
-        }
+          case 2: {
+            //need to create custom regex based on the number of boats
+            int fleetSize = mPlayers[mCurrentPlayer]->relayFleetSize() - 1;
+            stringstream boatRange;
+            boatRange << "^[0-" << fleetSize << "]+$";
+            regex maxBoatRegex(boatRange.str());
 
-        case 4: {//auto place all
-          mPlayers[i]->deployBoats();
-          break;
+            ui_BoatSelectionPrompt();
+            
+            int shipSelect = stoi(getLineSingleKey(maxBoatRegex, invalid_Ship_Selection));
+            mPlayers[i]->deployBoat(shipSelect);
+            break;
+          }
+            
+          case 3: { //auto-place available 
+            mPlayers[i]->deployBoats(BoatStatus::Inactive);
+            break;
+          }
+  
+          case 4: {//auto place all
+            mPlayers[i]->deployBoats();
+            break;
+          }
+  
+          case 5: {
+            mPlayers[i]->recallBoats();
+            break;//reset
+          }
+          
+          case 6: {//continue if all boats have been placed 
+            //check if all boats deployed
+            break;
+          }
+          
+          case 0: {
+          return;
+          }
+          
+          default: {
+            break;
+          }
         }
-
-        case 5: {
-          mPlayers[i]->recallBoats();
-          break;//reset
-        }
-        
-        case 6: {//continue if all boats have been placed 
-          break;
-        }
-        
-        case 0: {
-        return;
-        }
-        
-        default: {
-          break;
-        }
-      
-      
-      
-        
       }
     }
   }
@@ -112,16 +129,20 @@ void Game::playGame()
 
   //target board output
 
+  //ai selection
+  //generate two numbers
+  
   //player input
   //check if input format is correct
   //check if input ranges are correct
 
-  //if hit
-  //update current player target board and inactive player ship board
-  //update ship statuses and health
-
-  //if miss
-  //update current player target board
+  //place into own registerShot function
+    //if hit
+    //update current player target board and inactive player ship board
+    //update ship statuses and health
+  
+    //if miss
+    //update current player target board
 }
         
         
@@ -208,4 +229,17 @@ void Game::gameHeader()
   ui_clearScreen();
   cout << text_Colour_Cyan; //set colour for title
   cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() + " | (" + mPlayers[mCurrentPlayer]->sayName() + currentState + ")" << endl; //game title with player names
+}
+
+void Game::setupDisplay()
+{
+  gameHeader(); //display current game info at top of screen
+  mPlayers[mCurrentPlayer]->displayBoards(); //output select player boards
+  mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
+}
+
+
+void Game::turnDisplay()
+{
+  
 }

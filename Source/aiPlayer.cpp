@@ -15,6 +15,11 @@ AIPlayer::~AIPlayer()
 
 }
 
+bool AIPlayer::isHuman() 
+{
+  return false;
+}
+
 void AIPlayer::deployBoats()
 {
   //randomly and automatically place boats 

@@ -25,7 +25,7 @@ void Ship::vesselStatusReport()
       break;
     case BoatStatus::Deployed:
       for (auto it: mLocations) {
-        boatSpaces << convertToLetter(it.colPos) << it.rowPos << " ";
+        boatSpaces << convertToLetter(it.colPos+1) << it.rowPos+1 << " ";
       }
       cout << boatSpaces.str();
       break;

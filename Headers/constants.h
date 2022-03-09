@@ -22,7 +22,7 @@ const string single_Player_Mines = "7. Single Player Hidden Mines Game";
 const string multiplayer_Mines = "8. Multiplayer Hidden Mines Game";
 const string ai_Only_Mines = "9. Computer only Hidden Mines Game";
 
-  //boat placement menu items
+//boat placement menu items
 const string manual_Boat_Selection = "1. Select a ship to manually place";
 const string auto_Boat_Selection = "2. Select a ship to place automatically";
 const string auto_Place_Remaining = "3. Auto-place all remaining 'available' ships";
@@ -31,12 +31,15 @@ const string reset_Boats = "5. Reset all ships";
 const string complete_Setup = "6. Confirm placements & continue...";
 const string exit_text = "0. Quit";
 
+//specific input prompts
 const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by entering an ID from the list above: ";
 
 
 //String constants for invalid input error messages
 const string invalid_Menu_Input = "That selection is invalid: please try again";
 const string invalid_Placement_Command = "That command is invalid: please try again";
+const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat";
 
 
 //String literal constants for setting string colours using ANSI codes and RGB values

@@ -12,6 +12,11 @@ HumanPlayer::~HumanPlayer()
   
 }
 
+bool HumanPlayer::isHuman()
+{
+  return true;
+}
+
 Coordinates HumanPlayer::selectTarget()
 {
   return {9, 1};

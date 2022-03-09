@@ -7,6 +7,7 @@ class HumanPlayer :
     public:
           HumanPlayer(); //use constructor to set name 
           ~HumanPlayer();
+          bool isHuman();
           Coordinates selectTarget();
           string getPlayerName();
     private:

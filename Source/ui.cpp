@@ -55,6 +55,14 @@ void ui_BoatPlacementPrompt()
   ui_saveCursorPos();
 }
 
+void ui_BoatSelectionPrompt() 
+{
+  ui_returnCursorPos();
+  cout << clear_Console_Screen_Bottom;
+  cout << boat_Auto_Place_Prompt << endl;
+  ui_saveCursorPos();
+}
+
 string ui_moveCursorUp(int noLines)
 {
   using std::to_string;
