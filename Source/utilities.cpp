@@ -127,7 +127,7 @@ string getLineString(regex pattern, string error) {
     validString = validateString(inputStr, pattern, error);
     ui_returnCursorPos();
     cout << "\x1b[0J\r";
-    cout << clear_Console_Line <<  error << ": ";
+    cout << clear_Console_Line <<  error;
     cin.clear();
     if (validString == true) {
       cout.flush();

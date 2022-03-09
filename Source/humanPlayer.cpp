@@ -29,16 +29,11 @@ string HumanPlayer::getPlayerName()
 
 string HumanPlayer::declarePlayerName()
 {
-  string playerAlias = ""; //temporary string to store value, don't want to put into member variable without checking it's valid
-  bool validName = false;
-
-  while (validName != true) {
-    //cin player name
-    getline(cin, playerAlias);
-
+   //temporary string to store value, don't want to put into member variable without checking it's valid
+  ui_saveCursorPos();
     //check all is ok using input parser()
-    validName = validateString(playerAlias, regex_Alphanumeric, "That name is invalid, please only use alphanumeric characters");
-  } 
+  string playerAlias = getLineString(regex_Alphanumeric, "That name is invalid, please only use alphanumeric characters: ");
+  
 
   return playerAlias;
 }

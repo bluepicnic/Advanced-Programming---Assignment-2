@@ -57,6 +57,8 @@ void ui_BoatPlacementPrompt()
 
 void ui_BoatSelectionPrompt() 
 {
+  ui_returnCursorPos();
+  cout << clear_Console_Screen_Bottom;
   cout << boat_Auto_Place_Prompt << endl << endl;
 }
 
