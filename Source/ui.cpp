@@ -2,8 +2,8 @@
 
 void ui_clearScreen()
 {
-  cout << clear_Console_Screen;
-  cout.flush();
+  //cout << endl << clear_Console_Screen;
+  system("clear"); //this method is resource intensive, insecure and prone to unexpected behaviour. However, it is overall more reliable for the purpose of clearing the whole screen than using various methods of ANSI codes 
 }
 
 void ui_displayMainMenu() 
@@ -37,14 +37,14 @@ int ui_displayBoatPlacement()
 {
   //don't clear screen, we need board to be displayed 
   cout << endl << manual_Boat_Selection << endl //manually place ship
-  << auto_Boat_Selection << endl //place ship
-  << auto_Place_Remaining << endl
-  << auto_Place_All << endl
-  << reset_Boats << endl
-  << complete_Setup << endl << endl
-  << exit_text << endl << endl << endl;
+  << auto_Boat_Selection << endl //auto place ship
+  << auto_Place_Remaining << endl //auto place boats with an "inactive" state
+  << auto_Place_All << endl //auto place all boats
+  << reset_Boats << endl //recall all boats
+  << complete_Setup << endl << endl //complete setup and continue
+  << exit_text << endl << endl << endl; //exit
 
-  return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input));
+  return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input)); //take input, return as integer
 }
 
 void ui_BoatPlacementPrompt() 

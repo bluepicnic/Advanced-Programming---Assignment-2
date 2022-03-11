@@ -34,12 +34,9 @@ bool Player::deployBoat(string command)
       //reset existing boat placement, if already placed
       recallBoat(boatID);
       deployment = deployBoat(boatID, targetPos, orientation);
-        
-        
       } 
     }
   }
-  
   return deployment;
 }
 
@@ -128,9 +125,11 @@ Coordinates Player::selectTarget()
 }
 
 
-void Player::displayBoards()
+void Player::displayBoards(int boardNo)
 {
-  mPlayerBoards[0].displayBoard(); //shipboard
+  string boardHeader = (boardNo == 0) ? ship_Board_Header : target_Board_Header;
+  cout << boardHeader;
+  mPlayerBoards[boardNo].displayBoard();
 }
         
 void Player::fleetStatus()
@@ -154,7 +153,7 @@ void Player::recallBoat(int boatNo)
 {
   vector<Coordinates> boatSpaces = mFleet[boatNo].reportLocation();
   for(auto it : boatSpaces) {
-    mPlayerBoards[0].updateBoard(it, SpaceState::Unoccupied);
+    mPlayerBoards[0].updateBoard(it, SpaceState::Inactive);
   }
 
   mFleet[boatNo].updateLocation({});
@@ -172,4 +171,13 @@ void Player::recallBoats()
 int Player::relayFleetSize() 
 {
   return mFleet.size();
+}
+
+Coordinates Player::autoTarget() 
+{
+  Coordinates rolledTarget;
+  rolledTarget.rowPos = mPlayerBoards[1].getWidth();
+  rolledTarget.colPos = mPlayerBoards[1].getHeight();
+  return rolledTarget;
+  
 }

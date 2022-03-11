@@ -6,6 +6,7 @@ Ship::Ship(string name, int size, int index)
   mSize = size;
   mHealth = mSize;
   mIndex = index;
+  mStatus = BoatStatus::Inactive;
 }
 
 void Ship::vesselStatusReport()
@@ -39,7 +40,6 @@ BoatStatus Ship::reportStatus()
 {
   return mStatus;
 }
-
 
 vector <Coordinates> Ship::reportLocation()
 {

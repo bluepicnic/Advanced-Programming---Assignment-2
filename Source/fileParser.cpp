@@ -5,9 +5,9 @@
 
 //player base class constructor method -> would be repeated for each player object created 
 
-void parseFile(Board boards[], vector<Ship> &ships) {
-   
-   //usual file setup, check if exists
+void parseFile(Board boards[], vector<Ship> &ships) 
+{   
+  //usual file setup, check if exists
   string line = "";
   string type = "";
   int boardWidth = 0;
@@ -21,8 +21,6 @@ void parseFile(Board boards[], vector<Ship> &ships) {
   } 
   else {
     while (!configFile.eof()) { //obtain all config information within file
-      
-      
       getline(configFile, type, ':'); 
       type = convertToLower(type); //ignore case 
       
@@ -32,7 +30,7 @@ void parseFile(Board boards[], vector<Ship> &ships) {
         if(line.find('x')) { //look for a lower case 
           delim = 'x';
         }
-        else { //just in case the board attempts to 
+        else { //just in case the board has an upper case x
           delim = 'X';
         }
         getline(configFile, line);

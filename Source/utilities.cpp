@@ -78,7 +78,7 @@ string getLineSingleKey(regex pattern, string error)
   while (isValid != true) { //continue to prompt if input is invalid
     input = getSingleKeyInput(); 
     isValid = validateString(input, pattern, error);
-    cout << console_Move_Cursor_Up << error << endl;
+    cout << ui_moveCursorUp(1) << error << endl;
     if (isValid == true) {
       cout << console_Move_Cursor_Up << clear_Console_Line;
     }
@@ -91,7 +91,6 @@ string getLineSingleKey(regex pattern, string error)
 
 string convertToLetter(int numToConvert) 
 {
-  string reference = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   string letters = "";
   int remainder = 0;
   while (--numToConvert >= 0) {

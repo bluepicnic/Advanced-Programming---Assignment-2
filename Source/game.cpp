@@ -14,7 +14,6 @@ Game::Game(int menuSelection)
 
 Game::~Game()
 {
-  cout << "Things are being deleted!!" << endl << endl;
   for (int i = 0; i < num_Players; ++i) //deallocate the memory used for our player pointers
   {
     delete mPlayers[i];
@@ -29,8 +28,6 @@ void Game::setup()
       mCurrentPlayer = i;
       mGameState = GameState::Setup;
       
-      
-
       //ai player functionality 
       if(mPlayers[mCurrentPlayer]->isHuman() == false) {
         mPlayers[i]->deployBoats();
@@ -38,6 +35,7 @@ void Game::setup()
         setupDisplay();
         cout << "Press any button to continue, or 0 to exit" << endl;
 
+        //change this
         string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
         boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
       }
@@ -45,7 +43,6 @@ void Game::setup()
       
       //human player functionality only 
       if(mPlayers[mCurrentPlayer]->isHuman() == true) {
-        
         setupDisplay();
         boatMenuSelection = ui_displayBoatPlacement(); //output menu options
   
@@ -119,34 +116,75 @@ void Game::setup()
 
 void Game::playGame()
 {
+  bool gameOver = false;
+  Coordinates target;
+  
   setup();
   
-  //title
+  while(gameOver != true) {
+    mGameState = GameState::Firing;
+    swapTurn();
+    turnDisplay();
 
-  //ship board output
+    //ai selection
+    //generate two numbers
+    if (mPlayers[mCurrentPlayer]->isHuman() != true) {
+      target = mPlayers[mCurrentPlayer]->autoTarget();
+      //resolve
+    }
+    else {
+      //display turn menu
 
-  //target board output
+      //player input
+      int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input);
 
-  //ai selection
-  //generate two numbers
+      switch(targetMethod) {
+        case 1 : {
+          target = mPlayers()
+            //check if input format is correct
+            //check if input ranges are correct
+            //check current player's targetboards status for the specific spaces
+
+          //
+        }
+
+        case 2: {
+          
+        }
+      }
+    }
   
-  //player input
-  //check if input format is correct
-  //check if input ranges are correct
+  
+  
+  
+
+    
 
   //place into own registerShot function
+    //retrieve defending player's shipboard status for the specific space 
     //if hit
     //update current player target board and inactive player ship board
     //update ship statuses and health
   
     //if miss
     //update current player target board
+    gameOver = stoi(getLineSingleKey(regex_Any_Key, "EEEEEEEEEE")) + 1;
+  }
+  
+  
+  
+  
 }
         
         
 void Game::swapTurn()
 {
-  
+  if(mCurrentPlayer == 0) {
+    mCurrentPlayer++;
+  }
+  else {
+    mCurrentPlayer--;
+  }
 }
 
 Player* Game::generatePlayers(int selection, int index)
@@ -167,7 +205,6 @@ Player* Game::generatePlayers(int selection, int index)
     return new HumanPlayer;
   }
   
-
 } 
 
 GameType Game::selectGameType(int selection)
@@ -232,12 +269,15 @@ void Game::gameHeader()
 void Game::setupDisplay()
 {
   gameHeader(); //display current game info at top of screen
-  mPlayers[mCurrentPlayer]->displayBoards(); //output select player boards
+  mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
 }
 
 
 void Game::turnDisplay()
 {
-  
+  gameHeader(); //display current game info at top of screen
+  mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
+  mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
+  mPlayers[mCurrentPlayer]->displayBoards(1); //output select player boards
 }

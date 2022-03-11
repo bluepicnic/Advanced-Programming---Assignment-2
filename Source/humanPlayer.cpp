@@ -17,9 +17,23 @@ bool HumanPlayer::isHuman()
   return true;
 }
 
-Coordinates HumanPlayer::selectTarget()
+Coordinates HumanPlayer::selectTarget(int maxWidth, int maxHeight)
 {
-  return {9, 1};
+  Coordinates manualTarget;
+
+  bool validCommand = false;
+            
+  while (validCommand != true) {
+    string targetCoords = getLineString(regex_Targeting, invalid_Placement_Command);
+    targetCoords = convertToUpper(targetCoords);
+    manualTarget = splitCoords(targetCoords);
+
+    //check if coord is in bounds
+    if()
+      //check if coords have been previously selected 
+  }
+  
+  return manualTarget;
 }
 
 string HumanPlayer::getPlayerName()

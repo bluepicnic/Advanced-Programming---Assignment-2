@@ -37,10 +37,8 @@ void Board::displayBoard()
   using std::setw; //used to set the width of an output stream 
   using std::left; //used to align an input stream to the left
   using std::right;
-  using std::internal;
 
-	//output column labels
-  
+	//output column labels  
   cout << endl << setw(2) << right << "" << " " << setw(1) << right << std::setfill(' ') << "" << " " << text_Colour_Default;
   
   for (int i = 0; i <= mWidth; i++) {
@@ -52,7 +50,7 @@ void Board::displayBoard()
   for(int i = 0; i < mWidth * 4; i++) {
     cout << symbol_Horizontal_Line;
   }
-
+  
   //output individual board instance, using test from earlier
   for (int i = 0; i < mHeight; i++) {
     //start a vertical line
@@ -85,16 +83,13 @@ void Board::boardHorizLine()
 
   //each horizontal line starts on its own line
   cout << endl << setw(2) << right << "   " << setw(4) << right << text_Colour_Default;
-  for (int i = 0; i < (mWidth * 4) + 1; i++)
-  {
+  for (int i = 0; i < (mWidth * 4) + 1; i++) {
     if (i == lineIntersection) { //place a corner symbol
       cout << symbol_Vertical_Horizontal_Line;
       lineIntersection += 4;
-    }
-    else { 
+    } else { 
       cout << symbol_Horizontal_Line;
-    } 
-    
+    }  
   }
 }
 
@@ -121,27 +116,41 @@ void Board::setStateColour(Coordinates colourLocation)
   string stateColour = "";
   
   switch (spaces[colourLocation.rowPos][colourLocation.colPos].status) {
-    case SpaceState::Inactive:
+    case SpaceState::Inactive: {
+      stateColour = text_Colour_Sky_Blue;
+      break;
+    }
     
-    case SpaceState::Unoccupied: 
-    stateColour = text_Colour_Black;
-    break;
     
-    case SpaceState::Occupied:
-    stateColour = text_Colour_Yellow;
-    break;
+    case SpaceState::Unoccupied: {
+      stateColour = text_Colour_Black;
+      break;
+    }
     
-    case SpaceState::Miss: 
     
-    case SpaceState::Hit_Boat: 
-    stateColour = text_Colour_Red;
-    break;
+    case SpaceState::Occupied: {
+      stateColour = text_Colour_Yellow;
+      break;
+    }
+    
+    
+    case SpaceState::Miss: {
+      //stateColour = text_Colour_White;
+    }
+    
+    case SpaceState::Hit_Boat: {
+      stateColour = text_Colour_Red;
+      break;
+    }
+    
     
     //case SpaceState::Hit_Mine: 
     //case SpaceState::Hit_Mine_And_Boat:
-    default:
-    stateColour = text_Colour_Default;
-    break;
+    default: {
+      stateColour = text_Colour_Default;
+      break;
+    }
+    
   }
 
   spaces[colourLocation.rowPos][colourLocation.colPos].outputColour = stateColour;

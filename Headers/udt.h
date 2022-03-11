@@ -21,9 +21,8 @@ enum class GameState {
 };
 
 struct Coordinates {
-int rowPos;  
-int colPos;
-  
+  int rowPos;  
+  int colPos;
 };
 
 struct Space {
@@ -33,17 +32,14 @@ struct Space {
     location.colPos = col;
     location.rowPos = row;
     outputValue = symbol_Square;
-    status = SpaceState::Unoccupied;
-    outputColour = text_Colour_Black;
+    status = SpaceState::Inactive;
+    outputColour = text_Colour_Sky_Blue;
   };
 
   Coordinates location;
   SpaceState status;
   string outputValue;
   string outputColour;
-
-  
-
 };
 
 
