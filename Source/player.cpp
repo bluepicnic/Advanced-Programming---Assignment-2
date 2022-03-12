@@ -14,7 +14,7 @@ Player::~Player()
 bool Player::deployBoat(string command)
 {
   bool deployment = false;
-  //split command into three parts
+  //split user input command into its three components parts 
   vector <string> commands = separateCommands(command); 
   int boatID = stoi(commands[0]);
   string coords = commands[1];
@@ -43,25 +43,26 @@ bool Player::deployBoat(string command)
 void Player::deployBoat(int boatID)
 {
   bool validCoords = false;
+  Coordinates randCoords;
 
   //store these here to avoid writing longhand when calculating array sizes
   int height = mPlayerBoards[0].getHeight() - 1;
   int width = mPlayerBoards[0].getWidth() - 1; 
-
-  Coordinates randCoords;
-
+  
   while (validCoords != true) {
-    int orientation = (rollRandomNumber(INT_MAX) % 2 == 0); //0 represents vertical, 1 represent horizontal
+    int orientation = (rollRandomNumber(INT_MAX) % 2 == 0); //randomly roll a number, and select an orientation (using either 1 or 0) based on if the value rolled is odd or even
 
-    //if vertical we want to only roll a column value small enough to fit a boat vertically
-    int maxY = (orientation == 0) ? height : height - mFleet[boatID].reportSize();
-    int maxX = (orientation == 1) ? width : width - mFleet[boatID].reportSize();
+    //Vertical = 0, Horizontal = 1
+    string orientChar = (orientation == 0) ? "V" : "H";
+
+    //we want to only randomly roll a value small enough to fit the full width of a boat on a board given a particular orientation 
+    int maxY = (orientChar == "V") ? height : height - mFleet[boatID].reportSize();
+    int maxX = (orientChar == "H") ? width : width - mFleet[boatID].reportSize();
 
     randCoords.colPos = rollRandomNumber(maxY);
     randCoords.rowPos = rollRandomNumber(maxX);
 
-    string orientChar = (orientation == 0) ? "V" : "H";
-
+    //always recall the selected boat to avoid placing twice
     recallBoat(boatID);
     validCoords = deployBoat(boatID, randCoords, orientChar); 
   }
@@ -73,21 +74,23 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
   int row = 0;
   Board tmpBoard = mPlayerBoards[0]; //store shipboard in case we wish to revert changes
   vector <Coordinates> provisionalLoc;
-  
+
+  //check boat ID is valid
   for (int i = 0; i < mFleet[boatID].reportSize(); i++) {
-    //check if each coordinate is occupied
+    //check if coordinate is occupied
     if(mPlayerBoards[0].isOccupied({loc.rowPos + row, loc.colPos + column}) == false) {
       
       mPlayerBoards[0].updateBoard({loc.rowPos + row, loc.colPos + column}, SpaceState::Occupied );
       provisionalLoc.push_back({loc.rowPos + row, loc.colPos + column});
     }
-    
+    //increment specific counter for a given orientation to the next position along that axis
     if (orientation == "V") {
       row++;
     } else {
       column++;
     }
   }
+  
   //if any issues have occured (i.e if any coordinates are already occupied), then we will have deployed to less coordinates than the size of the boat
   if(provisionalLoc.size() < mFleet[boatID].reportSize())
   {
@@ -96,7 +99,7 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
     mPlayerBoards[0] = tmpBoard;
     return false;
   }
-  //if not, accept
+  //if not, accept and return
   mFleet[boatID].updateLocation(provisionalLoc);
   mFleet[boatID].updateStatus(BoatStatus::Deployed);
   return true;
@@ -112,6 +115,7 @@ void Player::deployBoats()
 
 void Player::deployBoats(BoatStatus statusToDeploy) 
 {
+  //automatically deploy all boats with a specific status
   for (int i = 0; i < mFleet.size(); i++) {
     if (mFleet[i].reportStatus() == statusToDeploy) {
       deployBoat(i);
@@ -134,13 +138,13 @@ void Player::displayBoards(int boardNo)
         
 void Player::fleetStatus()
 {
+  //display information on all boats in a player's fleet including: id; name; size; current health; and status
   ui_boatStatusColTitles();
   for (auto &it : mFleet) {
     it.vesselStatusReport();
   }
 
   cout << endl << endl;
-  ui_saveCursorPos();
   
 }
 
@@ -151,11 +155,13 @@ string Player::sayName()
 
 void Player::recallBoat(int boatNo)
 {
+  //reset spaces that were previously occupied 
   vector<Coordinates> boatSpaces = mFleet[boatNo].reportLocation();
   for(auto it : boatSpaces) {
     mPlayerBoards[0].updateBoard(it, SpaceState::Inactive);
   }
 
+  //reset boat values
   mFleet[boatNo].updateLocation({});
   mFleet[boatNo].updateStatus(BoatStatus::Inactive);
 }

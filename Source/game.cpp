@@ -136,11 +136,11 @@ void Game::playGame()
       //display turn menu
 
       //player input
-      int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input);
+      int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 
       switch(targetMethod) {
         case 1 : {
-          target = mPlayers()
+          //target = mPlayers()
             //check if input format is correct
             //check if input ranges are correct
             //check current player's targetboards status for the specific spaces
@@ -271,6 +271,7 @@ void Game::setupDisplay()
   gameHeader(); //display current game info at top of screen
   mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
+  ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
 
 
@@ -281,3 +282,14 @@ void Game::turnDisplay()
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   mPlayers[mCurrentPlayer]->displayBoards(1); //output select player boards
 }
+
+
+/*void Game::registerDamage()
+{
+  //check if hit
+    //register damage at location
+    //update playerboards, returns bool = true if mined
+    //recursive call, including bool, which is an optional parameter in the definition
+    //register damage as normal
+    //update statuses and register damage in player's update state function 
+}*/

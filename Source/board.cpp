@@ -121,18 +121,15 @@ void Board::setStateColour(Coordinates colourLocation)
       break;
     }
     
-    
     case SpaceState::Unoccupied: {
       stateColour = text_Colour_Black;
       break;
     }
     
-    
     case SpaceState::Occupied: {
       stateColour = text_Colour_Yellow;
       break;
     }
-    
     
     case SpaceState::Miss: {
       //stateColour = text_Colour_White;
@@ -142,7 +139,6 @@ void Board::setStateColour(Coordinates colourLocation)
       stateColour = text_Colour_Red;
       break;
     }
-    
     
     //case SpaceState::Hit_Mine: 
     //case SpaceState::Hit_Mine_And_Boat:

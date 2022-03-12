@@ -29,16 +29,11 @@ Coordinates HumanPlayer::selectTarget(int maxWidth, int maxHeight)
     manualTarget = splitCoords(targetCoords);
 
     //check if coord is in bounds
-    if()
+    //if()
       //check if coords have been previously selected 
   }
   
   return manualTarget;
-}
-
-string HumanPlayer::getPlayerName()
-{
-  return mPlayerName;
 }
 
 string HumanPlayer::declarePlayerName()

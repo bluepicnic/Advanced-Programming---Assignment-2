@@ -3,7 +3,7 @@
 //File parse functions here
 //Check and apply contents of file 
 
-//player base class constructor method -> would be repeated for each player object created 
+//We want to use this function once per created game and ensure both players recieve identical game setup data
 
 void parseFile(Board boards[], vector<Ship> &ships) 
 {   

@@ -40,7 +40,7 @@ const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by ent
 const string invalid_Menu_Input = "That selection is invalid: please try again: ";
 const string invalid_Placement_Command = "That command is invalid: please try again: ";
 const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat: ";
-const string invalid_Manual_Target = "That target is invalid"
+const string invalid_Manual_Target = "That target is invalid";
 
 //Headers for boards
 const string ship_Board_Header = "SHIP PLACEMENT BOARD";
