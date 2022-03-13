@@ -34,33 +34,31 @@ Board::~Board()
 
 void Board::displayBoard()
 {
-  using std::setw; //used to set the width of an output stream 
-  using std::left; //used to align an input stream to the left
-  using std::right;
-
-	//output column labels  
-  cout << endl << setw(2) << right << "" << " " << setw(1) << right << std::setfill(' ') << "" << " " << text_Colour_Default;
-  
+  //indent output to align column labels with space output
+  cout << endl << endl << setw(5) << right << " " << text_Colour_Default;
+  //output column labels  
   for (int i = 0; i <= mWidth; i++) {
     string output = convertToLetter(i);
     cout << output << setw(4) << left;
   } 
-  cout << endl;
-  
-  for(int i = 0; i < mWidth * 4; i++) {
+
+  //align top line of the board with the width of the board itself
+  cout << endl << setw(3) << right << " ";
+  //output the top of the board
+  for(int i = 0; i < (mWidth * 4) + 1; i++) {
     cout << symbol_Horizontal_Line;
   }
-  
-  //output individual board instance, using test from earlier
+
+  //output the board itself
   for (int i = 0; i < mHeight; i++) {
-    //start a vertical line
+    //output row number and start a vertical line on the left edge of the board
     cout << endl << setw(2) << right << (i + 1) << " " << setw(2) << right << symbol_Vertical_Line << text_Colour_Default;
     
     for (int j = 0; j < mWidth; j++) {
       cout << spaces[i][j].outputColour << background_Colour_Blue << setw(4) << left << spaces[i][j].outputValue << text_Colour_Default << symbol_Vertical_Line;
 
     }
-    boardHorizLine();
+    boardHorizLine(); //output lines to separate each space, with a cross symbol being used where lines intersect
     
   }
 
@@ -76,19 +74,16 @@ void Board::updateBoard(Coordinates coordsToUpdate, SpaceState newState)
 
 void Board::boardHorizLine()
 {
-  using std::setw;
-  using std::right;
-  
   int lineIntersection = 0; //need a fixed location to place each line cross symbol that makes up the corner of every board space
 
-  //each horizontal line starts on its own line
-  cout << endl << setw(2) << right << "   " << setw(4) << right << text_Colour_Default;
+  //each horizontal line starts on a new line
+  cout << endl << setw(3) << right << "   " << text_Colour_Default;
   for (int i = 0; i < (mWidth * 4) + 1; i++) {
-    if (i == lineIntersection) { //place a corner symbol
+    if (i == lineIntersection) { //place a corner symbol where lines intersect
       cout << symbol_Vertical_Horizontal_Line;
       lineIntersection += 4;
     } else { 
-      cout << symbol_Horizontal_Line;
+      cout << symbol_Horizontal_Line; //otherwise just output a standard horizontal line 
     }  
   }
 }
@@ -108,7 +103,7 @@ int Board::getHeight()
 
 bool Board::isOccupied(Coordinates chkCoords) 
 {
-  return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied);
+  return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied); //check if a space is occupied 
 }
 
 void Board::setStateColour(Coordinates colourLocation) 
@@ -132,7 +127,7 @@ void Board::setStateColour(Coordinates colourLocation)
     }
     
     case SpaceState::Miss: {
-      //stateColour = text_Colour_White;
+      stateColour = text_Colour_Default;
     }
     
     case SpaceState::Hit_Boat: {
@@ -148,6 +143,6 @@ void Board::setStateColour(Coordinates colourLocation)
     }
     
   }
-
+  //set a space's symbol colour depending on its state
   spaces[colourLocation.rowPos][colourLocation.colPos].outputColour = stateColour;
 }

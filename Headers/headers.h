@@ -23,6 +23,9 @@ using std::vector;
 using std::ifstream;
 using std::regex;
 using std::stringstream;
+using std::setw; //used to set the width of an output stream 
+using std::left; //used to align an input stream to the left
+using std::right; //used to align an input stream to the right
 
 #include "constants.h"
 #include "udt.h"
