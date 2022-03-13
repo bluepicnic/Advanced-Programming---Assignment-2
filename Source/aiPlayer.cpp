@@ -3,8 +3,8 @@
 
 AIPlayer::AIPlayer(int playerNo)
 {
-  playerNo++;
-  stringstream playerNameNo;
+  playerNo++; //number to be used as part of player name, is increased by 1 here to represent a non 0 number (if an AI is the first player)
+  stringstream playerNameNo; //use a stringstream to avoid casting
   playerNameNo << "Player " << playerNo;
   mPlayerName = playerNameNo.str();
 }
@@ -20,16 +20,11 @@ bool AIPlayer::isHuman()
   return false;
 }
 
-void AIPlayer::deployBoats()
-{
-  //randomly and automatically place boats 
-}
-
-
 Coordinates AIPlayer::selectTarget()
 {
-  //randomly select a target
-
+  
+  //if we don't have a previous hit, randomly select a target, by calling base class function
+  
   //if we've got a hit, search in cardinal directions in this area
 
   //perform a depth-first search, following each direction until we don't get a hit
