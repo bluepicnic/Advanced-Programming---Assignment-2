@@ -11,6 +11,7 @@ class Board {
       int getHeight();
       bool isOccupied(Coordinates chkCoords); //check if a specific square on a shipboard is occupied
       void setStateColour(Coordinates colourLocation); //update a space's output colour based on its state
+      SpaceState getSpaceStatus(Coordinates targetSpace);
 
     private:
       void boardHorizLine(); //displays a horizontal line for each row on the board

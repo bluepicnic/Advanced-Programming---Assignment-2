@@ -9,7 +9,7 @@ Game::Game(int menuSelection)
      mPlayers[p] = generatePlayers(menuSelection, p);
      //create an array of 2 players, which we do not know whether they will be AI or Human players until they are created. 
   }
-  mGameType = selectGameType(menuSelection);
+  mGameMode = selectGameType(menuSelection);
 }
 
 Game::~Game()
@@ -106,18 +106,14 @@ void Game::setup()
       }
     }
   }
-  
-  
-  
-  
-
-  
 }
 
 void Game::playGame()
 {
   bool gameOver = false;
   Coordinates target;
+  int noShots = 1;
+  int remainingShots = 0;
   
   setup();
   
@@ -126,15 +122,19 @@ void Game::playGame()
     swapTurn();
     turnDisplay();
 
+    if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
+      noShots = mPlayers[mCurrentPlayer]->reportShipsAfloat();
+    }
+
     //ai selection
     //generate two numbers
     if (mPlayers[mCurrentPlayer]->isHuman() != true) {
       target = mPlayers[mCurrentPlayer]->autoTarget();
-      //resolve
+      registerShot(target);
     }
     else {
       //display turn menu
-
+      cout << endl << "2. Auto Target" << endl;
       //player input
       int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 
@@ -144,11 +144,13 @@ void Game::playGame()
             //check if input format is correct
             //check if input ranges are correct
             //check current player's targetboards status for the specific spaces
-
           //
         }
-
         case 2: {
+          for (int i = 0; i < noShots; i++) {
+            target = mPlayers[mCurrentPlayer]->autoTarget();
+            registerShot(target);
+          }
           
         }
       }
@@ -168,7 +170,8 @@ void Game::playGame()
   
     //if miss
     //update current player target board
-    gameOver = stoi(getLineSingleKey(regex_Any_Key, "EEEEEEEEEE")) + 1;
+    (getLineSingleKey(regex_Any_Key, "EEEEEEEEEE"));
+    //swapTurn();
   }
   
   
@@ -181,9 +184,11 @@ void Game::swapTurn()
 {
   if(mCurrentPlayer == 0) {
     mCurrentPlayer++;
+    mInactivePlayer--;
   }
   else {
     mCurrentPlayer--;
+    mInactivePlayer++;
   }
 }
 
@@ -237,11 +242,11 @@ GameType Game::selectGameType(int selection)
 string Game::gameType()
 {
   string gameMode = "Regular";
-  if (mGameType == GameType::Salvo_1P || mGameType == GameType::Salvo_2P || mGameType == GameType::Salvo_AI) {
+  if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
     gameMode = "Salvo";
   }
   
-  else if (mGameType == GameType::Mines_1P || mGameType == GameType::Mines_2P || mGameType == GameType::Mines_AI) {
+  else if (mGameMode == GameType::Mines_1P || mGameMode == GameType::Mines_2P || mGameMode == GameType::Mines_AI) {
     gameMode = "Mines";
   }
 
@@ -263,7 +268,7 @@ void Game::gameHeader()
   
   ui_clearScreen();
   cout << text_Colour_Cyan; //set colour for title
-  cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() + " | (" + mPlayers[mCurrentPlayer]->sayName() + currentState + ")" << endl; //game title with player names
+  cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() + " | (" + mPlayers[mCurrentPlayer]->sayName() + currentState + ")" << endl << endl; //game title with player names
 }
 
 void Game::setupDisplay()
@@ -283,13 +288,30 @@ void Game::turnDisplay()
   mPlayers[mCurrentPlayer]->displayBoards(1); //output select player boards
 }
 
-
-/*void Game::registerDamage()
+void Game::registerShot(Coordinates target) 
 {
-  //check if hit
-    //register damage at location
-    //update playerboards, returns bool = true if mined
-    //recursive call, including bool, which is an optional parameter in the definition
-    //register damage as normal
-    //update statuses and register damage in player's update state function 
-}*/
+  bool occupiedSpace = mPlayers[mInactivePlayer]->isSpaceOccupied(target);
+  string resolveText = "";
+
+  stringstream shotInfo;
+  shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.rowPos) << target.colPos + 1;
+  
+  if (occupiedSpace == true) {
+    mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Hit_Boat);
+    
+    mPlayers[mInactivePlayer]->acknowledgeShot(shipboard, target, SpaceState::Hit_Boat);
+    resolveText = hit_Text;
+    
+  } else {
+    mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Miss);
+    resolveText = miss_Text;
+  }
+  
+  resolutionDisplay(shotInfo.str() + resolveText);
+}
+
+void Game::resolutionDisplay(string resolutionText)
+{
+  turnDisplay();
+  cout << resolutionText << endl << endl;
+}

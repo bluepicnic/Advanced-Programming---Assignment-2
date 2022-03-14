@@ -19,6 +19,10 @@ class Player {
     void recallBoats(); //recalls all boats 
     int relayFleetSize();
     Coordinates autoTarget();
+    bool isSpaceOccupied(Coordinates target);
+    bool previouslyTargeted(Coordinates target);
+    int reportShipsAfloat();
+    void acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement);
 
   private:
     Board mPlayerBoards [2]; //target and ship boards

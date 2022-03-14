@@ -4,6 +4,8 @@
 //Game parameter constants 
 inline const int num_Players = 2;
 inline const int num_Boards = 2;
+inline const int shipboard = 0;
+inline const int targetboard = 1;
 
 //string literal file name constants
 inline const string inFile = "adaship_config.ini";
@@ -46,6 +48,10 @@ inline const string invalid_Manual_Target = "That target is invalid";
 inline const string ship_Board_Header = "SHIP PLACEMENT BOARD";
 inline const string target_Board_Header = "TARGETING BOARD";
 
+//Game shot resolution text
+inline const string hit_Text = "\nIt's a hit! Boat takes damage"; 
+inline const string miss_Text = "\nIt's a miss... no damage taken.";
+
 
 //String literal constants for setting string colours using ANSI codes and RGB values
 inline const string text_Colour_Default = "\u001b[0m";
@@ -82,5 +88,5 @@ inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
 inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)+");
-inline const regex regex_Any_Key("./g");
+inline const regex regex_Any_Key(".");
 inline const regex pat_Turn_Menu("^[0-2]+$");

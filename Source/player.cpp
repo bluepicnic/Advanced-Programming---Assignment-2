@@ -78,9 +78,9 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
   //check boat ID is valid
   for (int i = 0; i < mFleet[boatID].reportSize(); i++) {
     //check if coordinate is occupied
-    if(mPlayerBoards[0].isOccupied({loc.rowPos + row, loc.colPos + column}) == false) {
+    if(mPlayerBoards[shipboard].isOccupied({loc.rowPos + row, loc.colPos + column}) == false) {
       
-      mPlayerBoards[0].updateBoard({loc.rowPos + row, loc.colPos + column}, SpaceState::Occupied );
+      mPlayerBoards[shipboard].updateBoard({loc.rowPos + row, loc.colPos + column}, SpaceState::Occupied );
       provisionalLoc.push_back({loc.rowPos + row, loc.colPos + column});
     }
     //increment specific counter for a given orientation to the next position along that axis
@@ -96,7 +96,7 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
   {
     //recall boat if we're unable to place boat in its entirety
     recallBoat(boatID);
-    mPlayerBoards[0] = tmpBoard;
+    mPlayerBoards[shipboard] = tmpBoard;
     return false;
   }
   //if not, accept and return
@@ -158,7 +158,7 @@ void Player::recallBoat(int boatNo)
   //reset spaces that were previously occupied 
   vector<Coordinates> boatSpaces = mFleet[boatNo].reportLocation();
   for(auto it : boatSpaces) {
-    mPlayerBoards[0].updateBoard(it, SpaceState::Inactive);
+    mPlayerBoards[shipboard].updateBoard(it, SpaceState::Inactive);
   }
 
   //reset boat values
@@ -182,8 +182,42 @@ int Player::relayFleetSize()
 Coordinates Player::autoTarget() 
 {
   Coordinates rolledTarget;
-  rolledTarget.rowPos = mPlayerBoards[1].getWidth();
-  rolledTarget.colPos = mPlayerBoards[1].getHeight();
-  return rolledTarget;
+  bool previousTarget = true;
+  while (previousTarget != false) {
+    rolledTarget.rowPos = rollRandomNumber(mPlayerBoards[targetboard].getWidth() - 1);
+    rolledTarget.colPos = rollRandomNumber(mPlayerBoards[targetboard].getHeight() - 1);
+    previousTarget = previouslyTargeted(rolledTarget);
+  }
   
+  return rolledTarget;
+}
+
+bool Player::isSpaceOccupied(Coordinates target) 
+{
+  SpaceState occSpaceState = mPlayerBoards[targetboard].getSpaceStatus(target);
+  return occSpaceState == SpaceState::Occupied ? true : false;
+  //return mPlayerBoards[shipboard].isOccupied(target);
+}
+
+bool Player::previouslyTargeted(Coordinates target)
+{
+  SpaceState prevTargetState = mPlayerBoards[targetboard].getSpaceStatus(target);
+  return prevTargetState == SpaceState::Inactive ? false : true;
+  //return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied); 
+}
+
+int Player::reportShipsAfloat()
+{
+  int shipCount = 0;
+  for (auto it : mFleet) {
+    if (it.reportStatus() == BoatStatus::Deployed) {
+      shipCount++;
+    }
+  }
+  return shipCount;
+}
+
+void Player::acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement)
+{
+  mPlayerBoards[board].updateBoard(shotTarget, acknowledgement);
 }

@@ -20,7 +20,7 @@ bool AIPlayer::isHuman()
   return false;
 }
 
-Coordinates AIPlayer::selectTarget()
+Coordinates AIPlayer::selectTarget(int maxWidth, int maxHeight)
 {
   
   //if we don't have a previous hit, randomly select a target, by calling base class function

@@ -128,6 +128,7 @@ void Board::setStateColour(Coordinates colourLocation)
     
     case SpaceState::Miss: {
       stateColour = text_Colour_Default;
+      break;
     }
     
     case SpaceState::Hit_Boat: {
@@ -145,4 +146,9 @@ void Board::setStateColour(Coordinates colourLocation)
   }
   //set a space's symbol colour depending on its state
   spaces[colourLocation.rowPos][colourLocation.colPos].outputColour = stateColour;
+}
+
+SpaceState Board::getSpaceStatus (Coordinates targetSpace) 
+{
+  return spaces[targetSpace.rowPos][targetSpace.colPos].status;
 }

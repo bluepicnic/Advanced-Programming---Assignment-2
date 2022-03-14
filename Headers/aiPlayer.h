@@ -6,7 +6,7 @@ class AIPlayer :
       AIPlayer(int playerNo);
       ~AIPlayer();
       bool isHuman(); //check if an AI player is human, which isn't. Polymorphic function shared with AI player
-      Coordinates selectTarget(); //select target randomly initially, or more targeted if we a hit is registered
+      Coordinates selectTarget(int maxWidth, int maxHeight); //select target randomly initially, or more targeted if a hit is registered
           
     private:
       Coordinates mPreviousTarget; //used for space pathfinding
