@@ -87,8 +87,6 @@ string getLineSingleKey(regex pattern, string error)
   return input;
 }
 
-
-
 string convertToLetter(int numToConvert) 
 {
   string letters = "";

@@ -25,9 +25,9 @@ class Player {
     void acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement);
 
   private:
-    Board mPlayerBoards [2]; //target and ship boards
     vector<Ship> mFleet; 
 
   protected:
+    Board mPlayerBoards [2]; //target and ship boards
     string mPlayerName; //used for ui and player identification
 };

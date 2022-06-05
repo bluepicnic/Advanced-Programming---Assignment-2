@@ -17,22 +17,32 @@ bool HumanPlayer::isHuman()
   return true;
 }
 
-Coordinates HumanPlayer::selectTarget(int maxWidth, int maxHeight)
-{
-  Coordinates manualTarget;
+Coordinates HumanPlayer::selectTarget()
+{ 
+  Coordinates manualTarget = {};
+  int boardWidth = mPlayerBoards[0].getWidth();
+  int boardHeight = mPlayerBoards[0].getHeight();
+  bool targetCommand = false;
+  string boatSelection = "";
 
-  bool validCommand = false;
-            
-  while (validCommand != true) {
-    string targetCoords = getLineString(regex_Targeting, invalid_Placement_Command);
-    targetCoords = convertToUpper(targetCoords);
-    manualTarget = splitCoords(targetCoords);
+  while (targetCommand != true) {
+    boatSelection = getLineString(regex_Targeting, invalid_Placement_Command);
+    boatSelection = convertToUpper(boatSelection);
+    manualTarget = splitCoords(boatSelection);
 
-    //check if coord is in bounds
-    //if()
-      //check if coords have been previously selected 
+    if(manualTarget.colPos < boardWidth && manualTarget.rowPos < boardHeight) {
+    //check if coords have been previously selected 
+      if (previouslyTargeted(manualTarget) == false) {
+        targetCommand = true;
+      }
+    } else {
+      targetCommand = false;
+    }
   }
   
+  //check if coord is in bounds
+  
+
   return manualTarget;
 }
 

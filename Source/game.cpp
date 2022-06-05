@@ -22,34 +22,40 @@ Game::~Game()
 
 void Game::setup()
 {
-  //bool deploymentComplete = false;
   
   for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
     int boatMenuSelection = -1;
+    shipCounts setupBoats = {};
     
     while (boatMenuSelection != 0 && boatMenuSelection != 6) {
       mCurrentPlayer = i;
       mGameState = GameState::Setup;
+      setupBoats = mPlayers[i]->reportBoatCounts();
+
+      setupDisplay();
       
       //ai player functionality 
       if(mPlayers[mCurrentPlayer]->isHuman() == false) {
-        mPlayers[i]->deployBoats();
+        if (setupBoats.shipsAfloat != setupBoats.totalShips) {
+          boatMenuSelection = 4; //AI will always auto-place
+        }
+        else {
+          cout << "Press any button to continue, or 0 to exit" << endl;
 
-        setupDisplay();
-        cout << "Press any button to continue, or 0 to exit" << endl;
-
-        //change this
-        string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
-        boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
+          //change this
+          string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
+          boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
+        }
+        
       }
 
       
       //human player functionality only 
       if(mPlayers[mCurrentPlayer]->isHuman() == true) {
-        setupDisplay();
         boatMenuSelection = ui_displayBoatPlacement(); //output menu options
-  
-        switch (boatMenuSelection) {
+      }
+
+      switch (boatMenuSelection) {
           case 1: {
             //ui stuff
             ui_BoatPlacementPrompt();
@@ -68,7 +74,7 @@ void Game::setup()
           
           case 2: {
             //need to create custom regex based on the number of boats
-            int fleetSize = mPlayers[mCurrentPlayer]->relayFleetSize() - 1;
+            int fleetSize = setupBoats.totalShips - 1;
 
             regex fleetInputRange = generateMaxBoatRegex(fleetSize);
 
@@ -94,8 +100,6 @@ void Game::setup()
           }
           
           case 6: {
-            shipCounts setupBoats = mPlayers[i]->reportBoatCounts();
-            
             //check if all boats deployed
             boatMenuSelection = (setupBoats.shipsAfloat < setupBoats.totalShips) ? -1 : 6;
             //continue if all boats have been placed 
@@ -110,7 +114,6 @@ void Game::setup()
             break;
           }
         }
-      }
     }
   }
 }
@@ -146,34 +149,35 @@ void Game::playGame()
     }
     else {
       //display turn menu
+      cout << endl << "1. Manual Target" << endl;
       cout << endl << "2. Auto Target" << endl;
       //player input
       int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 
       switch(targetMethod) {
         case 1 : {
+          ui_TargetSelectionPrompt();
           //target = mPlayers()
             //check if input format is correct
             //check if input ranges are correct
             //check current player's targetboards status for the specific spaces
-          //
+
+          target = mPlayers[mCurrentPlayer]->selectTarget();
+          registerShot(target);
+          break;
+          
         }
         case 2: {
           for (int i = 0; i < noShots; i++) {
             target = mPlayers[mCurrentPlayer]->autoTarget();
             registerShot(target);
+            break;
           }
           
         }
       }
     }
   
-  
-  
-  
-
-    
-
   //place into own registerShot function
     //retrieve defending player's shipboard status for the specific space 
     //if hit
@@ -182,7 +186,7 @@ void Game::playGame()
   
     //if miss
     //update current player target board
-    (getLineSingleKey(regex_Any_Key, "EEEEEEEEEE"));
+    getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
     //swapTurn();
   }
   
@@ -298,6 +302,7 @@ void Game::turnDisplay()
   mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   mPlayers[mCurrentPlayer]->displayBoards(1); //output select player boards
+  ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
 
 void Game::registerShot(Coordinates target) 
@@ -325,6 +330,6 @@ void Game::registerShot(Coordinates target)
 void Game::resolutionDisplay(string resolutionText)
 {
   turnDisplay();
-  //take a vector as a parameter
+  //take a vector as a parameter for SALVO
   cout << resolutionText << endl << endl;
 }
