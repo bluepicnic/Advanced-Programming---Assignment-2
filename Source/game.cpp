@@ -135,6 +135,7 @@ void Game::playGame()
     turnDisplay();
 
     currentBoats = mPlayers[mCurrentPlayer]->reportBoatCounts();
+    oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
     
     if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
     
@@ -148,11 +149,8 @@ void Game::playGame()
       registerShot(target);
     }
     else {
-      //display turn menu
-      cout << endl << "1. Manual Target" << endl;
-      cout << endl << "2. Auto Target" << endl;
-      //player input
-      int targetMethod = stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
+      //display turn menu and take player input
+      int targetMethod = ui_displayTargetSelection();
 
       switch(targetMethod) {
         case 1 : {
@@ -178,16 +176,19 @@ void Game::playGame()
       }
     }
   
-  //place into own registerShot function
-    //retrieve defending player's shipboard status for the specific space 
-    //if hit
-    //update current player target board and inactive player ship board
-    //update ship statuses and health
-  
-    //if miss
-    //update current player target board
+  //FOR SALVO
+  //Need to stop turn swapping if shots are remaining
+  //otherwise show continue text
+  //this will allow some shots to be taken manually
+  //include an option for a single shot and all remaining shots
+    
     getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
     //swapTurn();
+
+    if (oppBoats.shipsAfloat == 0)
+    {
+      gameOver = true;
+    }
   }
   
   

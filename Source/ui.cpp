@@ -47,6 +47,13 @@ int ui_displayBoatPlacement()
   return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input)); //take input, return as integer
 }
 
+int ui_displayTargetSelection()
+{
+  cout << endl << "1. Manual Target" << endl;
+  cout << "2. Auto Target" << endl << endl;
+  return stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
+}
+
 void ui_BoatPlacementPrompt() 
 {
   ui_returnCursorPos();

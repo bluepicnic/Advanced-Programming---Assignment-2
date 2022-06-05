@@ -88,5 +88,5 @@ inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
 inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)+");
-inline const regex regex_Any_Key(".");
+inline const regex regex_Any_Key("[\\s]");
 inline const regex pat_Turn_Menu("^[0-2]+$");
