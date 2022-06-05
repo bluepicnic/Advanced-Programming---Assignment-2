@@ -1,18 +1,10 @@
 {
   "files": {
-    "Source/game.cpp": [
-      {
-        "id": "978b2413-c6ee-4a38-9326-6ff197151acf",
-        "line": 297,
-        "version": 11438,
-        "index": 7763
-      }
-    ],
     "Source/utilities.cpp": [
       {
         "id": "123ac22e-7467-4ff8-9c0c-03548f6566f7",
         "line": 94,
-        "version": 2270,
+        "version": 2282,
         "index": 1922
       }
     ]

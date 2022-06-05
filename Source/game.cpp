@@ -22,8 +22,11 @@ Game::~Game()
 
 void Game::setup()
 {
+  //bool deploymentComplete = false;
+  
   for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
     int boatMenuSelection = -1;
+    
     while (boatMenuSelection != 0 && boatMenuSelection != 6) {
       mCurrentPlayer = i;
       mGameState = GameState::Setup;
@@ -90,8 +93,12 @@ void Game::setup()
             break;//reset
           }
           
-          case 6: {//continue if all boats have been placed 
+          case 6: {
+            shipCounts setupBoats = mPlayers[i]->reportBoatCounts();
+            
             //check if all boats deployed
+            boatMenuSelection = (setupBoats.shipsAfloat < setupBoats.totalShips) ? -1 : 6;
+            //continue if all boats have been placed 
             break;
           }
           
@@ -111,9 +118,11 @@ void Game::setup()
 void Game::playGame()
 {
   bool gameOver = false;
-  Coordinates target;
+  Coordinates target; //coordinate used to reflect changes to opposing boards
   int noShots = 1;
   int remainingShots = 0;
+  shipCounts currentBoats = {}; //track total & currently deployed ships
+  shipCounts oppBoats = {};
   
   setup();
   
@@ -122,8 +131,11 @@ void Game::playGame()
     swapTurn();
     turnDisplay();
 
+    currentBoats = mPlayers[mCurrentPlayer]->reportBoatCounts();
+    
     if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
-      noShots = mPlayers[mCurrentPlayer]->reportShipsAfloat();
+    
+      noShots = currentBoats.shipsAfloat;
     }
 
     //ai selection
@@ -294,7 +306,7 @@ void Game::registerShot(Coordinates target)
   string resolveText = "";
 
   stringstream shotInfo;
-  shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.rowPos) << target.colPos + 1;
+  shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.colPos + 1) << target.rowPos + 1;
   
   if (occupiedSpace == true) {
     mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Hit_Boat);
@@ -313,5 +325,6 @@ void Game::registerShot(Coordinates target)
 void Game::resolutionDisplay(string resolutionText)
 {
   turnDisplay();
+  //take a vector as a parameter
   cout << resolutionText << endl << endl;
 }

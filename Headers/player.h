@@ -21,7 +21,7 @@ class Player {
     Coordinates autoTarget();
     bool isSpaceOccupied(Coordinates target);
     bool previouslyTargeted(Coordinates target);
-    int reportShipsAfloat();
+    shipCounts reportBoatCounts();
     void acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement);
 
   private:

@@ -194,7 +194,7 @@ Coordinates Player::autoTarget()
 
 bool Player::isSpaceOccupied(Coordinates target) 
 {
-  SpaceState occSpaceState = mPlayerBoards[targetboard].getSpaceStatus(target);
+  SpaceState occSpaceState = mPlayerBoards[shipboard].getSpaceStatus(target);
   return occSpaceState == SpaceState::Occupied ? true : false;
   //return mPlayerBoards[shipboard].isOccupied(target);
 }
@@ -206,15 +206,20 @@ bool Player::previouslyTargeted(Coordinates target)
   //return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied); 
 }
 
-int Player::reportShipsAfloat()
+shipCounts Player::reportBoatCounts()
 {
-  int shipCount = 0;
+  int boatCount = 0;
+  int totalBoats = 0;
+  
   for (auto it : mFleet) {
     if (it.reportStatus() == BoatStatus::Deployed) {
-      shipCount++;
+      boatCount++;
     }
+    totalBoats++;
   }
-  return shipCount;
+
+  //return both the total number of boats and how many boats are currently deployed
+  return {totalBoats, boatCount};
 }
 
 void Player::acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement)

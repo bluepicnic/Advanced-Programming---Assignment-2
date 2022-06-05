@@ -42,6 +42,11 @@ struct Space {
   string outputColour;
 };
 
+struct shipCounts {
+  int totalShips;
+  int shipsAfloat;
+};
+
 
 
 
