@@ -21,6 +21,9 @@ void ui_displayMainMenu()
     cout << multiplayer_Mines << endl;
     cout << ai_Only_Mines << endl;
     cout << endl << endl;
+    //cout << "Select an option from the numbers above, or 0 to quit:" << text_Colour_Default;
+
+    
 }
 
 void ui_boatStatusColTitles() 
@@ -33,24 +36,30 @@ void ui_boatStatusColTitles()
 	"Status" << text_Colour_Default;
 }
 
-int ui_displayBoatPlacement() 
+int ui_displayBoatPlacement(bool advance) 
 {
+  string continueColour = (advance == true) ? text_Colour_Yellow : text_Colour_Grey;
+  
+  
   //don't clear screen, we need board to be displayed 
   cout << endl << manual_Boat_Selection << endl //manually place ship
   << auto_Boat_Selection << endl //auto place ship
   << auto_Place_Remaining << endl //auto place boats with an "inactive" state
   << auto_Place_All << endl //auto place all boats
   << reset_Boats << endl //recall all boats
-  << complete_Setup << endl << endl //complete setup and continue
+  << continueColour << complete_Setup << text_Colour_Default << endl << endl //complete setup and continue
   << exit_text << endl << endl << endl; //exit
 
   return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input)); //take input, return as integer
 }
 
-int ui_displayTargetSelection()
+int ui_displayTargetSelection(bool turnComplete)
 {
+  string turnSwapColour = (turnComplete == true) ? text_Colour_Yellow : text_Colour_Grey;
+  
   cout << endl << "1. Manual Target" << endl;
-  cout << "2. Auto Target" << endl << endl;
+  cout << "2. Auto Target" << endl;
+  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl;
   return stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 }
 
@@ -74,6 +83,12 @@ void ui_TargetSelectionPrompt()
   ui_returnCursorPos();
   cout << clear_Console_Screen_Bottom;
   cout << "Enter a coordinate (E.G. 'b7')" << endl;
+}
+
+void ui_GameOverText(Player* winner, Player* loser)
+{
+  cout << loser->sayName() <<  " has no more ships left: " << winner->sayName() << " wins!" << endl << endl;
+  cout << "GAME OVER" << endl;
 }
 
 string ui_moveCursorUp(int noLines)

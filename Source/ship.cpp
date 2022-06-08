@@ -51,6 +51,16 @@ int Ship::reportSize()
   return mSize;
 }
 
+string Ship::reportDamageTaken() 
+{
+  mHealth--;
+  if (mHealth == 0) {
+    updateStatus(BoatStatus::Destroyed);
+    return mName;
+  }
+  return "";
+}
+
 void Ship::updateLocation(vector<Coordinates> shipCoords)
 {
   mLocations = shipCoords;

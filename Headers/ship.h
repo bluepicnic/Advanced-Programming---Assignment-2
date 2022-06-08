@@ -7,6 +7,7 @@ class Ship {
       BoatStatus reportStatus();
       vector<Coordinates>reportLocation();
       int reportSize();
+      string reportDamageTaken();
       void updateLocation(vector<Coordinates> shipCoords);
       void updateStatus(BoatStatus update);
     

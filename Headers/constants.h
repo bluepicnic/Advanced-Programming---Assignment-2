@@ -49,7 +49,7 @@ inline const string ship_Board_Header = "SHIP PLACEMENT BOARD";
 inline const string target_Board_Header = "TARGETING BOARD";
 
 //Game shot resolution text
-inline const string hit_Text = "\nIt's a hit! Boat takes damage"; 
+inline const string hit_Text = "\nIt's a hit! An enemy boat takes damage"; 
 inline const string miss_Text = "\nIt's a miss... no damage taken.";
 
 
@@ -60,6 +60,8 @@ inline const string text_Colour_Black = "\u001b[31;1m";
 inline const string text_Colour_Yellow = "\033[38;2;255;208;0m";
 inline const string text_Colour_Red = "\033[38;2;255;0;0m";
 inline const string text_Colour_Sky_Blue = "\033[38;2;0;199;255m";
+inline const string text_Colour_Grey = "\033[38;2;87;86;83m";
+
 
 //String literal constants for setting string background colours using ANSI codes
 inline const string background_Colour_White = "\033[48;2;255;255;255m"; 
@@ -89,4 +91,4 @@ inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)+");
 inline const regex regex_Any_Key("[\\s]");
-inline const regex pat_Turn_Menu("^[0-2]+$");
+inline const regex pat_Turn_Menu("^[0-3]+$");

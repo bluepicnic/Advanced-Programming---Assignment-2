@@ -22,7 +22,7 @@ class Player {
     bool isSpaceOccupied(Coordinates target);
     bool previouslyTargeted(Coordinates target);
     shipCounts reportBoatCounts();
-    void acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement);
+    string acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement);
 
   private:
     vector<Ship> mFleet; 

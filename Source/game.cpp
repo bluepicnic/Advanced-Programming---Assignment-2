@@ -39,10 +39,10 @@ void Game::setup()
         if (setupBoats.shipsAfloat != setupBoats.totalShips) {
           boatMenuSelection = 4; //AI will always auto-place
         }
-        else {
+        else { //once AI deployment is complete
           cout << "Press any button to continue, or 0 to exit" << endl;
 
-          //change this
+          //continue if any key other than 0 is pressed
           string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
           boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
         }
@@ -52,9 +52,10 @@ void Game::setup()
       
       //human player functionality only 
       if(mPlayers[mCurrentPlayer]->isHuman() == true) {
-        boatMenuSelection = ui_displayBoatPlacement(); //output menu options
+        boatMenuSelection = ui_displayBoatPlacement(setupBoats.shipsAfloat == setupBoats.totalShips); //output menu options
       }
 
+      //both player types to select from menu cases
       switch (boatMenuSelection) {
           case 1: {
             //ui stuff
@@ -122,59 +123,62 @@ void Game::playGame()
 {
   bool gameOver = false;
   Coordinates target; //coordinate used to reflect changes to opposing boards
-  int noShots = 1;
+  int noShots = calculatePlayerShots();
   int remainingShots = 0;
-  shipCounts currentBoats = {}; //track total & currently deployed ships
-  shipCounts oppBoats = {};
+  int targetMethod = -1;
+  shipCounts oppBoats = {}; //track total & currently deployed ships of the opposing player
   
   setup();
+  swapTurn();
+  
   
   while(gameOver != true) {
     mGameState = GameState::Firing;
-    swapTurn();
+    
     turnDisplay();
-
-    currentBoats = mPlayers[mCurrentPlayer]->reportBoatCounts();
-    oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
-    
-    if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
-    
-      noShots = currentBoats.shipsAfloat;
-    }
 
     //ai selection
     //generate two numbers
     if (mPlayers[mCurrentPlayer]->isHuman() != true) {
       target = mPlayers[mCurrentPlayer]->autoTarget();
       registerShot(target);
+      targetMethod = 3;
     }
     else {
       //display turn menu and take player input
-      int targetMethod = ui_displayTargetSelection();
+      targetMethod = ui_displayTargetSelection(noShots == 0);
+    } 
 
       switch(targetMethod) {
         case 1 : {
-          ui_TargetSelectionPrompt();
-          //target = mPlayers()
-            //check if input format is correct
-            //check if input ranges are correct
-            //check current player's targetboards status for the specific spaces
-
-          target = mPlayers[mCurrentPlayer]->selectTarget();
-          registerShot(target);
-          break;
+          if (noShots > 0) {
+            ui_TargetSelectionPrompt();
           
+            //for (int i = 0; i < noShots; i++)
+            target = mPlayers[mCurrentPlayer]->selectTarget();
+            registerShot(target);
+            noShots--;
+            
+          }
+          break;
         }
         case 2: {
           for (int i = 0; i < noShots; i++) {
             target = mPlayers[mCurrentPlayer]->autoTarget();
             registerShot(target);
+            noShots--;
+          }
+          break;
+        }
+        case 3: {
+          if (noShots == 0) {
+            swapTurn();
+            noShots = calculatePlayerShots(); //recalculate number of shots only when swapping turns
             break;
           }
           
         }
       }
-    }
   
   //FOR SALVO
   //Need to stop turn swapping if shots are remaining
@@ -182,13 +186,16 @@ void Game::playGame()
   //this will allow some shots to be taken manually
   //include an option for a single shot and all remaining shots
     
-    getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
+    
     //swapTurn();
-
+    oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
     if (oppBoats.shipsAfloat == 0)
     {
       gameOver = true;
+      ui_GameOverText(mPlayers[mCurrentPlayer], mPlayers[mInactivePlayer]);
     }
+  
+    
   }
   
   
@@ -315,14 +322,12 @@ void Game::registerShot(Coordinates target)
   shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.colPos + 1) << target.rowPos + 1;
   
   if (occupiedSpace == true) {
-    mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Hit_Boat);
+    resolveText = mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Hit_Boat);
     
-    mPlayers[mInactivePlayer]->acknowledgeShot(shipboard, target, SpaceState::Hit_Boat);
-    resolveText = hit_Text;
+    resolveText += mPlayers[mInactivePlayer]->acknowledgeShot(shipboard, target, SpaceState::Hit_Boat);
     
   } else {
-    mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Miss);
-    resolveText = miss_Text;
+    resolveText = mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Miss);
   }
   
   resolutionDisplay(shotInfo.str() + resolveText);
@@ -333,4 +338,16 @@ void Game::resolutionDisplay(string resolutionText)
   turnDisplay();
   //take a vector as a parameter for SALVO
   cout << resolutionText << endl << endl;
+  cout << "Press any key to confirm" << endl;
+  getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
+}
+
+int Game::calculatePlayerShots() 
+{
+  int currentBoats = mPlayers[mCurrentPlayer]->reportBoatCounts().shipsAfloat;
+  
+  if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {  
+      return currentBoats;
+    }
+    else return 1;
 }

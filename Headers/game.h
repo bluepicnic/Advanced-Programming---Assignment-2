@@ -13,6 +13,7 @@ class Game {
     void setupDisplay(); //display ui elements and respective player boards during setup
     void turnDisplay(); //display ui elements and both boards during respective player turns
     void resolutionDisplay(string resolutionText);
+    int calculatePlayerShots();
     
         
         
