@@ -55,11 +55,18 @@ int ui_displayBoatPlacement(bool advance)
 
 int ui_displayTargetSelection(bool turnComplete)
 {
-  string turnSwapColour = (turnComplete == true) ? text_Colour_Yellow : text_Colour_Grey;
+  string turnSwapColour = text_Colour_Grey;
+  string targetColour = text_Colour_Default;
   
-  cout << endl << "1. Manual Target" << endl;
+  if(turnComplete == true) {
+    turnSwapColour = text_Colour_Yellow;
+    targetColour = text_Colour_Grey;
+  }
+  
+  cout << endl << targetColour <<  "1. Manual Target" << endl;
   cout << "2. Auto Target" << endl;
-  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl;
+  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl << endl;
+  
   return stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 }
 
@@ -89,6 +96,9 @@ void ui_GameOverText(Player* winner, Player* loser)
 {
   cout << loser->sayName() <<  " has no more ships left: " << winner->sayName() << " wins!" << endl << endl;
   cout << "GAME OVER" << endl;
+
+  cout << "Press any key to return to the main menu" << endl;
+  getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
 }
 
 string ui_moveCursorUp(int noLines)

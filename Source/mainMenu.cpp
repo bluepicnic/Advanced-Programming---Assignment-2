@@ -15,7 +15,7 @@ void mainMenu()
 
         if(selection != 0 ) { 
           //only go ahead with game creation if string is valid
-          Game newGame(selection);
+         Game newGame(selection);
           newGame.playGame();
         }
   } while (selection != 0); //continue until the user decides to quit

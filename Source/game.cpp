@@ -20,7 +20,7 @@ Game::~Game()
   }
 }
 
-void Game::setup()
+bool Game::setup()
 {
   
   for (int i = 0; i < num_Players; i++) { //complete setup loop for both players
@@ -49,7 +49,6 @@ void Game::setup()
         
       }
 
-      
       //human player functionality only 
       if(mPlayers[mCurrentPlayer]->isHuman() == true) {
         boatMenuSelection = ui_displayBoatPlacement(setupBoats.shipsAfloat == setupBoats.totalShips); //output menu options
@@ -108,7 +107,7 @@ void Game::setup()
           }
           
           case 0: {
-          return;
+          return false;
           }
           
           default: {
@@ -117,22 +116,25 @@ void Game::setup()
         }
     }
   }
+  return true;
 }
 
 void Game::playGame()
 {
   bool gameOver = false;
   Coordinates target; //coordinate used to reflect changes to opposing boards
-  int noShots = calculatePlayerShots();
+  int noShots = 1;
   int remainingShots = 0;
-  int targetMethod = -1;
   shipCounts oppBoats = {}; //track total & currently deployed ships of the opposing player
   
-  setup();
-  swapTurn();
+  bool setupComplete = setup();
+  //swapTurn();
+  mCurrentPlayer = 0;
+  mInactivePlayer = 1;
+  noShots = calculatePlayerShots();
   
-  
-  while(gameOver != true) {
+  while(gameOver != true && setupComplete == true) {
+    int targetMethod = -1;
     mGameState = GameState::Firing;
     
     turnDisplay();
@@ -140,9 +142,13 @@ void Game::playGame()
     //ai selection
     //generate two numbers
     if (mPlayers[mCurrentPlayer]->isHuman() != true) {
-      target = mPlayers[mCurrentPlayer]->autoTarget();
-      registerShot(target);
-      targetMethod = 3;
+      if (noShots == 0) {
+        targetMethod = 3;
+      } else {
+        target = mPlayers[mCurrentPlayer]->autoTarget();
+        registerShot(target);
+        noShots--;
+      }
     }
     else {
       //display turn menu and take player input
@@ -172,10 +178,14 @@ void Game::playGame()
         }
         case 3: {
           if (noShots == 0) {
+            mGameState = GameState::Swap_Turn;
             swapTurn();
             noShots = calculatePlayerShots(); //recalculate number of shots only when swapping turns
             break;
           }
+          case 0: {
+            return;
+          } 
           
         }
       }
@@ -194,13 +204,7 @@ void Game::playGame()
       gameOver = true;
       ui_GameOverText(mPlayers[mCurrentPlayer], mPlayers[mInactivePlayer]);
     }
-  
-    
   }
-  
-  
-  
-  
 }
         
         
@@ -233,6 +237,8 @@ Player* Game::generatePlayers(int selection, int index)
   else if (index == 1) {
     return new HumanPlayer;
   }
+
+  return NULL;
   
 } 
 
@@ -335,6 +341,7 @@ void Game::registerShot(Coordinates target)
 
 void Game::resolutionDisplay(string resolutionText)
 {
+  mGameState = GameState::Resolution;
   turnDisplay();
   //take a vector as a parameter for SALVO
   cout << resolutionText << endl << endl;

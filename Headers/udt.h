@@ -5,7 +5,7 @@ enum class BoatStatus { //use of an enum class to prevent unwanted type conversi
 }; 
 
 enum class SpaceState {
-  Inactive, Unoccupied, Occupied, Miss, Hit_Boat, Hit_Mine, Hit_Mine_And_Boat 
+  Inactive, Unoccupied, Occupied, Miss, Hit_Boat
 };
 
 enum class GameType {

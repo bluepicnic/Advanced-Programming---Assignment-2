@@ -1,3 +1,4 @@
+/*External dependencies*/
 #include <iostream> //For inputoutput operations
 #include <vector> //to access the vector variable size data container
 #include <string> //to perform string operations beyond simple C-style char* 
@@ -14,6 +15,7 @@
 #include <sys/stat.h>
 #include <limits.h>
 
+/*STD namespace functions and types*/
 using std::cout;
 using std::cin;
 using std::stoi;
@@ -27,6 +29,7 @@ using std::setw; //used to set the width of an output stream
 using std::left; //used to align an input stream to the left
 using std::right; //used to align an input stream to the right
 
+/*Project header files*/
 #include "constants.h"
 #include "udt.h"
 #include "utilities.h"

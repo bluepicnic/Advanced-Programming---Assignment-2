@@ -3,7 +3,7 @@
 class Player {
   public:
     Player();
-    ~Player();
+    virtual ~Player();
     bool deployBoat(string command); //wrapper function for manual boat deployment
     void deployBoat(int boatID); //wrapper function for automatic boat deployment
     bool deployBoat(int boatID, Coordinates loc, string orientation); //boat deployment

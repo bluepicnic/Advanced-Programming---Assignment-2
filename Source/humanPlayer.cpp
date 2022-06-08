@@ -30,6 +30,7 @@ Coordinates HumanPlayer::selectTarget()
     boatSelection = convertToUpper(boatSelection);
     manualTarget = splitCoords(boatSelection);
 
+    //check if coord is in bounds
     if(manualTarget.colPos < boardWidth && manualTarget.rowPos < boardHeight) {
     //check if coords have been previously selected 
       if (previouslyTargeted(manualTarget) == false) {
@@ -40,7 +41,7 @@ Coordinates HumanPlayer::selectTarget()
     }
   }
   
-  //check if coord is in bounds
+  
   
 
   return manualTarget;

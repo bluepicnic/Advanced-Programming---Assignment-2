@@ -4,7 +4,7 @@ class Game {
   public:
     Game(int menuSelection); //player values are private, so can only be accessed in their respective class. Upon creation, we'll pass relevant values through from the game class 
     ~Game(); //destroy player objects when current game is no longer needed
-    void setup(); //used to set up the game board and place boats, using player input to decide
+    bool setup(); //used to set up the game board and place boats, using player input to decide
     void playGame(); //contains full game loop
     void swapTurn(); //used to change and swap current and inactive players
     string gameType(); //used to get the chosen game type

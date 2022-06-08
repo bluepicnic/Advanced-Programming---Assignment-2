@@ -80,7 +80,7 @@ inline const string clear_Console_Screen = "\u001b[1H;1\u001b[0J\r"; //Clear ent
 inline const string clear_Console_Line = "\u001b[2K\r"; //clear current line and return cursor to start
 inline const string clear_Console_Screen_Bottom = "\u001b[0J\r"; //Clear screen from cursor position to the bottom of the screen, return cursor to start of current line
 
-//string literal constant for the movement of 
+//string literal constant for the movement of the cursor
 inline const string console_Move_Cursor_Up = "\u001b[1A";
 
 
