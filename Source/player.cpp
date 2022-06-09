@@ -133,7 +133,7 @@ void Player::displayBoards(int boardNo)
 {
   //determine if the board being displayed is the ship or target board
   string boardHeader = (boardNo == 0) ? ship_Board_Header : target_Board_Header;
-  cout << boardHeader;
+  cout << text_Colour_Cyan << boardHeader;
   mPlayerBoards[boardNo].displayBoard();
 }
         

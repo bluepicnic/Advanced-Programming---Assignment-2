@@ -3,8 +3,7 @@
 HumanPlayer::HumanPlayer()
 {
   cout << "Please enter your name" << endl;
-  mPlayerName = declarePlayerName(); //set player name through input
-  
+  mPlayerName = declarePlayerName(); //set player name through input 
 }
           
 HumanPlayer::~HumanPlayer()

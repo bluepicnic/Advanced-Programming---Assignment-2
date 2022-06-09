@@ -16,12 +16,10 @@ void ui_displayMainMenu()
     cout << ai_Only_Game << endl;
     cout << single_Player_Salvo << endl;
     cout << multiplayer_Salvo << endl;
-    cout << ai_Only_Salvo << endl;
-    cout << single_Player_Mines << endl;
-    cout << multiplayer_Mines << endl;
-    cout << ai_Only_Mines << endl;
-    cout << endl << endl;
-    //cout << "Select an option from the numbers above, or 0 to quit:" << text_Colour_Default;
+    cout << ai_Only_Salvo << endl << endl;
+
+    ui_saveCursorPos();
+    cout << menu_Num_Prompt << text_Colour_Default << endl << endl;
 
     
 }
@@ -48,7 +46,10 @@ int ui_displayBoatPlacement(bool advance)
   << auto_Place_All << endl //auto place all boats
   << reset_Boats << endl //recall all boats
   << continueColour << complete_Setup << text_Colour_Default << endl << endl //complete setup and continue
-  << exit_text << endl << endl << endl; //exit
+  << exit_text << endl << endl;//exit
+
+  ui_saveCursorPos();
+  cout << menu_Num_Prompt << text_Colour_Default << endl << endl;
 
   return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input)); //take input, return as integer
 }
@@ -65,7 +66,10 @@ int ui_displayTargetSelection(bool turnComplete)
   
   cout << endl << targetColour <<  "1. Manual Target" << endl;
   cout << "2. Auto Target" << endl;
-  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl << endl;
+  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl;
+
+  ui_saveCursorPos();
+  cout << menu_Num_Prompt << text_Colour_Default << endl << endl;
   
   return stoi(getLineSingleKey(pat_Turn_Menu, invalid_Menu_Input));
 }

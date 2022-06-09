@@ -8,19 +8,22 @@ string getSingleKeyInput()
   string rtnStr = "";
   struct termios old = {0};
 
+  //obtain the attributes currently held by the console
   if (tcgetattr(0, &old) < 0) {
     perror("tcsetattr()");
   }
 
-  old.c_lflag &= ~ICANON;
-  old.c_lflag &= ~ECHO;
-  old.c_cc[VMIN] = 1;
-  old.c_cc[VTIME] = 0; 
+  old.c_lflag &= ~ICANON; //stop processing console content line-by-line
+  old.c_lflag &= ~ECHO; //disable echoing typed characters back to the console
+  old.c_cc[VMIN] = 1; //how many bytes are read from an impending input
+  old.c_cc[VTIME] = 0; //disable time based reading
 
+  //change attributes now
   if (tcsetattr(0, TCSANOW, &old) < 0) {
     perror("tcsetattr ICANON");
   }
 
+  //await input from the console indefinitely until recieved
   if (read(0, &buf, 1) < 0) {
     perror ("read()");
   }
@@ -28,6 +31,7 @@ string getSingleKeyInput()
   old.c_lflag |= ICANON;
   old.c_lflag |= ECHO;
 
+  //reset parameters once output is "transmitted"
   if (tcsetattr(0, TCSADRAIN, &old) < 0) {
     perror ("tcsetattr ~ICANON");
   }
@@ -78,10 +82,16 @@ string getLineSingleKey(regex pattern, string error)
   while (isValid != true) { //continue to prompt if input is invalid
     input = getSingleKeyInput(); 
     isValid = validateString(input, pattern, error);
-    cout << ui_moveCursorUp(1) << error << endl;
-    if (isValid == true) {
-      cout << console_Move_Cursor_Up << clear_Console_Line;
+    
+    if (isValid != true) {
+      cout << ui_moveCursorUp(1) << clear_Console_Line << error << endl;
     }
+    else {
+      ui_returnCursorPos();
+      cout << clear_Console_Screen_Bottom;
+    }
+    
+    
   }
   
   return input;

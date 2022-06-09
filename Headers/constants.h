@@ -36,6 +36,7 @@ inline const string exit_text = "0. Quit";
 //specific input prompts
 inline const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
 inline const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by entering an ID from the list above: ";
+inline const string menu_Num_Prompt = "Enter an option from the numbers above, or 0 to quit:";
 
 
 //String constants for invalid input error messages
@@ -90,5 +91,5 @@ inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
 inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)+");
-inline const regex regex_Any_Key("[\\s]");
+inline const regex regex_Any_Key("[\\sa-zA-Z0-9 ]");
 inline const regex pat_Turn_Menu("^[0-3]+$");

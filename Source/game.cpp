@@ -43,7 +43,7 @@ bool Game::setup()
           cout << "Press any button to continue, or 0 to exit" << endl;
 
           //continue if any key other than 0 is pressed
-          string quitOrContinue = getLineSingleKey(regex_Alphanumeric, "ummmmm");
+          string quitOrContinue = getLineSingleKey(regex_Any_Key, "ummmmm");
           boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
         }
         
@@ -183,11 +183,10 @@ void Game::playGame()
             noShots = calculatePlayerShots(); //recalculate number of shots only when swapping turns
             break;
           }
-          case 0: {
-            return;
-          } 
-          
-        }
+        }  
+        case 0: {
+          return;
+        }  
       }
   
   //FOR SALVO

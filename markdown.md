@@ -233,12 +233,14 @@ Converting from a letter was required to access specific data structure instance
 #### Distinction: Statements with deep justifications and discussions
 
 #### Refactoring
-Throughout the course of my battleship project, I made a conscious effort to refactor my code at various intervals, 
+Throughout the course of my battleship project, I made a conscious effort to refactor my code at various intervals, or to facilitate specific functionality. This was a key concern throughout the project, as I was initially unsure where this would fit in amongst various other tasks, such as fixing bugs and improving UI/UX elements
 
 Input function
 Setup cases
 Ui revisions
 Conversion to letter
+Acknowledge shot -> improved readabiltiy and better practice 
+Main game function / select target / deploy ship -> Moved input out of function to make them pure. Went back and forth on the issue for a while 
 
 
 
@@ -334,7 +336,11 @@ Player* Game::generatePlayers(int selection, int index)
   
 } 
 ```
-I found this pattern useful as a specific instance of a game always contains two players, but we don't know if they are human or AI controlled. I avoided the singleton pattern as I believed it would increase the level of common coupling between classes in my system. I did widely utilise global variables within my program, but these In addition, singletons break the single responsibility principle and are hard to debug and test due to their immutable state (Densmore, 2004). 
+I found this pattern useful as a specific instance of a game always contains two players, but we don't know if they are human or AI controlled. It was the only example of an object varient that would have truely unique functionality and data members that I could I identify amongst the objects that were to be present in the game. The game type itself (e.g. regular, salvo, etc) for example, would not be well suited to this principle, as it would still be reliant on many aspects of a base game class, including the main game loop. Ideally, the use of this principle in conjunction with all of the associated classes is to reduce code reuse by applying functionality to each of the classes, base and derrived, where it is relevant. 
+
+I avoided the singleton pattern as I believed it would increase the level of common coupling between classes in my system. I did widely utilise global variables within my program, but these were generally limited to strings that replaced long literal strings that were taking up a large amount of vertical space in my code; Regex types and strings containing ANSI codes / unicode characters. 
+
+In addition, singletons break the single responsibility principle and are hard to debug and test due to their immutable state (Densmore, 2004). 
 
 
 
@@ -353,6 +359,7 @@ File parser
 Conversion of numbers to letters
 Conversion of letters to numbers
 Pure check input function (with regex)
+Acknowledge shot -> From deep nested conditionals to guard clauses with return routes
 
 
 
