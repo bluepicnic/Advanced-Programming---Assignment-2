@@ -53,6 +53,9 @@ inline const string target_Board_Header = "TARGETING BOARD";
 inline const string hit_Text = "\nIt's a hit! An enemy boat takes damage"; 
 inline const string miss_Text = "\nIt's a miss... no damage taken.";
 
+inline const string numbers = "0123456789";
+inline const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz";
+
 
 //String literal constants for setting string colours using ANSI codes and RGB values
 inline const string text_Colour_Default = "\u001b[0m";
