@@ -12,3 +12,6 @@ vector <string> separateCommands(string command);
 Coordinates splitCoords(string coords);
 int rollRandomNumber (int max);
 regex generateMaxBoatRegex(int sizeOfFleet);
+vector<string> splitSalvoShots(string &com, vector<string> &targets);
+bool isSalvoGT(GameType currentGM);
+bool isInBounds(Coordinates selection, int width, int height);

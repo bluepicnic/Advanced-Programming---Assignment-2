@@ -4,11 +4,11 @@
 class HumanPlayer : 
   public Player {
     public:
-      HumanPlayer(); //use constructor to set name 
+      HumanPlayer(); 
       ~HumanPlayer();
       bool isHuman(); //identify player as a human
-      Coordinates selectTarget(); //manually select a target based on input
+      vector<Coordinates> selectTarget(GameType gameMode, int numShots); //manually select a target based on input
 
     private:
-      string declarePlayerName();
+      string declarePlayerName(); //only used when creating a player
 };

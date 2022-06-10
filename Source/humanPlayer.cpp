@@ -16,34 +16,42 @@ bool HumanPlayer::isHuman()
   return true;
 }
 
-Coordinates HumanPlayer::selectTarget()
+vector<Coordinates> HumanPlayer::selectTarget(GameType gameMode, int numShots)
 { 
-  Coordinates manualTarget = {};
+  vector<Coordinates> manualTargets;
+  vector<string> provisTargets;
   int boardWidth = mPlayerBoards[0].getWidth();
   int boardHeight = mPlayerBoards[0].getHeight();
   bool targetCommand = false;
-  string boatSelection = "";
+  string targetSelection = "";
+  regex gmRegExp = (isSalvoGT(gameMode) == true) ? regex_Salvo_Targeting : regex_Targeting;
+  
 
   while (targetCommand != true) {
-    boatSelection = getLineString(regex_Targeting, invalid_Placement_Command);
-    boatSelection = convertToUpper(boatSelection);
-    manualTarget = splitCoords(boatSelection);
+    targetSelection = getLineString(gmRegExp, invalid_Placement_Command);
 
-    //check if coord is in bounds
-    if(manualTarget.colPos < boardWidth && manualTarget.rowPos < boardHeight) {
-    //check if coords have been previously selected 
-      if (previouslyTargeted(manualTarget) == false) {
+    if (isSalvoGT(gameMode) == true) {
+      provisTargets = splitSalvoShots(targetSelection, provisTargets);
+    } else provisTargets.push_back(targetSelection);
+    
+    for(int i = 0; i < provisTargets.size(); i++) {
+      provisTargets[i] = convertToUpper(provisTargets[i]);
+      manualTargets.push_back(splitCoords(provisTargets[i]));
+
+      //check if coord is in bounds, hasn't been previously targeted and player has enough shots left to complete the action
+      if(isInBounds(manualTargets[i], boardWidth, boardHeight) && previouslyTargeted(manualTargets[i]) == false && manualTargets.size() <= numShots) {
+      //check if coords have been previously selected 
         targetCommand = true;
+        
+      } else {
+        targetCommand = false;
+        manualTargets.clear();
+        provisTargets.clear();
+        break;
       }
-    } else {
-      targetCommand = false;
     }
-  }
-  
-  
-  
-
-  return manualTarget;
+  }  
+  return manualTargets;
 }
 
 string HumanPlayer::declarePlayerName()

@@ -1,11 +1,19 @@
 {
   "files": {
-    "Source/mainMenu.cpp": [
+    "Source/game.cpp": [
       {
-        "id": "22966925-e502-4fae-a553-d46942a4df76",
-        "line": 10,
-        "version": 4859,
-        "index": 218
+        "id": "3103875a-b937-45b6-aa87-e92baa07a1d9",
+        "line": 176,
+        "version": 16062,
+        "index": 5017
+      }
+    ],
+    "Source/humanPlayer.cpp": [
+      {
+        "id": "df758dea-8665-4c03-a895-ea9e8f32b4b3",
+        "line": 31,
+        "version": 4978,
+        "index": 713
       }
     ]
   }

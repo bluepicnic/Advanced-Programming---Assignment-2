@@ -105,6 +105,12 @@ void ui_GameOverText(Player* winner, Player* loser)
   getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
 }
 
+void ui_ContinueText()
+{
+  cout << "Press any key to confirm" << endl;
+  getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
+}
+
 string ui_moveCursorUp(int noLines)
 {
   using std::to_string;

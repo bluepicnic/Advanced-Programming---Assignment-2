@@ -1,4 +1,4 @@
 #pragma once 
 
-//INSERT INPUT PARSING FUNCTIONS HERE 
+//INPUT PARSING FUNCTIONS
 bool validateString(string userInput, regex validation, string errorMessage);

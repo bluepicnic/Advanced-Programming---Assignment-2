@@ -242,7 +242,19 @@ Conversion to letter
 Acknowledge shot -> improved readabiltiy and better practice 
 Main game function / select target / deploy ship -> Moved input out of function to make them pure. Went back and forth on the issue for a while 
 
-
+```
+ /* if (acknowledgement == SpaceState::Hit_Boat) {
+    if (board != 0) return hit_Text; 
+    for (auto& it : mFleet) {
+        for (auto lit : it.reportLocation()) {
+          if (lit.colPos == shotTarget.colPos && lit.rowPos == shotTarget.rowPos) {
+              ackText = it.reportDamageTaken();
+              if (ackText != "") return "\n" + mPlayerName + "'s " + ackText + " has been destroyed!";
+            }
+          }
+      }
+  } */
+  ```
 
 
 

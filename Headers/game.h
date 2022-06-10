@@ -8,12 +8,12 @@ class Game {
     void playGame(); //contains full game loop
     void swapTurn(); //used to change and swap current and inactive players
     string gameType(); //used to get the chosen game type
-    void registerShot(Coordinates target); //resolve chosen player target when firing
+    string registerShot(Coordinates target); //resolve chosen player target when firing
     void gameHeader(); //display information about the current game (type, players, current player etc)
     void setupDisplay(); //display ui elements and respective player boards during setup
     void turnDisplay(); //display ui elements and both boards during respective player turns
-    void resolutionDisplay(string resolutionText);
-    int calculatePlayerShots();
+    bool resolutionDisplay(vector<string> resolutionText);
+    int calculatePlayerShots(GameType mode);
     
         
         

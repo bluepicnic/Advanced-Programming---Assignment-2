@@ -123,12 +123,6 @@ void Player::deployBoats(BoatStatus statusToDeploy)
   }
 }
 
-Coordinates Player::selectTarget()
-{
-  return {9, 1};
-}
-
-
 void Player::displayBoards(int boardNo)
 {
   //determine if the board being displayed is the ship or target board

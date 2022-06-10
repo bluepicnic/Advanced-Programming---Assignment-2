@@ -1,5 +1,5 @@
 /*External dependencies*/
-#include <iostream> //For inputoutput operations
+#include <iostream> //For input/output operations
 #include <vector> //to access the vector variable size data container
 #include <string> //to perform string operations beyond simple C-style char* 
 #include <algorithm> 
@@ -16,15 +16,16 @@
 #include <limits.h>
 
 /*STD namespace functions and types*/
-using std::cout;
-using std::cin;
-using std::stoi;
-using std::endl;
-using std::string;
-using std::vector;
-using std::ifstream;
-using std::regex;
-using std::stringstream;
+//individually included to preserve resources
+using std::cout; //output to the console
+using std::cin; //take input from the console
+using std::stoi; //convert a string to an integer
+using std::endl; //denote the end of a line
+using std::string; //enables the use of the string type
+using std::vector; //enables the use of the vector class
+using std::ifstream; //operates on files
+using std::regex; //enables the use of the regex type, for regular expressions
+using std::stringstream; //used to operate on strings
 using std::setw; //used to set the width of an output stream 
 using std::left; //used to align an input stream to the left
 using std::right; //used to align an input stream to the right

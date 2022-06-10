@@ -199,3 +199,43 @@ regex generateMaxBoatRegex(int sizeOfFleet)
   regex maxBoat(boatRange.str());
   return maxBoat;
 }
+
+//recursive salvo text function
+
+
+vector<string> splitSalvoShots(string &com, vector<string> &targets) 
+{
+  
+  string coord = "";
+  for (int i = 0; i < 2; i++) {
+    string otherCharType = (i == 0) ? numbers : letters;
+
+    size_t strStart = com.find(com.front()); //
+    size_t strEnd = com.find_first_of(otherCharType);
+
+    coord += com.substr(strStart, strEnd);
+    if (strEnd > com.size()) {
+      strEnd = com.size();
+    }
+    com = removeLeadTrailSpaces(com);
+    com = com.substr(strEnd);
+    
+  }
+  targets.push_back(coord);
+
+  if (!(com == "")) {
+    return splitSalvoShots(com, targets);
+  } 
+  
+  return targets;
+}
+
+bool isSalvoGT(GameType currentGM) 
+{
+  return (currentGM == GameType::Salvo_1P || currentGM == GameType::Salvo_2P || currentGM == GameType::Salvo_AI);
+}
+
+bool isInBounds(Coordinates selection, int width, int height)
+{
+  return (selection.colPos < width && selection.rowPos < height);
+}
