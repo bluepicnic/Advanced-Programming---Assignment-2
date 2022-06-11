@@ -56,6 +56,7 @@ int ui_displayBoatPlacement(bool advance)
 
 int ui_displayTargetSelection(bool turnComplete)
 {
+  //display menu elements for player targeting, return selection
   string turnSwapColour = text_Colour_Grey;
   string targetColour = text_Colour_Default;
   
@@ -96,7 +97,7 @@ void ui_TargetSelectionPrompt()
   cout << "Enter a coordinate (E.G. 'b7')" << endl;
 }
 
-void ui_GameOverText(Player* winner, Player* loser)
+void ui_GameOverText(Player* winner, Player* loser) //display winners and losers, and await input to continue
 {
   cout << loser->sayName() <<  " has no more ships left: " << winner->sayName() << " wins!" << endl << endl;
   cout << "GAME OVER" << endl;
@@ -105,7 +106,7 @@ void ui_GameOverText(Player* winner, Player* loser)
   getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
 }
 
-void ui_ContinueText()
+void ui_ContinueText() 
 {
   cout << "Press any key to confirm" << endl;
   getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
@@ -119,13 +120,13 @@ string ui_moveCursorUp(int noLines)
   return cursor;
 }
 
-void ui_saveCursorPos() 
+void ui_saveCursorPos() //save the cursor position within the console
 {
   cout << "\033[s";
   cout.flush();
 }
 
-void ui_returnCursorPos()
+void ui_returnCursorPos() //return the cursor position to the previously saved position
 {
   cout << "\033[u";
   cout.flush();

@@ -2,7 +2,7 @@
 
 //unsure what comes under utilities 
 
-string getSingleKeyInput()
+string getSingleKeyInput() //get input from a single key upon key release
 {
   char buf = 0;
   string rtnStr = "";
@@ -28,7 +28,7 @@ string getSingleKeyInput()
     perror ("read()");
   }
   rtnStr.push_back(buf);
-  old.c_lflag |= ICANON;
+  old.c_lflag |= ICANON; //reset parameters
   old.c_lflag |= ECHO;
 
   //reset parameters once output is "transmitted"
@@ -39,7 +39,7 @@ string getSingleKeyInput()
   return rtnStr;
 }
 
-bool fileExists(string file)
+bool fileExists(string file) //check if the file exists
 {
   struct stat buf;
   if(stat(file.c_str(), &buf) == 0)
@@ -65,7 +65,7 @@ string convertToUpper(string format)
   return format;
 }
 
-string removeLeadTrailSpaces(string stringToChange)
+string removeLeadTrailSpaces(string stringToChange) //remove any return characters from a string
 {
   //find the first and last instance of anything that generates whitespace
 	size_t firstChar = stringToChange.find_first_not_of(" \t\v\r\n"); 
@@ -81,7 +81,7 @@ string getLineSingleKey(regex pattern, string error)
 
   while (isValid != true) { //continue to prompt if input is invalid
     input = getSingleKeyInput(); 
-    isValid = validateString(input, pattern, error);
+    isValid = validateString(input, pattern, error); //check single key is valid based on regex
     
     if (isValid != true) {
       cout << ui_moveCursorUp(1) << clear_Console_Line << error << endl;
@@ -102,24 +102,25 @@ string convertToLetter(int numToConvert)
   string letters = "";
   int remainder = 0;
   while (--numToConvert >= 0) {
-      remainder = numToConvert % 26;
-      char ch = ('A' + remainder);
-      letters += ch;
-      numToConvert /= 26;
+      remainder = numToConvert % 26; //obtain the remainder when divided by 26
+      char ch = ('A' + remainder); //remainder is 0, then the letter is A, otherwise add the remainder
+      letters += ch; //append char to final string
+      numToConvert /= 26; 
     }
-    reverse(letters.begin(), letters.end());
+    reverse(letters.begin(), letters.end()); //letters are appended in reverse order
     return letters; 
 }
 
-int convertFromLetter(string charsToConvert) 
+int convertFromLetter(string charsToConvert)  //convert a letter to a number to access board array positions
 {
+  //assume that string has been capitalised
   int index = 0;
   int ch = 0;
   char current = '-';
   for (int i = 0; i < charsToConvert.size(); i++) {
     current = charsToConvert[i]; 
-    ch = current - 65;
-    index += ch * pow(26, (charsToConvert.size() - i) - 1); //something like this...
+    ch = current - 65; //subract the ascii value that's at the start of the alphabet (capitalised)
+    index += ch * pow(26, (charsToConvert.size() - i) - 1); //multiply by a magnitude of 26 (alphabet length) if more than one letter is included to facilitate larger board sizes
   }
 
   return index;
@@ -130,10 +131,11 @@ string getLineString(regex pattern, string error) {
   string inputStr = "";
 
   while (validString != true) {
-    getline(cin, inputStr);
-    validString = validateString(inputStr, pattern, error);
+    getline(cin, inputStr); 
+    validString = validateString(inputStr, pattern, error); //check string validity
     ui_returnCursorPos();
-    cout << "\x1b[0J\r";
+    
+    cout << clear_Console_Screen_Bottom; //clear screen to the bottom 
     cout << clear_Console_Line <<  error;
     cin.clear();
     if (validString == true) {
@@ -161,7 +163,7 @@ vector <string> separateCommands(string command)
   orientation = removeLeadTrailSpaces(orientation);
   
 
-  commands.insert(commands.end(), {idNo,coordinate, orientation});
+  commands.insert(commands.end(), {idNo,coordinate, orientation}); //push back, for multiple values
   return commands;
 }
 
@@ -203,19 +205,19 @@ regex generateMaxBoatRegex(int sizeOfFleet)
 //recursive salvo text function
 
 
-vector<string> splitSalvoShots(string &com, vector<string> &targets) 
+vector<string> splitSalvoShots(string &com, vector<string> &targets) //recursive function
 {
   
   string coord = "";
-  for (int i = 0; i < 2; i++) {
-    string otherCharType = (i == 0) ? numbers : letters;
+  for (int i = 0; i < 2; i++) { //coordinates always come in pairs
+    string otherCharType = (i == 0) ? numbers : letters; //search for the next instance of a letter/number depending on which term was searched for first
 
-    size_t strStart = com.find(com.front()); //
-    size_t strEnd = com.find_first_of(otherCharType);
+    size_t strStart = com.find(com.front()); //get the start of the remaining string
+    size_t strEnd = com.find_first_of(otherCharType); //find the next half of the coordinate
 
     coord += com.substr(strStart, strEnd);
-    if (strEnd > com.size()) {
-      strEnd = com.size();
+    if (strEnd > com.size()) { //continue until no further letter/number matches can be found
+      strEnd = com.size(); //set to end of the string to avoid errors
     }
     com = removeLeadTrailSpaces(com);
     com = com.substr(strEnd);
@@ -224,7 +226,7 @@ vector<string> splitSalvoShots(string &com, vector<string> &targets)
   targets.push_back(coord);
 
   if (!(com == "")) {
-    return splitSalvoShots(com, targets);
+    return splitSalvoShots(com, targets); //repeat if string isn't empty
   } 
   
   return targets;

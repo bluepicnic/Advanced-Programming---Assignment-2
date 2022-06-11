@@ -1,13 +1,12 @@
 #include "../Headers/headers.h"
-
-Board::Board()
+Board::Board() 
 {
-  //initialise Board member variables on creation
+  
 }
 
 Board::Board(int width, int height)
 {
-  //set simple (primitive) variables the usual way
+  //initialise Board member variables on creation
   mWidth = width;
   mHeight = height;
 
@@ -21,7 +20,7 @@ Board::Board(int width, int height)
       tmpSpaces.push_back({i, j}); 
     } 
     spaces.push_back(tmpSpaces);
-    tmpSpaces.clear(); //reset the temp vector after each line is initialised
+    tmpSpaces.clear(); //reset after each line 
   }
 }
 
@@ -136,8 +135,6 @@ void Board::setStateColour(Coordinates colourLocation)
       break;
     }
     
-    //case SpaceState::Hit_Mine: 
-    //case SpaceState::Hit_Mine_And_Boat:
     default: {
       stateColour = text_Colour_Default;
       break;

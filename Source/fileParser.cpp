@@ -19,7 +19,7 @@ void parseFile(Board boards[], vector<Ship> &ships)
   } 
   else {
     while (!configFile.eof()) { //obtain game configuration info line by line
-      getline(configFile, type, ':'); //Each line starts the type of setup information it is providing
+      getline(configFile, type, ':'); //Each line states the type of setup information it is providing
       type = convertToLower(type); //ignore case 
       
       if (type == "board") //if its the first line of the file, setup type will be board
@@ -51,7 +51,7 @@ void parseFile(Board boards[], vector<Ship> &ships)
         getline(configFile, line);
         parameters = extractFileParameters(line, ',');
 
-        //prepare extracted ship elements for a temporary ship, which we'll push back into a player's boat vector
+        //prepare extracted ship elements for a temporary ship, which we'll add into a player's boat vector
         string shipName = removeLeadTrailSpaces(parameters[0]);
         int sizeHealth = stoi(removeLeadTrailSpaces(parameters[1]));
         Ship tmpShip(shipName, sizeHealth, index);

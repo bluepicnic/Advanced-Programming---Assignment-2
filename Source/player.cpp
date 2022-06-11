@@ -220,40 +220,23 @@ shipCounts Player::reportBoatCounts()
 string Player::acknowledgeShot(int board, Coordinates shotTarget, SpaceState acknowledgement)
 {
   string ackText = "";
-  //make acknowledge shot return a string. 
-  //return hit_text as part of if statement chain if target board is being updated
-  //if it a ship board, return text from report damage taken. Just the name if alive, extra text if destroyed. 
-  //otherwise return miss text. 
-  mPlayerBoards[board].updateBoard(shotTarget, acknowledgement);
+ 
+  mPlayerBoards[board].updateBoard(shotTarget, acknowledgement); 
 
-  if (acknowledgement != SpaceState::Hit_Boat) return miss_Text;
+  if (acknowledgement != SpaceState::Hit_Boat) return miss_Text; //if a hit is not registered, return miss text
 
-  if (board != 0) return hit_Text;
+  if (board != shipboard) return hit_Text; //if the board being updated is the ship board, only return hit text
 
+  //otherwise search the player's ships for the current player's targeted coordinate, and display extra text if ship at that position is destroyed
   for (auto& it : mFleet) {
         for (auto lit : it.reportLocation()) {
           if (lit.colPos == shotTarget.colPos && lit.rowPos == shotTarget.rowPos) {
-              ackText = it.reportDamageTaken();
+              ackText = it.reportDamageTaken(); //opposition player declares the name of the ship when it is destroyed
               if (ackText != "") return "\n" + mPlayerName + "'s " + ackText + " has been destroyed!";
 
               else return ackText;
           }
         }
  }
-  
-
-  
-  
- /* if (acknowledgement == SpaceState::Hit_Boat) {
-    if (board != 0) return hit_Text; 
-    for (auto& it : mFleet) {
-        for (auto lit : it.reportLocation()) {
-          if (lit.colPos == shotTarget.colPos && lit.rowPos == shotTarget.rowPos) {
-              ackText = it.reportDamageTaken();
-              if (ackText != "") return "\n" + mPlayerName + "'s " + ackText + " has been destroyed!";
-            }
-          }
-      }
-  } */
   return "Shot has not been acknowledged"; 
 }

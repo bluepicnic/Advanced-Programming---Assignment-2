@@ -3,29 +3,60 @@
 
 ## Challenge Outline (academic standard: pass level detail: section required for pass) – 10%
 ### a. Summary and review of the problem, overall proposed solution.
-The problem 
-Creation of Battleship (adaship)
+The problem I decided to tackle for my project was that of the game Battleship. (named adaship for the sake of this assignment) The game itself features two opposing players attempting to guess the placements of boats of varying sizes on one of two game boards while recording their guesses on another. Successful guesses are marked as hits on both the "ship" and "target" boards, while unsuccessful ones marked as misses on the target board of the current player. The game ends when all of a player's ships have been "destroyed" by idenifying their locations. 
+
+Battleship is typically played with board game apparatus, phyiscal pieces with a pinholed board. It can also be played using pen and paper. This disconnect between a strongly physical method of play proves the concept for its transition to other mediums. The project itself attempted to recreate battleship in a command line computer terminal interface, using the C++ programming language. In addition, I made attempts to expand upon the base game by including an additional game mode, as well as a variety of options for gameplay, such as AI opponents, Player Vs Player games and AI only games. 
+
+From the inception of the project, there were already a substantial amount of additional aspects to consider, beyond the scope of a physical game. These considerations included having to manage Players within the game and their associated data, as well as turn order and handling. 
+
+Previously physical aspects of the game were required to be represented visually, such as boards and boats. Both of which needed to be managed in such a way that physical "space" was constitued as locations made up of underlying data structures. This necessitated the need for graphics and rigourous output manipulation to represent these aspects accurately. In addition, tasks which make up the component phases of the game, such as boat placement onto player boards, and the firing of rockets on player turns demanded a procedural and much more manual approach far removed from simply placing a peg in a hole or writing a symbol on a grid by hand. The logic for this, of course, was to be programmed into my project by way of taking and appropriately handling player input. This presents its own set of problems as the coordinate space within battleship is denoted by a "letter number" format, with the Y axis travelling down. The solution to this was to include some form of number to letter conversion. In the case of an AI player, they would be required to act independently, without player input guiding their direct decision making. 
+
+The lack of a physical play area, restricted as such due to the nature of a command line console, also meant that the visual and logical parts of the game were naturally separated. As such, the physical aspects of the game were be tracked meticulously in order to avoid a disconnect between the visual and logical parts of the game.
+
+Details such as the size of the board and information of the ships as part of the game were to be included in an external file that data would be read from. 
+
+Overall, there were many other characteristics to consider beyond the rules and concepts that make up the battleship game itself. How I utilised, grouped and manipulated data, how my algorithms were presented and how logic flowed throughout my project were all strong considerations that I took great care in designing and evaluating as I continued my development. 
 
 ### b. UML style diagram illustrating initial overall solution (linked to 1a)
 
-Initial problem which did not include utility functions and overall globally used functions that were not tied to an object. However, these were considered alongside objects
+![Initial solution design in UML Class diagram format](Images/BattleshipAssignmentUML.png) 
+
+The UML diagram, found above, 
+Initial problem design which did not include utility functions and overall globally used functions that were not tied to an object. However, these were considered alongside objects
 
 ### c. Initial working plan, overall approach, development strategy and approach to quality (linked to 1a,1b).
 Breaking down (not just mentally ;) ) actively defining the actions my system was going to take.
 
-Tackling no more than 4 related tasks at a time (although as time went on I found myself getting sidetracked )
+Tackling no more than 4 related tasks at a time (although as time went on I found myself getting sidetracked ),
+
+
+
+Approach to quality & development strategy
+Testing Regularly 
+Code refactoring 
+Deign Patterns
+
 
 
 
 
 ### d. Analysis and decomposition of the overall problem into key ‘epic’ style tasks (linked to 1b, 1c).
+In order to effectively develop the application portion of my project, I made sure during the planning and preparation phases, as well as , to analyse the 
+
+
 Made use of Jira to consider high level tasks and concepts
 Wider considerations such as game modes and overall handling of particular functionality (file, input parsing)
 
 
+
+
 ### e. Initial object-oriented design ideas and planned phased breakdown into smaller tasks (linked to 1d).
-Later broke down into smaller individual tasks based on actions each object needed to take 
-Initially done from a physical battleship game point of view, was then adapted from a programming perspective 
+Later broke down into smaller individual tasks based on actions each object needed to take. 
+
+Was able to eaily identify the bigger picuture, but struggled with specifics. Especially with regards to future-proofing my work for later development phases 
+
+
+Initially done from a physical battleship game point of view when considering EPICs, was then adapted from a programming perspective to suit the needs of encapsulation, abstraction 
 
 ----
 

@@ -4,10 +4,6 @@
 
 void mainMenu()
 {
-  vector<string> aaaaaa = {};
-  string ooooh = "aa11bb22cc33";
-  aaaaaa = splitSalvoShots(ooooh, aaaaaa);
-  
   int selection = -1; //all valid menu inputs are positive integers, so initialise as a negative
   string selectionString = "";
   do { //outer game loop, all other game functions originate from here

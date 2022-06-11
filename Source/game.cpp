@@ -122,60 +122,62 @@ bool Game::setup()
 void Game::playGame()
 {
   bool gameOver = false;
-  Coordinates target; //coordinate used to reflect changes to opposing boards
-  vector<Coordinates> targets;
+  Coordinates target; //reflect changes to opposing boards
+  vector<Coordinates> targets; //capture multiple targets in salvo game mode,  default container for player targeting input 
 
-  vector<string> shotOutcomes;
+  vector<string> shotOutcomes; //store outcome text strings 
   int noShots = 1;
   int remainingShots = 0;
   shipCounts oppBoats = {}; //track total & currently deployed ships of the opposing player
   
   bool setupComplete = setup();
-  //swapTurn();
+
+  //reset current and inactive player numbers after setup to maintain the player turn order
   mCurrentPlayer = 0;
   mInactivePlayer = 1;
-  noShots = calculatePlayerShots(mGameMode);
+  noShots = calculatePlayerShots(mGameMode); //number of shots allowed per turn depending on game mode
   
   while(gameOver != true && setupComplete == true) {
-    int targetMethod = -1;
+    //reset every time
+    int targetMethod = -1; 
     mGameState = GameState::Firing;
-    shotOutcomes.clear();
+    shotOutcomes.clear(); //remove remaining outcome text from the previous turn
     
     turnDisplay();
 
     //ai selection
-    //generate two numbers
     if (mPlayers[mCurrentPlayer]->isHuman() != true) {
-      if (noShots == 0) {
-        targetMethod = 3;
+      if (noShots == 0) { 
+        targetMethod = 3; //swap turn
       } else {
-        targetMethod = 2;
+        targetMethod = 2; //auto fire
       }
     }
     else {
-      //display turn menu and take player input
+      //display turn menu and take human player input
       targetMethod = ui_displayTargetSelection(noShots == 0);
     } 
 
       switch(targetMethod) {
         case 1 : {
-          if (noShots > 0) {
+          if (noShots > 0) { //menu option does nothing if player is out of shots
             ui_TargetSelectionPrompt();
             targets = mPlayers[mCurrentPlayer]->selectTarget(mGameMode, noShots);
 
+            //loop through collected coordinates from player input
             for (int i = 0; i < targets.size(); i++) {
-              shotOutcomes.push_back(registerShot(targets[i]));
-              noShots--;
+              shotOutcomes.push_back(registerShot(targets[i])); //register shot result, and collect the outcome string
+              noShots--; 
             }
-            gameOver = resolutionDisplay(shotOutcomes);
+            gameOver = resolutionDisplay(shotOutcomes); //display outcome and resolve game over state, if applicable
           }
           break;
         }
         case 2: {
-          if (noShots > 0) {
+          if (noShots > 0) { //menu option does nothing if player is out of shots
             for (remainingShots = noShots; remainingShots > 0; remainingShots--) {
               target = mPlayers[mCurrentPlayer]->autoTarget();
-              shotOutcomes.push_back(registerShot(target));
+              shotOutcomes.push_back(registerShot(target)); //register shot outcome
               noShots--;
             }
             gameOver = resolutionDisplay(shotOutcomes);
@@ -194,14 +196,6 @@ void Game::playGame()
           return;
         }  
       }
-  
-  //FOR SALVO
-  //Need to stop turn swapping if shots are remaining
-  //otherwise show continue text
-  //this will allow some shots to be taken manually
-  //include an option for a single shot and all remaining shots
-    
-    
     
   }
 }
@@ -219,7 +213,7 @@ void Game::swapTurn()
   }
 }
 
-Player* Game::generatePlayers(int selection, int index)
+Player* Game::generatePlayers(int selection, int index) //create a dynamic player, based on game mode 
 {
   //Player 1 will always be human unless its AI vs AI
   if (index == 0 && (selection % 3 != 0)) {
@@ -230,7 +224,7 @@ Player* Game::generatePlayers(int selection, int index)
   }
 
   //Player 2 will be an AI unless its a multiplayer game 
-  if (index == 1 && (selection != 2 && selection != 5 && selection != 8)){
+  if (index == 1 && (selection != 2 && selection != 5)){
     return new AIPlayer(index);
   }
   else if (index == 1) {
@@ -257,12 +251,6 @@ GameType Game::selectGameType(int selection)
       break;
     case 6: return GameType::Salvo_AI;
       break;
-    case 7: return GameType::Mines_1P;
-      break;
-    case 8: return GameType::Mines_2P;
-      break;
-    case 9: return GameType::Mines_AI;
-      break;
     default: return GameType::Invalid_Game;
     
   }
@@ -271,14 +259,10 @@ GameType Game::selectGameType(int selection)
 string Game::gameType()
 {
   string gameMode = "Regular";
-  if (mGameMode == GameType::Salvo_1P || mGameMode == GameType::Salvo_2P || mGameMode == GameType::Salvo_AI) {
+  if (isSalvoGT(mGameMode)) { //change game title text depending on the game mode
     gameMode = "Salvo";
   }
   
-  else if (mGameMode == GameType::Mines_1P || mGameMode == GameType::Mines_2P || mGameMode == GameType::Mines_AI) {
-    gameMode = "Mines";
-  }
-
   gameMode += " game - ";
 
   return gameMode;
@@ -287,6 +271,7 @@ string Game::gameType()
 
 void Game::gameHeader() 
 {
+  //change the text of the game header during setup and normal gameplay
   string currentState = "";
   if(mGameState == GameState::Setup) {
     currentState = " game setup";
@@ -340,29 +325,32 @@ string Game::registerShot(Coordinates target)
 
 bool Game::resolutionDisplay(vector<string> resolutionText)
 {
-  mGameState = GameState::Resolution;
+  mGameState = GameState::Resolution; //update game state 
   
-  turnDisplay();
-  for (auto it : resolutionText) {
+  turnDisplay(); //display boards during resolution 
+  for (auto it : resolutionText) { //output outcome text
     cout << it << endl << endl;
   }
 
+  //check if shots this turn resulted in the game ending and display the resolution text associated with that
   shipCounts oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
     if (oppBoats.shipsAfloat == 0)
     {
       ui_GameOverText(mPlayers[mCurrentPlayer], mPlayers[mInactivePlayer]);
+      mGameState = GameState::End;
       return true;
     }
-  ui_ContinueText();
+  ui_ContinueText(); //otherwise continue with gameplay and display relevant text
   return false;
 }
 
 int Game::calculatePlayerShots(GameType mode) 
 {
+  //number of shots during a salvo game are calculated based on the number of ships still active
   int currentBoats = mPlayers[mCurrentPlayer]->reportBoatCounts().shipsAfloat;
   
   if (isSalvoGT(mode)) {   
       return currentBoats;
     }
-    else return 1;
+    else return 1; //only one shot per turn during a normal game
 }

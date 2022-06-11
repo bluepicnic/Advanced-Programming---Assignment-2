@@ -12,11 +12,7 @@ enum class GameType {
   Invalid_Game, Regular_1P, Regular_2P, Regular_AI, Salvo_1P, Salvo_2P, Salvo_AI
 };
 
-enum class Direction {
-  North, East, South, West
-};
-
-enum class GameState {
+enum class GameState { //track the state of the game throughout 
   Invalid, Setup, Firing, Resolution, Swap_Turn, End
 };
 
@@ -27,7 +23,7 @@ struct Coordinates {
 
 struct Space {
   
-  Space(int col, int row)
+  Space(int col, int row) //initialise values
   {
     location.colPos = col;
     location.rowPos = row;
@@ -42,7 +38,7 @@ struct Space {
   string outputColour;
 };
 
-struct shipCounts {
+struct shipCounts { 
   int totalShips;
   int shipsAfloat;
 };

@@ -9,7 +9,7 @@ Ship::Ship(string name, int size, int index)
   mStatus = BoatStatus::Inactive;
 }
 
-void Ship::vesselStatusReport()
+void Ship::vesselStatusReport() //display ship information during deployment
 {
   stringstream boatSpaces; 
   
@@ -53,12 +53,12 @@ int Ship::reportSize()
 
 string Ship::reportDamageTaken() 
 {
-  mHealth--;
+  mHealth--; //reduce health when hit
   if (mHealth == 0) {
     updateStatus(BoatStatus::Destroyed);
-    return mName;
+    return mName; //declare the name of the destroyed ship
   }
-  return "";
+  return ""; 
 }
 
 void Ship::updateLocation(vector<Coordinates> shipCoords)

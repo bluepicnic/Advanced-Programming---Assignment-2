@@ -4,7 +4,7 @@
 AIPlayer::AIPlayer(int playerNo)
 {
   playerNo++; //number to be used as part of player name, is increased by 1 here to represent a non 0 number (if an AI is the first player)
-  stringstream playerNameNo; //use a stringstream to avoid casting
+  stringstream playerNameNo; //use a stringstream to display raw data
   playerNameNo << "Player " << playerNo;
   mPlayerName = playerNameNo.str();
 }
@@ -15,7 +15,7 @@ AIPlayer::~AIPlayer()
 
 }
 
-bool AIPlayer::isHuman() 
+bool AIPlayer::isHuman() //confirm player is an AI player
 {
   return false;
 }
