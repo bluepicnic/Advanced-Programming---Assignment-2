@@ -117,10 +117,11 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
   int index = 0;
   int ch = 0;
   char current = '-';
+  
   for (int i = 0; i < charsToConvert.size(); i++) {
     current = charsToConvert[i]; 
     ch = current - 65; //subract the ascii value that's at the start of the alphabet (capitalised)
-    index += ch * pow(26, (charsToConvert.size() - i) - 1); //multiply by a magnitude of 26 (alphabet length) if more than one letter is included to facilitate larger board sizes
+    index += ch * pow(26, (charsToConvert.size() - i) - 1); //multiply by an order of 26 (alphabet length) if more than one letter is included, to facilitate larger board sizes
   }
 
   return index;

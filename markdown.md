@@ -17,43 +17,47 @@ Details such as the size of the board and information of the ships as part of th
 
 Overall, there were many other characteristics to consider beyond the rules and concepts that make up the battleship game itself. How I utilised, grouped and manipulated data, how my algorithms were presented and how logic flowed throughout my project were all strong considerations that I took great care in designing and evaluating as I continued my development. 
 
+
+
 ### b. UML style diagram illustrating initial overall solution (linked to 1a)
 
 ![Initial solution design in UML Class diagram format](Images/BattleshipAssignmentUML.png) 
 
-The UML diagram, found above, 
-Initial problem design which did not include utility functions and overall globally used functions that were not tied to an object. However, these were considered alongside objects
+The UML diagram, found above, represents the initial design of my system, including the classes and objects found within, and their relationships with one another. The classes themselves (and by extention their relationships) did not change in my final program, nor were any additional ones added, but the data within them, such as variables and functions changed significantly in my final implementation. Various enumerated types were also included. Some concepts within, such as the AI player classes' "mPreviousTarget" and "mSearchDirection" went unused and were ultimately removed in the final version of my system.
+
+Some aspects of this initial design misinterpreted and misunderstood how levels of abstraction and access modifiers work within C++, as well as the intricaies of run-time polymorphism in the language. For example, the recallBoat function, found only in the human player class would not be callable from parts outside of the HumanPlayer class in the design shown above. In order for the initial design to work, the function would also need to be present in the base class and in the AIPlayer class as well, since the player type represented in the "Game" class were base class pointers. In my final implementation, this function was moved to the main game class, in order to avoid any redundant code.
+
+My initial problem design diagram did not include utility functions and overall globally used functions that were not tied to an object. However, these were considered alongside objects when conceptualising my program. 
 
 ### c. Initial working plan, overall approach, development strategy and approach to quality (linked to 1a,1b).
-Breaking down (not just mentally ;) ) actively defining the actions my system was going to take.
 
-Tackling no more than 4 related tasks at a time (although as time went on I found myself getting sidetracked ),
+My initial working plan was to actively define the systems my action was going to take, breaking down various tasks from the overall proposed solution. I then initially tackled various tasks that were identified to be independent from any object, such as input and file parsing functions, before constructing the objects and user-defined types outlined in my UML that made up the component parts of my game, which was followed by defining the logic that encompassed the game itself.
 
+The overall approach that I took was to tackle no more than 4 related tasks at any given time which were tracked via the Jira board I made for the project. This allowed me to work in an agile way and encouraged a regular review of the status of the tasks I was actively working on.  While I wasn’t able to work in a sprint or scrum style due to time constraints, I did reflect on the tasks I was managing and moved tasks between my defined swim lanes on a regular basis according to their status. As the project progressed, this approach became more difficult as more complex “smaller” tasks contained a number of smaller tasks that were harder to track, especially when these tasks promoted major refactoring or restructuring of my code. I made attempts throughout to “future proof” my code for later phases of development in order to mitigate this in advance, so not to take up valuable development time. 
 
-
-Approach to quality & development strategy
-Testing Regularly 
-Code refactoring 
-Deign Patterns
-
-
-
+My approach to quality and development strategy consisted of a regular testing strategy as features and milestones were being developed, which ensured that I failed often and made effective attempts to resolve any issues. I also consistently refactored my code as the project progressed which improved its readability, and in some cases, the logic and flow. This included extracting functionality from parts of the program and placing them in their own functions, renaming variables and overall improving logic flow. I also followed various tried and tested design patterns such as abstract factories and finite state machines in my solution to provide solid bases from which to further implement my functionality and maintain an object-oriented development strategy.
 
 
 ### d. Analysis and decomposition of the overall problem into key ‘epic’ style tasks (linked to 1b, 1c).
-In order to effectively develop the application portion of my project, I made sure during the planning and preparation phases, as well as , to analyse the 
+In order to effectively develop the application portion of my project, I made sure during the planning and preparation phases, to analyse the overall task at hand and decompose aspects of game into “epic” style tasks. These would later be broken down into more specific tasks.
+Per the assignment brief, this included general gameplay considerations for the base battleship game, in addition to game modes that would be potentially implemented in later development phases, such as the “salvo” and hidden mines game modes. 
+There were also a number of wider considerations which comprised of problems that I identified before overall development began, namely menu creation & layout, input parsing, and file management. These were issues that I believed would take up a considerable amount of development time and resources, as well as being integral to the functionality of the game itself.  As such, these issues deserved their own “epics” to group sub-tasks under and were tracked alongside other wider issues. 
+I also included the setup phase of the battleship game as its own “epic” for similar reasons. As identified in section 1A of this report, there are aspects of the battleship game that become more convoluted and involved when the physical mediums of the game are taken away. Add to this fact that extra, computer game only functionality needed to be added on top, such as auto-placing boats during the setup phase, resulted in the “game setup” being allocated its own high-level task. 
+The final two “epics” I incorporated were related to the behaviour and logic behind the two inherited and derived classes of the player object, Human and AI players. Similar to the setup phase, the concept of a player for use in the command line console adaptation of battleship is much more complex than it is for the physical game. Not only are human players allowed to manually place ships much like they do in the physical game, but can also do so automatically with a randomised location. The assignment brief specifically calls for auto placement of a single boat, available boats (i.e. those not already placed, and all boats, which each come with their own challenges. The same applies to an AI player, which is a fresh consideration for the adapted game. While their decision making and mechanical navigation of the game is much more pre-determined, extra care needed to be taken to ensure an AI player is bound to the same rules as a human one. 
 
-
-Made use of Jira to consider high level tasks and concepts
-Wider considerations such as game modes and overall handling of particular functionality (file, input parsing)
-
-
+I made use of the issue tracking software “Jira” to consider high level tasks and concepts, visualise progress through swimlanes and categorise tasks under “epics”.
 
 
 ### e. Initial object-oriented design ideas and planned phased breakdown into smaller tasks (linked to 1d).
+
+
+Polymorphism -> player classes. Did consider different game types.
+
+Abstraction ->Initially tried to make all member variables private to maintain encapsulation. Had to move some to private 
+
 Later broke down into smaller individual tasks based on actions each object needed to take. 
 
-Was able to eaily identify the bigger picuture, but struggled with specifics. Especially with regards to future-proofing my work for later development phases 
+Was able to eaily identify the bigger picture, but struggled with specifics. Especially with regards to future-proofing my work for later development phases. 
 
 
 Initially done from a physical battleship game point of view when considering EPICs, was then adapted from a programming perspective to suit the needs of encapsulation, abstraction 
@@ -130,7 +134,9 @@ One aspect of the "good" standards I always pay close attention to are the namin
 
 Stroustrup recommends that his rules should be used as a guideline only if there are no solid standards to adhere to or if the developer has no better ideas. With that in mind, I adapted some of his standards and applied some of my own preferences to create the programming style which I attempted to consistently follow throughout the project.  
 
-The next set of standards all related to indentation, spacing, and alignment. 
+The next set of standards all related to indentation, spacing, and alignment.
+
+
 
 Indentation style is Stroustrup, with { used on the same line except when implementing a function. New lines are used when determining logic flow to improve readability by controlling the verticality of my code. 
 
@@ -139,8 +145,8 @@ Indentation style is Stroustrup, with { used on the same line except when implem
 7. Be consistent when aligning braces; use a vertically or slanted style.
 
 8. Avoid deep nested conditionals. - Max 3 in player boat placement, 4 is seen as a soft limit
-10. Keep variable lifetimes and scope as short and as small as possible. -> doesn't apply to constants, all others are reasonably placed
-11. Avoid multipurpose functions and variables. (maybe remove this one)
+10. Keep variable lifetimes and scope as short and as small as possible. -> doesn't apply to constant strings , all others are reasonably placed
+
 12. Conserve system resources. -> Use of pointers is handled appropriately, headers are all included appropriately, stupid clear screen function has no other use. Methods in std namespace are all called individually. Single use methods were kept in local scope, multi-use ones were called globally to reduce repetition 
 13. Minimise forced type conversion, coercion, or casting. -> only use stoi which is valid, char directly maps to int using ASCII, no explicit casting 
 14. Know and test your code: adopt a personal and rigorous testing strategy; don’t just see it if works - test and fix its limits. -> tested regularly 
@@ -148,23 +154,40 @@ Indentation style is Stroustrup, with { used on the same line except when implem
 
 ### b. Phase 1 development: tasks, code review and changes (linked to 1d,1e).
 
-
-
-
+##### Tasks
++ Setup of classes
++ Initial input
++ instatntiation of main class
++ File parsing
 
 Phase 1 development consisted of wider helper functions that dealt with output, input and file parsing and implementing polymorphism. 
 Considered how current code state would affect future development during review. 
 
+##### Code review
++ commit 7. bugs, formatting style incosistencies
++ earlier commits, temp variable names; lots of code in wrong places (main menu.cpp)
++ things that were removed
+
+##### Changes
+Due to this being the first development phase with few intricate implementations, there were fewer opportunites to refactor than in later phases. However, at this end of this phase I saw a good time to refactor my file parsing function. This mainly consisted of grouping like statements together, somtimes onto single lines where formatting was concerned, in order to save vertical space, improve readability, and prevent basic forms of repitition. It was also during this phase were I commited to my brace alignment style, so various refactoring tasks also surrounded bringing those in line with my style.  
+
+In later phases and for the remainder of development, I refactored during and after a development phase was complete. This was to ensure my code was of a quality standard throughout. 
+
+
 Initial structure of many classes changed. Initially over-relied on pointers, but scaled their uses back to just the abstract player class. Which wasn't originally meant to remain an abstract class.
 
-Refactored during and after a development phase was complete.
+
 
 Mostly the creation of classes and member functions
+
 ### c. ..repeated for each development phase.
+
 #### Phase 2 - Various input and output developments, manipulation of input data
 ##### Tasks
++ 
 ##### Code Review
 ##### Changes
+
 #### Phase 3 - Interaction with defined objects, Game loops and implementation 
 ##### Tasks
 ##### Code Review
@@ -215,7 +238,7 @@ Player* Game::generatePlayers(int selection, int index) {
 ```
 This decision in itself created its own design challenge from a programming perspective, which I subverted and managed through knowledge of the problem I was trying to solve (the creation of a game of battleship) and prior programming experience. The design challenge related to the use of pointers and the potential for memory leaks when not releasing allocated dynamic memory, which would waste precious system resources and could eventually bottleneck the program during runtime if left unchecked. This was managed by using C++'s delete keyword to deallocate the memory reserved for player objects whenever a game ends. Since Player class instances are members of my Game class, their lifetime is directly tied to the scope of my Game class instance, and all that needed to be done was clear up any memory allocated as a result of my use of pointers at the point of which the game instance is destroyed. 
 
-In the end though, I didn't end up taking this implementation of pointers and runtime polymorphism as far as I could have, where more complex implementations, such as the inclusion of a more sophisticated ship targeting algorithm for AI players, would have been beneficial and made logical sense in terms of design. My initial design ideas had these extended  pieces of functionality in mind, but I ultimately never got around to implementing them. Regardless, my final class designs are well equipped for any future implementations. 
+In the end though, I didn't end up taking this implementation of pointers and runtime polymorphism as far as I could have, where more complex implementations, such as the inclusion of a more sophisticated ship targeting algorithm for AI players, would have been beneficial and made logical sense in terms of design. Instead, my AIPlayer class contains a mandatory implementation of a virtual function which simply cals a function from the base class. My initial design ideas had these extended pieces of functionality in mind, but I ultimately never got around to implementing them. Regardless, my final class designs are well equipped for any future implementations. 
 
 Another design challenge I identified early on was the storing of each player's boards (both the ship and targeting board) and subsequently displaying them. The boards themselves are arranged in a grid across two axis with specific reference notations assigned to each (A number for the row and letter for the column). From the beginning I strongly believed that this reference notation lent itself quite well to a two dimensional array, as two separate locations in both the x and y axis needed to be specified as standard. These could then be directly mapped to locations in each of the arrays. An important point when considering this method was whether the notation was ascending or descending in the Y axis, as the former would make it considerably more difficult to map reference values to specific array nodes, thankfully, the Y axis is descending in a game of battleship. With a data structure chosen, I then needed to decide what each individual array node represented. The board itself was to be represented in a class of its own which housed the aforementioned array. It therefore made sense that each node would represent an individual space, or coordinate on the board. This was represented by my user-defined Space type, the implementation of which can be seen below:
 ```
@@ -243,20 +266,41 @@ Converting input and output values to and from letters was also a design challen
 
 Both solutions to each of these problems exploit ASCII character values in C++'s char type, which directly correlate to integer values 0 to 255. In the case of converting to a letter, the value used to represent each character starts at 'A' (integer value 65) and the remainder of a division between the number to convert and the length of the alphabet (26) is added to the character value. The resulting character is added to a cumulative string and repeated by dividing the number to convert by 26 and repeating while the value is positive. This approach allows for any number to be converted in to what is essentially a base 26 value, and is highly reusable beyond the needs of the project, since essentially any number can be converted into its letter equivalent.
 
-The same applies to the 
+```
+string convertToLetter(int numToConvert) 
+{
+  string letters = "";
+  int remainder = 0;
+  while (--numToConvert >= 0) {
+      remainder = numToConvert % 26; //obtain the remainder when divided by 26
+      char ch = ('A' + remainder); //remainder is 0, then the letter is A, otherwise add the remainder
+      letters += ch; //append char to final string
+      numToConvert /= 26; 
+    }
+    reverse(letters.begin(), letters.end()); //letters are appended in reverse order
+    return letters; 
+}
+```
 
+The same applies to the case of converting from a letter, except the ASCII character value for 'A' was subtracted from the overall value in order to figure out which number the input string represented. A similar approach was taken as before, in which a cumulative value is added to. This time an integer, using the "cmath" library's "pow" function to multiply the value to be appended by 26 to the order of the current length of the string minus the index of the current character which facilitates and correctly handles additional letters included with larger board sizes and the mathematical complexity it adds to the program. 
 
+```
+int convertFromLetter(string charsToConvert)  //convert a letter to a number to access board array positions
+{
+  //assume that string has been capitalised
+  int index = 0;
+  int ch = 0;
+  char current = '-';
+  
+  for (int i = 0; i < charsToConvert.size(); i++) {
+    current = charsToConvert[i]; 
+    ch = current - 65; //subract the ascii value that's at the start of the alphabet (capitalised)
+    index += ch * pow(26, (charsToConvert.size() - i) - 1); //multiply by an order of 26 (alphabet length) if more than one letter is included, to facilitate larger board sizes
+  }
 
-
-
-
-
-
-
-
-Conversion to and from letters 
-Converting to a letter was required for output purposed to reflect actual playable area
-Converting from a letter was required to access specific data structure instances 
+  return index;
+} 
+```
 
 
 ## 3. Evaluation (academic standard: distinction level detail: section required for distinction) – 10%
@@ -388,6 +432,7 @@ In addition, singletons break the single responsibility principle and are hard t
 
 
 ### c. Features showcase and embedded innovations (with examples) - opportunity to ‘highlight’ best bits.
+
 
 Conversion of letters to numbers and vice versa
 Relevant state machines
