@@ -50,17 +50,22 @@ I made use of the issue tracking software “Jira” to consider high level task
 
 ### e. Initial object-oriented design ideas and planned phased breakdown into smaller tasks (linked to 1d).
 
+As part of my initial design, I considered various object-oriented design ideas in order to make use of them effectively within my program. This came as part of breaking down tasks into epics and developing my UML diagram, with various objects and concepts in mind.
 
-Polymorphism -> player classes. Did consider different game types.
+The design first idea I contemplated was that of Polymorphism, a key object orientation paradigm that promotes re-use and dynamic processing of data. The type of polymorphism I focussed on was that of run-time polymorphism, which I believed would be well suited to the different game types on offer, due to their similar implementations with ultimately different attributes. However, upon reflection, the unique aspects of each of these game modes, such as multiple rockets for a salvo game mode and hidden mines for its game mode, did not set each of the game modes apart enough to justify developing these in this way. The fundamental behaviour and game flow would not change significantly enough in each game mode to warrant such a significant design decision that could simply be represented as extra parameters or conditional statements.
 
-Abstraction ->Initially tried to make all member variables private to maintain encapsulation. Had to move some to private 
+Per the mechanics of the game however, I identified that that actions of the player in many cases came in different varieties. For example, for a player to place a boat, they could either choose to do so manually or automatically. Even within automatic placement lies variances in the way in which it can be applied, according to the requirements outlined in the assignment brief. This exemplified how the player class (and its eventual subclasses) lent itself well to the concept of polymorphism, which made its way into my class in the form of runtime and compile time polymorphism. 
 
-Later broke down into smaller individual tasks based on actions each object needed to take. 
+Identified quite early on in my initial designs, the object-oriented concept of composition was applied to my identified game class, in which I recognised that a game of battleship cannot exist unless it consists of two players. This line of thinking also inspired my usage of polymorphism and my derived player classes.
+Initially in my designs, I tried to make all member variables “private” to maintain a strong level of encapsulation and to not disclose the values which belong to a class without a strong rationale for programming purposes or where it did not make sense in the context of the game. This was ultimately changed in cases where variables needed to be accessed, mainly in the Player class and its derived classes, where encapsulation was conserved through the “protected” access modifier. 
 
-Was able to eaily identify the bigger picture, but struggled with specifics. Especially with regards to future-proofing my work for later development phases. 
+Classes themselves were easily identifiable as objects that belonged to the physical game of battleship. This lent itself well to the object-oriented methods I employed throughout the project. 
 
+Over the course of my project, at regular intervals I broke various tasks that I had previously identified down into their smaller, component parts in order to track the progress made throughout and to identify which actions to take based on these smaller individual tasks. This was phased in the sense that each “epic” needed to be divided into actionable tasks and each of those tasks had specific steps and solutions. For example, the epic for the “Salvo Game” could be broken down into allowing the firing of multiple torpedoes, which can be further broken down into amending input parsing to allow for multiple targets and so on. 
+The action of identifying tasks was initially done using the physical battleship game as a reference point, especially when considering “epics” and high level tasks. I later had to adapt my thinking to a programming perspective in order to suit the needs of object-oriented ideas such as encapsulation and abstraction. For example a task that describes “displaying the game boards” required the data from the board classes to be passed to the player class, which in itself was a component task in my implementation.
 
-Initially done from a physical battleship game point of view when considering EPICs, was then adapted from a programming perspective to suit the needs of encapsulation, abstraction 
+I found the initial and intermediate stages of breaking down tasks to be quite easy in the sense that it broke down a concept into a bigger picture, but as sub-tasks became targeted and specific, I found myself skipping key steps when identifying component tasks. This was especially true when attempting to future proof aspects of my code for expanded developments to increase my project’s complexity.
+
 
 ----
 
@@ -68,6 +73,7 @@ Initially done from a physical battleship game point of view when considering EP
 ### a. Adoption and use of ‘good’ standards (linked to 1a, 1b, 1c).
 #### Merit: Statements with justifications/evidence/
 #### "Yes, because x/y"
+
 As part of my development strategy, I adopted and utilised a number of "good" programming standards that contributed to my code being readable and logical, in addition to encouraging good habits from the perspective of the programmer. This section will discuss the standard I personally adopted.
 
 The first of these was adopting good quality, jargon free comments, so that the purpose of my code could be understood by all who read it. Where possible, I avoided using programming specific terms and attempted to keep comments within the context of the battleship game itself, unless the inclusion of these terms is vital to assist in understanding a given code block's purpose. An example of this is below:
@@ -124,79 +130,207 @@ My naming convention follows some of Stroustrup's recommendations including avoi
 
 Following these principles, I also made use of enumerated classes to prevent unwanted type conversion for my state enums. 
 
-
-3. Strive for simplicity in logic and flow.
-
-
-Use a consistent naming convention for functions, variables, objects, etc to provide clear contextual value, improved comprehension, and quick readability.
-
 One aspect of the "good" standards I always pay close attention to are the naming conventions I used for my variables, functions and objects. I do so in order to provide contextual value at first glance so that different aspects can be identified easily. For this project I used the following conventions: for all variables and function names, I used camel casing as it is my preferred method for standard code identifiers. Classes and user defined types (structs, enums) are defined with capital first letters to differentiate them from C++'s built in types. Class member variables begin with an "m" prefix, which I do not apply to structs in order to enable differentiation between them. Finally, any constant values follow camel casing with underscores between words, this is to make them stand out and be immediately identifiable next to variables.  This naming convention follows some of Bjarn Stroustrup's recommendations including avoiding capitalising the first letters of variables names (to differentiate them from types (C++'s own and my user defined ones) and avoiding full capitalisation to prevent clashes with Macros, which, admitedly, go unused in my code.
 
-Stroustrup recommends that his rules should be used as a guideline only if there are no solid standards to adhere to or if the developer has no better ideas. With that in mind, I adapted some of his standards and applied some of my own preferences to create the programming style which I attempted to consistently follow throughout the project.  
+(Stroustrup, 2019) recommends that his rules should be used as a guideline only if there are no solid standards to adhere to or if the developer has no better ideas. With that in mind, I adapted some of his standards and applied some of my own preferences to create the programming style which I attempted to consistently follow throughout the project.  
 
-The next set of standards all related to indentation, spacing, and alignment.
+The next set of standards are related to indentation, spacing, and alignment.
 
+When indenting my code, I always used a singular tab inward from the latest control statement or definition. This because it was easily replicable and simple to follow. It also helped to conserve horizontal space, which, in the context of the editor I was required to use for this project, Replit, meant that less lines of code would be visually pushed to the next line in the IDE despite functionally existing on the same line, overall improving readability in this case. I also logically grouped statements together within code blocks using similar types or purpose as grouping blocks. This not only made my code more readable, but enabled me to identify how deep certain groups of code were nested, which would pinpoint an area to improve when refactoring. Blocks were also separated by only a sigle carriage return, to save on vertical space while clearly denoting the edge of a logical group of statements. 
 
+I once again looked to Stroustrups recommendations for the alignment of braces to denote the beginning and end of code blocks. In my code, opening braces are placed on the same line as a logical control statement, loop or class definition, but not when implementing a function. This is to help distinguish between each of the types of blocks above, but especially between class and function definitions. This style also conserves vertical space more efficiently than other similar layout style variants (Stroustrup, 2019). In this form, the indentation style varient is named "Stroustrup".
 
-Indentation style is Stroustrup, with { used on the same line except when implementing a function. New lines are used when determining logic flow to improve readability by controlling the verticality of my code. 
+I also made efforts to use space consistently to separate operators and delimiters, although the same style was not applied to both. Operators were included a space either side, whereas delimiters were placed directly next to a name or statement and followed by a single space. This was done in such as way to mimic application of these symbols outside of a programming context, such as for arithmatic in the case of operators. 
 
-5. Use appropriate and consistent indentation, logical grouping and spaced blocks within your codebases; adopt tabs or a set number of spaces (ideally tabs) for indenting.
-6. Use space consistently to separate operators and delimiters.
-7. Be consistent when aligning braces; use a vertically or slanted style.
+In my code, I made a conscious decision to attempt to avoid deep nested conditionals. What is considered as such is widely debated, with some believing that conditionals themselves are a code smell (Nagarajan, 2020). I made use of various conditionals such as if, else statements and switch/case blocks in addition to loops that introduced levels of nesting. On the whole, I believe this was mostly adhered to. This benefitted my code as it made it considerably more readable, easy to maintain and made more logical sense.
 
-8. Avoid deep nested conditionals. - Max 3 in player boat placement, 4 is seen as a soft limit
-10. Keep variable lifetimes and scope as short and as small as possible. -> doesn't apply to constant strings , all others are reasonably placed
+The only instance of an arguably deep level of nesting is within my acknowledgeShot function, in which a nested if-statements sits within a double nested loop which is needed in order to access a vector member variable within an instance of the Ship class, of which, all instances are stored within a vector. 
 
-12. Conserve system resources. -> Use of pointers is handled appropriately, headers are all included appropriately, stupid clear screen function has no other use. Methods in std namespace are all called individually. Single use methods were kept in local scope, multi-use ones were called globally to reduce repetition 
-13. Minimise forced type conversion, coercion, or casting. -> only use stoi which is valid, char directly maps to int using ASCII, no explicit casting 
-14. Know and test your code: adopt a personal and rigorous testing strategy; don’t just see it if works - test and fix its limits. -> tested regularly 
-15. Test early and often, fail fast and resolve effectively. Failed often 
+Within this function I took reasonable actions to prevent further nesting by including guard clauses that return from the function early if their conditions are met. In previous versions, this was a considerably deeper nested conditional chain. I believe that this function in its current form makes logical sense, and could not be much further removed from its current level of nesting due to the loops that encompass it. In addition, the if-statements within attempt to return from the function at the earliest possible opportunity.
+
+All of the variables within my code had reasonable scopes and lifetimes according to their purpose. This was to prevent unwanted and untraceable behaviour due to the application of non-constant global variables. All of the variables I utilised had specific scopes and lifetimes according to the logic of the game. The exception to these are my global constants, the majority of which are comprised of strings containing UI elements, error messages, prompts, special characters and a file name. These strings were implemented in this way to reduce the space in my main program taken up by string literals. Some string literals do remain within my program, but these act as fragments of larger strings rather than entire literal values. 
+
+Other global constants include regular expression patterns and integer values that act as single points of truth, such as the number of players, boards and indexes of specific gameplay boards within the “mPlayerBoards array that belongs to each player. These integer values were defined as constants to mitigate the reuse of “magic” literal values within my code that provided no context to their purpose.
+
+My constants were also assigned the “inline” keyword. This results in their values being evaluated at compile time and prevents the redefinition of variables across multiple files. This in turn conserves system resources, as an inline constant is defined once regardless of how many code files it is included in. Normally, this would result in as many definitions as there are files. 
+
+I made other efforts elsewhere in my program in order to conserve system resources, as well. The header files used within my program included the “pragma once” preprocessor directive to also only be included once at compile time. This prevented further redefinitions beyond the scope of primitive types, but for the entirety of my program. This has the advantage of including exponentially less code to be considered, which can result in an improved compilation speed. Furthermore, adopting this method can help to avoid name clashes and multiple definitions, which can cause unexpected behaviour, or worse, prevent the program from running. I also saved on system resources by including functions and classes from the C++ Standard Library namespace (std)  individually, rather than including the entirety of the namespace, the majority of which would go unused, and in a worst case scenario potentially cause clashes with my defined types and variables. I chose this method over including the “std::” prefix each time to save on horizontal space (albeit a small amount), to make my code more readable to, and prevent unnecessary repetition.  
+
+It could be argued that my use of pointers within my Game class is antithetical to my assertion that I adhered to the aforementioned standard of conserving system resources, as the direct allocation of memory could lead to memory leaks, however, I took every precaution within my program to delete the dynamic memory allocated once the Game class was out of scope. Likewise, In terms of memory footprint, the player class did not take up a large amount of memory. The instantiation of the Player class required in order to play a battleship game, a total of two also meant that the level of memory being used by these objects was predictable, and assured in advance.
+
+Also within my program, I attempted to keep forced type conversion, coercion or casting to a minimum. This was mainly to prevent a loss of data, and because a wide reliance on casting and conversion is seen as a bad practice that suggests that a programmer does not know what types their program should consist of. While I did not explicitly cast any values, I did make use of the stoi (string to integer) function included in the C++ Standard Library, which was required in order convert player input strings into values for the game and its underlying data structures. I also included integers within stringstreams for similar purposes, namely outputtng the column label values as letters for the player boards.
+
+Moreover, some types in C++, such as Char, are integral types, which means that it is stored as an integer. I made use of this feature to also convert numbers to letters, and vice versa. Because of the fact that the game interprets Char values as numbers and their equivalent ASCII values, I did not need to cast integer values in order for them to be evaluated and utilised as characters.
+
+Finally, I established a rigorous testing strategy throughout development by testing at regular intervals and by testing various features in isolation, which allowed me to discover what worked and what didn't before it was integrated fully into my program. This fail fast approach encouraged me to explore the limits of my code within a given context in order to meet requirements. In addition, developing various features asynchronously from my main program enabled me to begin testing effectively earlier than if I focussed on building my program from the ground up, as the class based structure of my program would require my program to be implemented beyond the point at which my objects could be instantiated. By testing features during development, and posthumously at assigned intervals between development phases, I was able to evolve my code and resolve any issues effectively. This was also beneficial for future proofing my code and enabling further developments.
 
 ### b. Phase 1 development: tasks, code review and changes (linked to 1d,1e).
 
 ##### Tasks
-+ Setup of classes
-+ Initial input
-+ instatntiation of main class
-+ File parsing
+In the initial phase of development,  my focus was to define the objects I had outlined in my design documents. While individual pieces of functionality that would make up these objects would be developed during this phase, I did not make any changes to the initial object designs at this stage. This was mainly due to the fact that I was yet to test my design theories, as I carried a number of misconceptions regarding inheritance and run time polymorphism over from my initial design ideas. 
 
-Phase 1 development consisted of wider helper functions that dealt with output, input and file parsing and implementing polymorphism. 
-Considered how current code state would affect future development during review. 
+I used an initial rough main menu implementation to test taking input from the player. Given that the game was heavily menu based, I thought it best to have a working example as early as possible, so that I could test and iterate upon early concepts, which would give me a good base to work from when implementing future menus.
+
+As the phase progressed, I instantiated the main game class, which was populated with the member objects from my initial designs. At this point, no features were implemented, and I was simply testing the instantiation of these objects and confirming their creation using debugging output strings via their constructors. I did this in this was for two reasons, the first is that the actual implementation of objects such as the human player would utilise its constructor to not only initialise its own member variables but call its own private functions as well. Secondly, the act of debugging using the REPL.IT interface was cumbersome, buggy and slow to compile, as it treated debugging as a separate mode of compilation. Lacking robust debugging tools, I improvised and debugged using strings during the early stages of this development phase instead. 
+
+The final task I undertook during this initial phase was implementing file parsing. This involved using string manipulation functions to find various delimiters in order to identify the type of object being read from the file. Once identified, the data associated with that object, which was stored on the same line, could be inserted into the relevant data structures belonging to the player. I constructed a number of functions string manipulation of my own, namely extractFileParameters, removeLeadTrailSpaces and convertToLower in order to format the data correctly and instantiate the objects they represented. This also removed a number of operations from the main file parsing function, which reduced bloat and some of repetitive chunks of code. Reducing the repetition within the function made the code more readable as it was easier to identify the steps taken.
 
 ##### Code review
-+ commit 7. bugs, formatting style incosistencies
-+ earlier commits, temp variable names; lots of code in wrong places (main menu.cpp)
-+ things that were removed
+In early versions of my code and during the initial phase, I had decided on, but was yet to implement,  an alignment style for braces containing the various blocks of code. This led to inconsistencies in how these braces were displayed. This was detrimental to my code as it made it appear as if it did not have a layout style, which wasted vertical space and in turn made my code harder to read, as it was difficult to tell where scopes began and ended. 
+
+````
+if (type == "board")
+      {
+        char delim = 'a'; //can't initialise a char with a blank character??
+        if(line.find('x')) { //look for a lower case 
+          delim = 'x';
+        }
+        else {
+          delim = 'X';
+        }
+````
+During the experimental stages of this developmental phase I used a number of temporary variable and function names to act as placeholders. While it was very clear that these names were only temporary and were subject to refactoring at some point in the future, the names used at this time did not follow good standards, as they did not provide any contextual value, nor did they improve readability. Additionally, this could have potentially contributed to these variables being missed during refactoring or making the process of refactoring more difficult as the lack of contextual detail would make it difficult to discern the purpose of the block of code it belonged to. 
+
+````
+string help(){
+  bool isValid = false;
+  string ohNo = "";
+
+  while(isValid != true){
+    ohNo = getSingleKeyInput();
+    isValid = validateString(ohNo, regex_Menu_Selection, invalid_Menu_Input);
+  }
+  return ohNo;
+````
+
+Also during this phase, my code lacked a significant degree of logical modularisation. This was due to the fact that I was simply experimenting with and testing algorithms, and the quickest way to do so was by placing raw algorithmic code in my program’s main function. I used this to prove various concepts, such as for input and file parsing. However, this does not detract from the fact that this is generally a bad practice for release candidate code. Thankfully, this was rectified before the phase was over. Due to the of an aforementioned robust debugging suite, I did adopt this method to test and experiment in later development phases, but refactored them into my main system sooner after significant testing confirmed the features in question were working. This is because it was easier to integrated and test these features in the context of the entire battleship project once earlier development stages had been completed.
 
 ##### Changes
-Due to this being the first development phase with few intricate implementations, there were fewer opportunites to refactor than in later phases. However, at this end of this phase I saw a good time to refactor my file parsing function. This mainly consisted of grouping like statements together, somtimes onto single lines where formatting was concerned, in order to save vertical space, improve readability, and prevent basic forms of repitition. It was also during this phase were I commited to my brace alignment style, so various refactoring tasks also surrounded bringing those in line with my style.  
+Due to this being the first development phase with few intricate implementations, there were fewer opportunities to refactor than in later phases. However, at this end of this phase I saw a good time to refactor my file parsing function. This mainly consisted of grouping like statements together, sometimes onto single lines where formatting was concerned, in order to save vertical space, improve readability, and prevent basic forms of repetition. 
 
-In later phases and for the remainder of development, I refactored during and after a development phase was complete. This was to ensure my code was of a quality standard throughout. 
+After I was satisfied with the progress made during this development phase, I made a conscious effort to return to files with temporary variable names, exposed string literal values and insignificant modularisation. This was done to ensure my code going forward adhered to a number of “good” standards and was overall more readable. In later phases and for the remainder of development, I refactored during and after a development phase was complete. This was to ensure my code was of a quality standard throughout. 
 
-
-Initial structure of many classes changed. Initially over-relied on pointers, but scaled their uses back to just the abstract player class. Which wasn't originally meant to remain an abstract class.
-
-
-
-Mostly the creation of classes and member functions
 
 ### c. ..repeated for each development phase.
 
 #### Phase 2 - Various input and output developments, manipulation of input data
 ##### Tasks
-+ 
+During the second phase of development, I focused on isolated tasks related to taking input from the player and outputting the information that needed to be conveyed for the sake of the game. This was mainly concentrated on the setup stage of the battleship game as part of an object-oriented development strategy, but lessons learned at this stage could be applied to the development of later functionality or simply reused after a specific piece of functionality had been completed, tested and modularised in a functional manner. 
+
+One of these aspects was the menu and board output associated with the setup stage. I was able to utilise previous techniques that were adopted for the main menu during the first development phase for the menu and prompts used during the game setup. The content of these options and prompts would understandably change depending on the current state the game was in, but underlying methods, such as those for obtaining input, would remain the same in order to maintain a consistent user journey and directly improve the user experience as a result due to the expectations of the user already being set by previous menus.
+
+Another prevalent factor that was introduced during this development phase was the output of the game board, which was later reused whenever either of the player’s game boards needed to be displayed. This required significant development resources at this stage to ensure that this piece of functionality could be used in this way because of its importance to the game itself and the fact that constructing the output, which was done by way of outputting various symbols and applying formatting techniques within loops according to the size of the gameboard, was not reliant on other objects or types at this stage. Meaning that this output could be developed independently and in a modular fashion and later be built upon.
+
+An addition to the development of the game boards came in the form of a separate focussed development piece surrounding the conversion of numbers to letters, a piece of work which was required to output the labels seen on the columns of the game board, which followed an alphabetised notation. This involved manipulating array index values in such a way that they output the corresponding letter according to their position on the board, which was a base level requirement tied to the coordinate system used during the game. It would also provide a level of familarity for the user, improving the user journey and allowing players of other forms of the game to understand how to play through recollection and recognition.
+
+One key innovation that was developed during this phase were specific regular expression statements in order to facilitate input related to boat placement. In order to place boats correctly in the right locations with the specified orientations, a specific short command was used to capture this information. These regular expressions were used alongside previous input parsing innovations to ensure the correct information was captured. This was included alongside a first pass of boat placement functionality to investigate how the game board would react to player input and changes to the contents of player’s data structures, such as boats and boards. This was a good opportunity to begin to bridge the gap between the output and logical aspects of the game, as I could amend and refactor the board output according to any inconsistencies or errors found. 
 ##### Code Review
+During this phase of development, I finally adopted and applied a consistent brace alignment style within my code. 
+
+Up until this point, I did not pay much attention to this aspect, as the project was only in its infancy and most code implemented at this stage would likely be refactored. From this phase onwards I took great care in adhering to this style for both existing and new code in order to improve the readability of my code and encourage the adoption of this good standard, with the belief that this would also apply to other aspects of styling and spacing within my code, such as for the spacing of code blocks and separated delimiters/operators. 
+
+`````
+void Player::fleetStatus()
+{
+  ui_boatStatusColTitles();
+  for (auto &it : mFleet) {
+    it.reportStatus();
+  }
+
+  cout << endl << endl;
+  ui_saveCursorPos();
+  
+}
+`````
+
+What did remain during this phase were some instances of debugging text, which were removed in later versions and phases of development. These were undoubtably useful during the testing of specific functionality during the initial development phases but could have contributed to a level of confusion as to why the program was behaving in a certain way. In addition, the presence of this text would detract from visualising how the various output elements developed during this phase look in the context of normal gameplay.  
+
+`````
+AIPlayer::AIPlayer()
+{
+  cout << "I'm an AI Player" << endl; 
+  mPlayerName = "Player"; //give AI players generic names
+}
+`````
+
+A great example of modularisation in my code was implemented during this phase in the form of UI helper functions that modularised output which directly interfaced with the console itself. ANSI escape codes can be used to directly manipulate the command line terminal and the position of its cursor by exposing these codes to the output stream. This can be useful for controlling the flow and location of output strings.  Within my code, I implemented two functions which modularised the output of these ANSI escape codes to the terminal, allowing for the saving and recall of the cursor position to a given location. This cut down on redundant code and helped to make clear actions that were taking place when this functionality was utilised, which also contributed to making my code easier to read and therefore easier to maintain. 
+
+`````
+void ui_saveCursorPos() //save the cursor position within the console
+{
+  cout << "\033[s";
+  cout.flush();
+}
+
+void ui_returnCursorPos() //return the cursor position to the previously saved position
+{
+  cout << "\033[u";
+  cout.flush();
+}
+`````
+
+
+
+
+
++ debug text present, but removed in later versions (Commit 10) 
++ progression from simple outputs to manipulating strings (commit 10)
++ Setup menu code very raw, not broken out into functions yet (commit 11 and older)
++ Same goes for utility functions that don't fit with the object orientation of the game (commit 11 and older)
++ Input captured in UI function (commit 16)
 ##### Changes
+In order to allow for the development of the player board outputs, I had to remove placeholder board outputs which were leftover from the previous development phase. This was an example of the routine refactoring I performed during each development phase so that improvements to code layout and flow were done in addition to adding new functionality and fixing bugs.
+I also moved the “convertToLetter” function from its position in the “mainmenu.cpp” file to its final position in the “utilities.cpp” file, which helped me adhere to object-oriented design principles by separating my code’s functionality into their own, independent modules, which promoted their reuse whilst not actively being repeated explicitly within my code, further improving its readability. 
+
+Changes were additionally made to my Game class to reduce my reliance on pointers where it was not intuitive to include them for the sake of tracking a player’s turn. This helped to save and conserve system resources, whilst also reducing the overall complexity of my program by not having to manage additional dynamically allocated variables and the unexpected behaviour that comes from manipulating and passing around memory addresses. In my initial design, I over-relied on pointers to perform basic functionality that could be performed by primitive types. In the end, I scaled back the use of pointers to a single array, in which values were carefully managed and changed the affected variables; “mCurrentPlayer” and “mInactivePlayer” to be of the integer type.
+
+My initial design also featured a number of functions, included in the “AIPlayer” class that, due to my misunderstanding of how class inheritance used in tandem with dynamic polymorphism worked, meant that they could not be accessed by my main program without also being included in the base class. This resulted in functions related to AI  player specific functionality, such as the initially conceived deployBoat() having to be moved to the base class in order to be called. This ended up working out for the better, as the human player could also make use of this function, which was implemented to automatically place boats on game boards. In addition, this function was overloaded in the base Player class, which exemplifies compile-time polymorphism and consideration for object oriented principles. 
+
+  
 
 #### Phase 3 - Interaction with defined objects, Game loops and implementation 
 ##### Tasks
+The third development phase finally introduced key game objects into my implementation beyond their declaration within their specific files. Objects such as the board and boats which are associated with the player were able to be included in comprehensive output strings that made the player aware of the status of these objects with regards to the game. This was of course beneficial because the player was made aware of what state the game and its objects were in, and it helped to provide, in a number of forms, feedback to player input based on expectations.
+
+These mechanical reactions to input helped to finalise the implementation of the setup stage of the game and the boat deployment functionality within, which fully bridged the gap between the game’s output and the state of its underlying data structures.  
+
+This was facilitated through the use of state machines, which were included in my designs from the offset, and were utilised within from this development phase onwards. Objects that had state machines assigned to them included the game itself, individual spaces on each of the game boards, and boats utilised by players. These were chosen due to their mutability of state and various behaviours in different scenarios, and to create cleaner, more concise code in lieu of using other variables to conditionally alter behaviour. 
+
+Also implemented during this phase were logical flow decisions in my code that unified existing menus and input prompts into a comprehensive system. For example, both the player and AI were able, by the end of the development phase, to place their boats on the game boards. The actions that could be taken by each type of player differed, naturally due to the lack of need to take input from an AI player, for example. This resulted in vastly different user journeys and experiences depending on the game mode selected and the player types included there in, which helped to diversify the content within my project and increase its complexity. 
+
+Various gameplay related design patterns were implemented, such as the inclusion of a game loop, which kept the program running for as long as the player desired, appropriately resolving conditions that would otherwise end the game.  
+
 ##### Code Review
+As mentioned above, the third phase of development 
+![Code ](Images/stateMachine.PNG) 
++ Implemented space colouring reacting to state machine (commit 18 - board.cpp)
++ Manual player deployment algorithm -> lots of nesting, long if statements (commit 18 player.cpp)
++ Utilising isHuman function showing true runtime polymorphism working. Showed true 
++ Random boat deployment showing compile time polymorphism
++ + Made all consts inline to prevent repition, reduce system resources and increa compile times
+  + 
 ##### Changes
++ Moved std to headers (commit 16) -> Good move, leaving them there was bad practice as it left potentialy for them to be included multiple times. Prevents naming clashes and unexpected behaviour 
++ Moved split coords functionality into its own function to reduce the bloat of the player class. Further modularisation that upheld object oriented principles (commit 17)
++ Moved deployboat functionality into its own funtion to prevent bloat and encapsulate (20)
++ Removing conceptualised AI player funcitonality -> Could be achieved in base class, subverts repitition, would only call base class function if not fully realised
++ Finalised display board function, made relatively pure
+
 
 #### phase 4 - Input clear up,  Salvo
 ##### Tasks
++ Adding additional prompts to input to improve UX
++ Preventing human player from continuing with setup and turn until complete
++  Taking input for multiple shots
 ##### Code Review
+- Recursive function
+- Further modularisation but placing a long if statement into its own function isInbounds(). Subverted shotgun surgery by removing repetitive blocks, which in turn saved valuable development time by only have to make futher modifications in a single place
+  Applied a defensive programming approach by including assertions surrounding board sizes
 ##### Changes
+- Ability to quit anywhere, not just input
+- Changes to playGame function in game class, which added support for multiple shots. 
+- Also added manual continue to player turns
+- Changes to acknowledge shot to output win text
 
 
 
@@ -204,11 +338,22 @@ Mostly the creation of classes and member functions
 
 ### e. Ensuring quality through testing and resolving bugs (linked to 1a, 1b, 2a, 2b..2c).
 
-Before I used jira to move anytasks between swimlanes, I always made sure to test each individual feature independently. Because of the modular nature of object oriented programming, this was made quite easy
+My robust testing strategy ensured that my code was of good quality. Since many of the high-level tasks I had to complete were identified early as part of my initial design or a decomposition of tasks from "epics", I was able to easily identify tasks to adopt for my test scripts.
 
-Completed various tests at the end of each phase of development and before allocating new ones
+I completed these more "standard" testing strategies, using these test scripts at regular intervals throughout development. This was usually between development phases and as key code was refactored to ensure new and existing functionality worked as expected, using clear expectations established early on which were applied in each development phase. This level of consistency helped to ensure a level of quality. Below is an example some of the tests, included in my main test scripts, which were used to test base level functionality throughout development. 
 
-However, this was not always the case. Due to the modular nature of my object oriented code and its potential for reuse, there were a few occasions where I found myself fixing bugs for features that had passed testing and were considered bug free in previous iterations of my code, when using them in later portions of my program. Almost all instances of this were input related. 
+![Example of some of the tests found within my test script](Images/testScript.PNG) 
+
+When an individual task was being worked on, its status was tracked carefully using the issue tracking software, Jira. I made use of this tool, which is adopted widely throughout the industry, as well as in my place of work, to gauge the progress of my by way of ordering tasks in the various “swimlanes” found within the Kanban features of Jira. Before a task could be marked as done, it was placed into an adjacent swimlane denoting that it was available for testing. This made it clear which features needed to be tested at any one time, which gave me clear objectives to work towards, subsequently aiding my workflow. Tasks found in this column were subject to focussed unit testing relevant to the feature being worked on. Once integrated fully into my code, it would also be subject the more standardised test scripts mentioned above. The modular nature of object-oriented programming and its associated design techniques made adhering to this testing strategy easy. 
+
+![Two of the swimlanes present in my Jira board, demonstrating my adopted testing strategy](Images/swimlanes.PNG) 
+
+Where bugs were identified as a result of my testing strategy, I endeavoured to fix them in a swift fashion. This approach especially was especially beneficial when bugs in my code blocked the further development/bug fixing/refactoring of other aspects of my code. 
+
+Later in development, however, what was once a comprehensively tested piece of functionality had the potential to become a bug. As development progressed between phases, and the focus of work and requirements changed, previously . While I did make efforts to future-proof my work for later development phases, the functionality that was set to be reused had only ever been tested in the context of earlier development phases. An example of this occurred with my convertFromLetter function, in which it passed testing in earlier development phases working with standardised board sizes but came undone when tested against larger boards up to the defined maximum in the assignment brief. The modular nature of my code made debugging this issue and identifying this function as the cause of the underlying issue (in which coordinates were not reacting to input correctly beyond standard board sizes ) relatively easy, as I was able to isolate and narrow down which of the functions my code were the root cause of the issue. This gave me a targeted workflow and reduced the possibility of introducing unexpected behaviour through the incorrect refactoring of another function. This also helped to save development time overall by finding the issue faster. 
+
+Some features which were not implemented until later in development due to their inclusion being an afterthought on my part, lacked the rigorous level of testing that other features introduced at the correct stage of development had. An example of this occurring in my code was the continue functionality for the human player, which was used to confirm the end of one’s setup phase or turn. This functionality was absent from my code until the final stage of development, as I simply forgot to implement in prior stages. This made the lack of functionality effectively a bug, which was rectified swiftly after I realised this was the case. In the end however, this piece of functionality was not as rigorously tested as of core aspects of the base game, as it was omitted from my test scripts, in addition to my code. This meant that it lacked the equivalent of 3 phases worth of structured testing, in which any further issues (of which, thankfully, there were none) could have been identified and address significantly earlier. 
+
 
 ### f. Reflection on key design challenges, innovations and how they were solved (with examples).
 There were several design key design challenges that needed to be considered throughout my project. Some of these were identified in advance as I broke the game design problem down into "epic" style tasks and eventually smaller, actionable tasks; and some were discovered as I proceeded with development. In this section I will discuss these design challenges, and the changes I made to my code and initial design to facilitate the solving of these problems. 
@@ -261,7 +406,6 @@ struct Space {
 ``` 
 This combination of defined data structures wouldn't just exist conceptually. Another key consideration I needed to take into account was displaying an appropriate output value. This was appropriately captured in addition to an output colour in my Space struct. With the above considerations regarding notation also taken into account, the only hurdle was utilising a loop to output value assigned to each space. In the interest of making the output more appealing, this was done in tandem with other values being output to give the impression of a grid. This includes labelled axis with coordinate cell references, and a series of vertical and horizontal lines to separate each space. This was achieved with various Unicode characters, which would change depending on the position in the loop and output display. 
 
-
 Converting input and output values to and from letters was also a design challenge identified in the early stages of development. From the offset, I knew there would be a disconnect between the required input of a board coordinate (i.e. A1) and its appropriate position in a relevant data structure (which in my case was the 2D array detailed above), which would require converting a letter into an appropriate number to access the relevant column. Similarly, converting to a letter was required when displaying positions that are represented on the player's boards, in order to reflect the actual playable area. This can be seen on the on the labelled Y axis of the boards, and when viewing boat statuses when placing boats. 
 
 Both solutions to each of these problems exploit ASCII character values in C++'s char type, which directly correlate to integer values 0 to 255. In the case of converting to a letter, the value used to represent each character starts at 'A' (integer value 65) and the remainder of a division between the number to convert and the length of the alphabet (26) is added to the character value. The resulting character is added to a cumulative string and repeated by dividing the number to convert by 26 and repeating while the value is positive. This approach allows for any number to be converted in to what is essentially a base 26 value, and is highly reusable beyond the needs of the project, since essentially any number can be converted into its letter equivalent.
@@ -308,14 +452,67 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
 #### Distinction: Statements with deep justifications and discussions
 
 #### Refactoring
-Throughout the course of my battleship project, I made a conscious effort to refactor my code at various intervals, or to facilitate specific functionality. This was a key concern throughout the project, as I was initially unsure where this would fit in amongst various other tasks, such as fixing bugs and improving UI/UX elements
+Throughout the course of my battleship project, I made a conscious effort to refactor my code at various intervals, such as between develoment phases, or to facilitate specific functionality. This was a key concern throughout the project, as I was initially unsure where this would fit in amongst various other tasks, such as fixing bugs and improving UI/UX elements. (Refactoring Guru, n.d.) believes that refactoring can exist alongside bug fixing, and is an effective way of unearthing any bugs, since the ultimate aim of refactoring is to clean up one's code. They also recognise refactoring when adding a feature as a valid oppurtunity to do so as well. 
 
-Input function
-Setup cases
-Ui revisions
-Conversion to letter
-Acknowledge shot -> improved readabiltiy and better practice 
-Main game function / select target / deploy ship -> Moved input out of function to make them pure. Went back and forth on the issue for a while 
+I employed various degrees of refactoring depending on the situation. For example, I refactored aspects of my user input functions as a way of preventing bloat, and to further modularise my program. This can be seen with the “generateMaxBoatRegex” function, which alters a specific regex string based on the number of boats present in the game. While only a small function in of itself, I felt that this function was best paired with other utility functions. While it may not be called as frequently as other helper functions, this instance of modularisation helped to prevent code reuse and created an independent pure function within my code. Moreover, the clear naming convention helps to clearly identify exactly what this function is for. 
+
+
+````
+regex generateMaxBoatRegex(int sizeOfFleet)
+{
+  stringstream boatRange;
+  boatRange << "^[0-" << sizeOfFleet << "]+$";
+  regex maxBoat(boatRange.str());
+  return maxBoat;
+}
+````
+
+A further example of this style of refactoring was through my “isSalvoGT” function. This function takes a single GameType parameter and is used to check if the game mode matches any of the Salvo GameType values. This originally existed within several places in my code. Since there are three possible values to check against, it was second nature to modularise this function and in turn reduce the amount of unneeded repetition, allowing me to reclaim space that would be taken up by this lengthy if-statement. It could be argued that an if statement of this sort shouldn’t exist at all, due to its length, and that to modularise a statement that uses types that are only used within a specific class only serves to increase the coupling between this function and the affected class.
+
+Another application of refactoring was to eliminate existing code smells. Up until late in development, an overloaded instance of my “deployBoat” function in the Player class featured a series of deep nested conditionals and multiple excessively long conditional statements. A comparison of what this code looked like before and after refactoring can be seen below. 
+
+##### Before
+````
+ //check if boat ID is valid 
+  if (boatID <= mFleet.size() - 1 ) {
+    //check if coordinate is in range, depending on orientation 
+    if(targetPos.colPos < mPlayerBoards[0].getWidth() && targetPos.rowPos < mPlayerBoards[0].getHeight()) {
+      
+      if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getHeight()) || 
+        (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getWidth())) {
+        
+      //reset existing boat placement, if already placed
+      recallBoat(boatID);
+      deployment = deployBoat(boatID, targetPos, orientation);
+      } 
+    }
+  } 
+  `````
+
+
+##### After 
+````
+//check if boat ID is valid 
+  if (boatID > mFleet.size() - 1 ) return deployment;
+
+  //check if initial position to place the boat is valid
+  if (isInBounds(targetPos, width, height) == false) return deployment;
+    
+  //check if coordinate is in range, depending on orientation 
+  if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= height) || (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= width)) {
+    //reset existing boat placement, if already placed
+    recallBoat(boatID);
+    return deployBoat(boatID, targetPos, orientation);
+  } 
+  
+  return false;
+  
+  ````
+
+Both aforementioned code smells prompted me to refactor this code by replacing the higher level conditionals with guard clauses, which offered an early return point from the function. This not only greatly improved the readability of my code by making the flow of code execution more apparent, but also encouraged me to make further improvements to the function. In the final version of my code, I replaced the statement within the second level of nested conditionals with a guard condition that contained a call to the “isInBounds” function. By decomposing this code into its own method, I not only further contributed to the modularisation of my code, but also made it easier to maintain and made the code more descriptive and clearer as a result. While a complex and long conditional still remains, I believe that this block is considerably harder to break down than the other previous nested conditionals, and, as the last if-statement block remaining would not offer a suitable return point from the function, especially with vital code it contains. Furthermore, a return point from the function is offered within the scope of the if-statement. Decomposing said function would also require a number of parameters to be passed into the function as well, which could cause code smells in the form of excessive parameters.
+
+Similar considerations were also made within my “acknowledgeShot” function, which also contained deep nested conditionals. I once again employed the use of guard clauses to reduce the level of nesting. In this case, further decomposition was not really possible due to the nested loop that needed to be iterated through in order to access a further data structure which contained the specific element that needed to be accessed. This was tied to a set location on the game board, which could only be occupied by a single entity. The refactoring of this code similarly improved the readability of the function and exemplified better programming standards. 
+
 
 ```
  /* if (acknowledgement == SpaceState::Hit_Boat) {
@@ -330,29 +527,84 @@ Main game function / select target / deploy ship -> Moved input out of function 
       }
   } */
   ```
-
-
+I also refactored 
 
 #### Reuse 
+
 Purposefully using runtime polymorphism for the player classes to prevent major code reuse. Player related game functionality kept in the game class to prevent reuse, with specific instances for each type being placed into helper functions, limiting code changes to a single location and centralises any changes that needed to be made. 
 
-Derived player classes (AI Player and Human Player), 
+I attempted to keep explicit code reuse in major functions to a minimum. Removing repetitive blocks of code became a common brief refactoring tasks for myself throughout development. It was within these functions that I was able to identify any repetitive blocks best, as they would be visible within the same scope and never too far removed from any reoccurrences. However, some instances of code reuse went overlooked and were most common when separated into different scopes. 
+
+The setup display and turn display functions are almost functionally identical member functions that belong the Game class. While they do serve different purposes during differing phases of the game, functions such as these could just have easily been integrated into a single function controlled by the current game state. The fact that they mostly consist of Player class functions suggests that there could be a significant level of coupling between these functions, and by extension the Game class itself, and the Player class. Although, this is not only by design, it is a reflection of the compositive relationship between the two classes. Of which, the Game class would not exist without its component players.
+
+
+`````
+void Game::setupDisplay()
+{
+  gameHeader(); 
+  mPlayers[mCurrentPlayer]->displayBoards(0); 
+  mPlayers[mCurrentPlayer]->fleetStatus(); 
+  ui_saveCursorPos(); 
+}
+
+
+void Game::turnDisplay()
+{
+  gameHeader(); 
+  mPlayers[mCurrentPlayer]->displayBoards(0); 
+  mPlayers[mCurrentPlayer]->fleetStatus(); 
+  mPlayers[mCurrentPlayer]->displayBoards(1); 
+  ui_saveCursorPos(); 
+}
+`````
+On the subject of the Game class, it too features instances of reused code. The "isSpaceOccupied" and "previouslyTargeted" functions are functionally similar and evaluate a SpaceState variable in order to return a Boolean. The specific SpaceState each function evaluates is different, but apart from names, feature identical signatures. This reuse could easily be subverted by merging the two functions into one, and including the local variables as parameters in order to evaluate different SpaceState values, refactoring it into pure, yet versatile function. The two functions in question can be found below.
+
+`````
+bool Player::isSpaceOccupied(Coordinates target) 
+{
+  SpaceState occSpaceState = mPlayerBoards[shipboard].getSpaceStatus(target);
+  return occSpaceState == SpaceState::Occupied ? true : false;
+  //return mPlayerBoards[shipboard].isOccupied(target);
+}
+
+bool Player::previouslyTargeted(Coordinates target)
+{
+  SpaceState prevTargetState = mPlayerBoards[targetboard].getSpaceStatus(target);
+  return prevTargetState == SpaceState::Inactive ? false : true;
+  //return (spaces[chkCoords.rowPos][chkCoords.colPos].status == SpaceState::Occupied); 
+}
+`````
 
 #### Smells
 
-Refrained from using string literals and "magic" values where possible. Kept coupling low and cohesion high. 
+While I did attempt to the best of my ability to produce quality code that followed good standards, I was ultimately tripped up by several aspects. (Kanjilal, 2022) attributes code smells to poor or misguided programming. In this section I will discuss some of the code smells I fell foul of, and those that I subverted. 
 
-That being said, some less impactful aspects of coupling made its way into my code by default, such as a reliance on external modules. This, ultimately, was unavoidable, regardless of how well encapsulated it was, or if it was deferred to globally available helper functions (or design patterns such as singletons). And while it is relatively less impactful than other types of coupling, it was still present in my code. 
+One unavoidable code smell, at least in its entirety, is that of coupling. It is defined as the manner and degree of interdependence between modules within code  (Hilton, 2016). Because of its unavoidable nature, a benchmark that is aimed for by programmers is loose coupling. Different types of coupling can occur for different reasons. External coupling for example, is considered a medium impact type of coupling. This aspect made its way into my code by default, as I was reliant on external modules such as include files and classes within libraries in order to deliver the functionality needed for my system. Within the context of this project, a level of external coupling was inevitable, regardless of how encapsulated it was, if it was deferred to various globally available helper functions or if it was integrated into advanced programming design patterns, such as singletons. It being an inescapable aspect of my code, various steps were taken within my code, where possible, to mitigate the impact of this type of coupling on my work. An example of this can be found through my integration of the C++ Standard Library into my code. Rather than include the entire namespace it belongs to, I made sure to only include the elements that I made use of, in order to prevent naming clashes with my code, conserve system resources and ultimately reduce the level of reliance and coupling I had on that module. For other external modules, being libraries rather than namespaces, I was not able to approve and deny access in the same way. This resulted in a high level of external coupling, which, while not as impactful as other types of coupling and thankfully did not negatively impact my code, it was still present.
 
-Kept a consistent naming convention throughout with an m prefix for each member variable. This allowed me to easily identify each variable and realise its purpose within an object, which also further contributed to the readability of my code. 
+ ![Example of the scale of external coupling within my program, mitigated slightly by STD template classes ](Images/externalDependencies.PNG) 
 
-~~^^This is a really good example of the kind of writing style he's looking for~~
+Within my globally available modules, there was a high level of control coupling between my UI and input functions. This was because the input function impacted how the UI function executed instructions, acting as part of the return statement for many UI pieces of functionality. This interdependency could have resulted in unexpected behaviour, which again, thankfully did not happen, but the use of these modules in this way still contributed to a high level of coupling within my code. 
 
-Potential "shotgun surgery" in places where multiple things needed to change. In reality, due to my experience with the language and object oriented design thinking, changes to my initial design required changes in multiple places to facilitate the flow of data and to fix bugs. Additionally, I made use of many globally available functions 
+`````
 
-Coupling?
+void ui_ContinueText() 
+{
+  cout << "Press any key to confirm" << endl;
+  getLineSingleKey(regex_Any_Key, "Error");
+}
+`````
 
+Other examples of coupling in my code included various levels of stamp coupling in instances where entire data structures or complex user defined types were used as parameters. This was most present in my parseFile function, where I passed data structures containing full board and ship types into a globally available function. While suitable and justifiable for the task at hand, this function is called within the constructor of the Player class in order to initialise the data structures used by the player. This breaks several levels of abstraction by exposing this data and forming a level of stamp coupling between the Player class and file parsing function. The data structures themselves were also passed by reference to this function, which further breaks encapsulation and even poses a potential security risk by exposing such a key object via stamp coupling to the raw and unfiltered data a file can hold. 
 
+`````
+void parseFile(Board boards[], vector<Ship> &ships) 
+`````
+
+In an attempt to subvert a code smell, I kept my usage of string literals and "magic" values to a minimum. I achieved this by storing the majority of my reused values and long string literals as immutable values in their own file, Constants.h. This was done in order to make modifications and maintenance of these values easier by giving these values a common location that would also make them accessible globally within my program. Some string literal values are used sparingly in my code as single use return values, or as part of segments of larger strings where they did not warrant becoming constant variables of their own. Furthermore, it helped to subvert another code smell that was a key consideration when developing my code. In this case, I am referring to “shotgun surgery”, which was subverted by my central constants file, which did not require me to make any changes to these values in multiple places. 
+
+ ![Constants defined in "constants.h" ](Images/constants.PNG) 
+
+There was potential for shotgun surgery within my code, as there were multiple instances in which I needed to make changes to multiple files in succession in order to complete a given tasks. In reality however, these sweeping changes often came with justifications. Relationships between the objects featured in my code and the nature of object orientation meant that functionality would be developed sequentially in order to facilitate the correct movement of data from one function to the next. As each function was modularised to some extent, this resulted in changes being made in numerous places in sequence. The same applied when refactoring or fixing bugs. This was especially true as I made changes to my initial design, in which data and methods encapsulated within my various classes needed to be changed in order to meet requirements. In addition, many instances of me changing code in multiple files was often in order to adhere to development standards such as maintaining a consistent level of indentation and effectively using whitespace in my code to improve readability and logical flow. 
 
 ### b. Implementation and effective use of ‘advanced’ programming principles (with examples).
 In order to demonstrate my abilities as a programmer, I made use of a number of advanced programming principles which not only contributed to the quality of my code, but also improved the logic and flow of the developed program by taking advantage of my chosen language, C++ and its specialist features. 
@@ -434,20 +686,24 @@ In addition, singletons break the single responsibility principle and are hard t
 ### c. Features showcase and embedded innovations (with examples) - opportunity to ‘highlight’ best bits.
 
 
-Conversion of letters to numbers and vice versa
-Relevant state machines
-Grouping of common values into user defined structs
-Runtime polymorphism and use of pointers (creation of dynamic objects)
-Recursive functions
-Generate players
++ Conversion of letters to numbers. -> string manipulation, math functions (pow)
++ 
++ Relevant state machines -> advanced design pattern, used to track the state of various object. This made debugging easier and allowed for a number of mutable phases that my objects could have.  Ever present in game development as a whole and a well suited design pattern to solve the problems this project poses. Proves the usefulness of this tried and tested method.
+  + Grouping of common values into user defined structs
+  + 
++ Runtime polymorphism and use of pointers (creation of dynamic objects) - could result in more efficient code if used widely, was more prevalent in my initial design. Allowed for creation of objects without knowing their type. Presented a decent base to work from in the future and was well suited to the task at hand and problems it solved in myfianl ccode , even if my implemtentation was limited.
++ Recursive functions -> expensive resources wise, but very suitable for the task at hand,
++ Generate players (factory function)
 
 ### d. Improved algorithms – research, design, implementation, and tested confirmation (with examples).
 
-File parser
+research can also mean stuff like c++ ref
+
+File parser -> use of fstream header
 Conversion of numbers to letters
-Conversion of letters to numbers
-Pure check input function (with regex)
-Acknowledge shot -> From deep nested conditionals to guard clauses with return routes
+Conversion of letters to numbers -> inclusion of pow function. 
+Pure check input function (with regex) -> research of the regex type, direct evaluation
+Acknowledge shot -> From deep nested conditionals to guard clauses with return routes. Research of guard clauses 
 
 
 
@@ -534,5 +790,9 @@ In conclusion, while my implementation lacked an outstandingly deep level of com
 - Bugayenko, Y., 2014. _Getters/Setters. Evil. Period._. [online] Yegor256.com. Available at: <https://www.yegor256.com/2014/09/16/getters-and-setters-are-evil.html> 
 - Berglund, C., 2017. _Designing a simple game AI using Finite State Machines_. [online] Game Developer. Available at: <https://www.gamedeveloper.com/programming/designing-a-simple-game-ai-using-finite-state-machines>
 - Densmore, S., 2004. _Why Singletons are Evil_. [online] Docs.microsoft.com. Available at: <https://docs.microsoft.com/en-us/archive/blogs/scottdensmore/why-singletons-are-evil> 
-- Stroustrup, B., 2019. _Stroustrup: C++ Style and Technique FAQ_. [online] Stroustrup.com. Available at: <https://www.stroustrup.com/bs_faq2.html> 
-
+- Stroustrup, B., 2019. _Stroustrup: C++ Style and Technique FAQ_. [online] Stroustrup.com. Available at: <https://www.stroustrup.com/bs_faq2.html>
+- Nagarajan, M., 2020. Conditional Statements are a Code Smell — Here is Your Relief. [online] Medium. Available at: <https://levelup.gitconnected.com/conditional-statements-are-a-code-smell-here-is-your-relief-38e50c023708>.
+- Refactoring Guru, n.d. When to refactor. [online] Refactoring.guru. Available at: <https://refactoring.guru/refactoring/when>.
+- Kanjilal, J., 2022. Understanding code smells and how refactoring can help. [online] SearchSoftwareQuality. Available at: <https://www.techtarget.com/searchsoftwarequality/tip/Understanding-code-smells-and-how-refactoring-can-help#:~:text=Put%20simply%2C%20code%20smells%20are,in%20accordance%20with%20necessary%20standards.>.
+- Hilton, J., 2016. Why coupling will destroy your application and how to avoid it. [online] Jonhilton.net. Available at: <https://jonhilton.net/2016/03/09/why-coupling-will-destroy-your-application-and-how-to-avoid-it/>.
+- Fowler, M. and Beck, K., 1999. Refactoring: Improving the design of Existing Code. 1st ed. Boston: Addison-Wesley.

@@ -39,6 +39,8 @@ inline const string boat_Auto_Place_Prompt = "Please select a boat to auto-place
 inline const string menu_Num_Prompt = "Enter an option from the numbers above, or 0 to quit:";
 
 
+inline const string continue_Prompt = "Press any key to confirm, or 0 to exit";
+
 //String constants for invalid input error messages
 inline const string invalid_Menu_Input = "That selection is invalid: please try again: ";
 inline const string invalid_Placement_Command = "That command is invalid: please try again: ";
@@ -90,11 +92,11 @@ inline const string console_Move_Cursor_Up = "\u001b[1A";
 
 
 //String literal constants for regular expression patterns
-inline const regex regex_Menu_Selection("^[0-9]+$");
+inline const regex regex_Menu_Selection("^[0-6]+$");
 inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
 inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)");
 inline const regex regex_Salvo_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)+");
-inline const regex regex_Any_Key("[\\sa-zA-Z0-9 ]");
+inline const regex regex_Any_Key(".*"); //[\\sa-zA-Z0-9 \\W]
 inline const regex pat_Turn_Menu("^[0-3]+$");

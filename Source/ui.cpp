@@ -95,6 +95,7 @@ void ui_TargetSelectionPrompt()
   ui_returnCursorPos();
   cout << clear_Console_Screen_Bottom;
   cout << "Enter a coordinate (E.G. 'b7')" << endl;
+  ui_saveCursorPos();
 }
 
 void ui_GameOverText(Player* winner, Player* loser) //display winners and losers, and await input to continue
@@ -103,13 +104,14 @@ void ui_GameOverText(Player* winner, Player* loser) //display winners and losers
   cout << "GAME OVER" << endl;
 
   cout << "Press any key to return to the main menu" << endl;
-  getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
+  getLineSingleKey(regex_Any_Key, "");
 }
 
-void ui_ContinueText() 
+string ui_ContinueText() 
 {
-  cout << "Press any key to confirm" << endl;
-  getLineSingleKey(regex_Any_Key, "EEEEEEEEEE");
+
+  cout << continue_Prompt << endl;
+  return getLineSingleKey(regex_Any_Key, "");
 }
 
 string ui_moveCursorUp(int noLines)

@@ -116,12 +116,20 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
   //assume that string has been capitalised
   int index = 0;
   int ch = 0;
+  int alpha = 26;
+  
   char current = '-';
   
-  for (int i = 0; i < charsToConvert.size(); i++) {
-    current = charsToConvert[i]; 
-    ch = current - 65; //subract the ascii value that's at the start of the alphabet (capitalised)
-    index += ch * pow(26, (charsToConvert.size() - i) - 1); //multiply by an order of 26 (alphabet length) if more than one letter is included, to facilitate larger board sizes
+ for (int i = 0; i < charsToConvert.size(); i++) {
+   //if there are two letters, the first number cannot calculate to 0, must start at a minimum of 1
+    int asciiL = (charsToConvert.size() == 2 && i == 0) ? 64 : 65;
+    
+    current = charsToConvert[i] ; 
+   //subract the ascii value 
+    index += (current - asciiL); 
+   
+  //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
+   index = (i < charsToConvert.size() - 1)  ? index *= pow(26, i + 1) : index;
   }
 
   return index;
@@ -137,11 +145,11 @@ string getLineString(regex pattern, string error) {
     ui_returnCursorPos();
     
     cout << clear_Console_Screen_Bottom; //clear screen to the bottom 
-    cout << clear_Console_Line <<  error;
+    
     cin.clear();
     if (validString == true) {
       cout.flush();
-    }
+    } else cout << clear_Console_Line <<  error;
   }
 
   return inputStr;
@@ -190,7 +198,7 @@ Coordinates splitCoords(string coordsToSplit)
 int rollRandomNumber(int max) 
 {    std::random_device roll;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(roll()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(0, max);
+    std::uniform_int_distribution<> distrib(0, max); //produces a random number between the two provided numbers
 
     return distrib(gen);
 }
@@ -241,4 +249,14 @@ bool isSalvoGT(GameType currentGM)
 bool isInBounds(Coordinates selection, int width, int height)
 {
   return (selection.colPos < width && selection.rowPos < height);
+}
+
+void invalidBoard(int width, int height)
+{
+  int maxSize = 80;
+  int minSize = 5;
+
+  assert(width > minSize && width < maxSize);
+  assert(height > minSize && height < maxSize);
+  
 }

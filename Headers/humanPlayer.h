@@ -6,6 +6,7 @@ class HumanPlayer :
     public:
       HumanPlayer(); 
       ~HumanPlayer();
+
       bool isHuman(); //identify player as a human
       vector<Coordinates> selectTarget(GameType gameMode, int numShots); //manually select a target based on input
 

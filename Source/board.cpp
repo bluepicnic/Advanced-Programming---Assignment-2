@@ -126,7 +126,8 @@ void Board::setStateColour(Coordinates colourLocation)
     }
     
     case SpaceState::Miss: {
-      stateColour = "\033[38;2;255;255;255m";
+      //stateColour = "\033[38;2;255;255;255m";
+      stateColour = text_Colour_Default;
       break;
     }
     

@@ -9,11 +9,13 @@
 #include <regex> //To perform regex operations to check against input
 #include <cmath> //For "pow" function to allow for more dynamic letter to number calculation
 #include <random> //for functionality pertaining to random number generation (RNG); functions included are said to produce a better distribution of random numbers than standard functions such as rand() and srand()
+#include <climits> //contains constant values with the maximum possible values for primitive types
+#include <cassert> //used for assertions, to prevent the program from running in the event of a condition that should never occur.
 
-#include <unistd.h>
-#include <termios.h> 
-#include <sys/stat.h>
-#include <limits.h>
+#include <unistd.h> //for getting input from a single key
+#include <termios.h> //command line control 
+#include <sys/stat.h> //used for obtaining attributes of files
+
 
 /*STD namespace functions and types*/
 //individually included to preserve resources

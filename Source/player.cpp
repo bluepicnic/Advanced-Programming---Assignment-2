@@ -11,9 +11,13 @@ Player::~Player()
   
 }
 
-bool Player::deployBoat(string command)
+bool Player::deployBoat(string command) //manually deploy boat with input command
 {
   bool deployment = false;
+
+  int width = mPlayerBoards[0].getWidth();
+  int height = mPlayerBoards[0].getHeight();
+  
   //split user input command into its three components parts 
   vector <string> commands = separateCommands(command); 
   int boatID = stoi(commands[0]);
@@ -24,23 +28,22 @@ bool Player::deployBoat(string command)
   Coordinates targetPos = splitCoords(coords); 
   
   //check if boat ID is valid 
-  if (boatID <= mFleet.size() - 1 ) {
-    //check if coordinate is in range, depending on orientation 
-    if(targetPos.colPos < mPlayerBoards[0].getWidth() && targetPos.rowPos < mPlayerBoards[0].getHeight()) {
-      
-      if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getHeight()) || 
-        (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getWidth())) {
-        
-      //reset existing boat placement, if already placed
-      recallBoat(boatID);
-      deployment = deployBoat(boatID, targetPos, orientation);
-      } 
-    }
-  }
-  return deployment;
+  if (boatID > mFleet.size() - 1 ) return deployment;
+
+  //check if initial position to place the boat is valid
+  if (isInBounds(targetPos, width, height) == false) return deployment;
+    
+  //check if coordinate is in range, depending on orientation 
+  if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= height) || (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= width)) {
+    //reset existing boat placement, if already placed
+    recallBoat(boatID);
+    return deployBoat(boatID, targetPos, orientation);
+  } 
+  
+  return false;
 }
 
-void Player::deployBoat(int boatID)
+void Player::deployBoat(int boatID) //auto-place ship based on 
 {
   bool validCoords = false;
   Coordinates randCoords;
@@ -68,10 +71,11 @@ void Player::deployBoat(int boatID)
   }
 }
 
-bool Player::deployBoat(int boatID, Coordinates loc, string orientation) 
+bool Player::deployBoat(int boatID, Coordinates loc, string orientation)  //update boards and deploy boat
 {
   int column = 0; 
   int row = 0;
+  
   Board tmpBoard = mPlayerBoards[0]; //store shipboard in case we wish to revert changes
   vector <Coordinates> provisionalLoc;
 
@@ -83,6 +87,7 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
       mPlayerBoards[shipboard].updateBoard({loc.rowPos + row, loc.colPos + column}, SpaceState::Occupied );
       provisionalLoc.push_back({loc.rowPos + row, loc.colPos + column});
     }
+    
     //increment specific counter for a given orientation to the next position along that axis
     if (orientation == "V") {
       row++;
@@ -92,8 +97,7 @@ bool Player::deployBoat(int boatID, Coordinates loc, string orientation)
   }
   
   //if any issues have occured (i.e if any coordinates are already occupied), then we will have deployed to less coordinates than the size of the boat
-  if(provisionalLoc.size() < mFleet[boatID].reportSize())
-  {
+  if(provisionalLoc.size() < mFleet[boatID].reportSize()) {
     //recall boat if we're unable to place boat in its entirety
     recallBoat(boatID);
     mPlayerBoards[shipboard] = tmpBoard;

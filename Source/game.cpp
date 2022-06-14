@@ -40,10 +40,9 @@ bool Game::setup()
           boatMenuSelection = 4; //AI will always auto-place
         }
         else { //once AI deployment is complete
-          cout << "Press any button to continue, or 0 to exit" << endl;
 
           //continue if any key other than 0 is pressed
-          string quitOrContinue = getLineSingleKey(regex_Any_Key, "ummmmm");
+          string quitOrContinue = ui_ContinueText();
           boatMenuSelection = (quitOrContinue == "0") ? stoi(quitOrContinue) : 6;
         }
         
@@ -189,8 +188,8 @@ void Game::playGame()
             mGameState = GameState::Swap_Turn;
             swapTurn();
             noShots = calculatePlayerShots(mGameMode); //recalculate number of shots only when swapping turns
-            break;
           }
+          break;
         }  
         case 0: {
           return;
@@ -288,7 +287,7 @@ void Game::gameHeader()
 void Game::setupDisplay()
 {
   gameHeader(); //display current game info at top of screen
-  mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
+  mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
@@ -297,9 +296,9 @@ void Game::setupDisplay()
 void Game::turnDisplay()
 {
   gameHeader(); //display current game info at top of screen
-  mPlayers[mCurrentPlayer]->displayBoards(0); //output select player boards
+  mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
-  mPlayers[mCurrentPlayer]->displayBoards(1); //output select player boards
+  mPlayers[mCurrentPlayer]->displayBoards(targetboard); //output select player boards
   ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
 
@@ -309,7 +308,7 @@ string Game::registerShot(Coordinates target)
   string resolveText = "";
 
   stringstream shotInfo;
-  shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.colPos + 1) << target.rowPos + 1;
+  shotInfo << mPlayers[mCurrentPlayer]->sayName() << " fires at " << convertToLetter(target.colPos + 1) << target.rowPos + 1; // add 1 to values to represent the real values visible on the board
   
   if (occupiedSpace == true) {
     resolveText = mPlayers[mCurrentPlayer]->acknowledgeShot(targetboard, target, SpaceState::Hit_Boat);
@@ -340,8 +339,8 @@ bool Game::resolutionDisplay(vector<string> resolutionText)
       mGameState = GameState::End;
       return true;
     }
-  ui_ContinueText(); //otherwise continue with gameplay and display relevant text
-  return false;
+  return (ui_ContinueText() == "0"); //otherwise continue with gameplay and display relevant text
+  
 }
 
 int Game::calculatePlayerShots(GameType mode) 

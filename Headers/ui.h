@@ -14,7 +14,7 @@ void ui_BoatSelectionPrompt();
 void ui_TargetSelectionPrompt();
 
 void ui_GameOverText(Player* winner, Player* loser);
-void ui_ContinueText();
+string ui_ContinueText();
 
 string ui_moveCursorUp(int noLines);
 void ui_saveCursorPos();

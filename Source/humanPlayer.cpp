@@ -2,7 +2,6 @@
 
 HumanPlayer::HumanPlayer()
 {
-  cout << "Please enter your name" << endl;
   mPlayerName = declarePlayerName(); //set player name through input 
 }
           
@@ -44,7 +43,6 @@ vector<Coordinates> HumanPlayer::selectTarget(GameType gameMode, int numShots)
       //check if coord is in bounds, hasn't been previously targeted and player has enough shots left to complete the action
       if(isInBounds(manualTargets[i], boardWidth, boardHeight) && previouslyTargeted(manualTargets[i]) == false && manualTargets.size() <= numShots) {
         targetCommand = true;
-        
       } else {
         targetCommand = false;
         manualTargets.clear();
@@ -58,11 +56,12 @@ vector<Coordinates> HumanPlayer::selectTarget(GameType gameMode, int numShots)
 
 string HumanPlayer::declarePlayerName()
 {
-   
+  
   ui_saveCursorPos();
-    //temporary string to store value, don't want to put into member variable without checking it's valid
+  cout << "Please enter your name" << endl;
+  //temporary string to store value, don't want to put into member variable without checking it's valid
   string playerAlias = getLineString(regex_Alphanumeric, "That name is invalid, please only use alphanumeric characters: ");
   
-
+  
   return playerAlias;
 }

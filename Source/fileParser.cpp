@@ -38,10 +38,12 @@ void parseFile(Board boards[], vector<Ship> &ships)
         boardWidth = stoi(removeLeadTrailSpaces(parameters[0]));
         boardHeight = stoi(removeLeadTrailSpaces(parameters[1]));
 
-        Board help (boardWidth, boardHeight); //temporary board to set both player boards with
+        invalidBoard(boardWidth, boardHeight);
+
+        Board tmpBoard (boardWidth, boardHeight); //temporary board to set both player boards with
 
         for (int i = 0; i < num_Boards; i++) {
-          boards[i] = help;
+          boards[i] = tmpBoard;
         }
 
       }
