@@ -54,20 +54,20 @@ int ui_displayBoatPlacement(bool advance)
   return stoi(getLineSingleKey(regex_Menu_Selection, invalid_Menu_Input)); //take input, return as integer
 }
 
-int ui_displayTargetSelection(bool turnComplete)
+int ui_displayTargetSelection(string pName, int shots)
 {
   //display menu elements for player targeting, return selection
   string turnSwapColour = text_Colour_Grey;
   string targetColour = text_Colour_Default;
   
-  if(turnComplete == true) {
+  if(shots == 0) {
     turnSwapColour = text_Colour_Yellow;
     targetColour = text_Colour_Grey;
   }
-  
-  cout << endl << targetColour <<  "1. Manual Target" << endl;
-  cout << "2. Auto Target" << endl;
-  cout << turnSwapColour << "3. End Your Turn - Continue Game" << text_Colour_Default << endl << endl;
+  cout << text_Colour_Cyan << pName << " is firing... " << shots << " shots remaining" << endl << endl;
+  cout << endl << targetColour <<  manual_fire << endl;
+  cout << auto_fire << endl;
+  cout << turnSwapColour << end_turn << text_Colour_Default << endl << endl;
 
   ui_saveCursorPos();
   cout << menu_Num_Prompt << text_Colour_Default << endl << endl;
@@ -94,16 +94,16 @@ void ui_TargetSelectionPrompt()
 {
   ui_returnCursorPos();
   cout << clear_Console_Screen_Bottom;
-  cout << "Enter a coordinate (E.G. 'b7')" << endl;
+  cout << coord_Prompt << endl;
   ui_saveCursorPos();
 }
 
-void ui_GameOverText(Player* winner, Player* loser) //display winners and losers, and await input to continue
+void ui_GameOverText(string winner, string loser) //display winners and losers, and await input to continue
 {
-  cout << loser->sayName() <<  " has no more ships left: " << winner->sayName() << " wins!" << endl << endl;
+  cout << loser <<  " has no more ships left: " << winner << " wins!" << endl << endl;
   cout << "GAME OVER" << endl;
 
-  cout << "Press any key to return to the main menu" << endl;
+  cout << return_Prompt << endl;
   getLineSingleKey(regex_Any_Key, "");
 }
 

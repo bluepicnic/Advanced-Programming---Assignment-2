@@ -33,15 +33,22 @@ inline const string reset_Boats = "5. Reset all ships";
 inline const string complete_Setup = "6. Confirm placements & continue...";
 inline const string exit_text = "0. Quit";
 
+//turn firing menu items
+inline const string manual_fire = "1. Manual Target";
+inline const string auto_fire = "2. Auto Target";
+inline const string end_turn = "3. End Your Turn - Continue Game";
+
 //specific input prompts
+inline const string name_Prompt = "Please enter your name (15 characters max)";
 inline const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
 inline const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by entering an ID from the list above: ";
 inline const string menu_Num_Prompt = "Enter an option from the numbers above, or 0 to quit:";
-
-
+inline const string coord_Prompt = "Enter a coordinate (E.G. 'b7')";
 inline const string continue_Prompt = "Press any key to confirm, or 0 to exit";
+inline const string return_Prompt = "Press any key to return to the main menu";
 
 //String constants for invalid input error messages
+inline const string invalid_Name = "That name is invalid, please only use alphanumeric characters (max 15): ";
 inline const string invalid_Menu_Input = "That selection is invalid: please try again: ";
 inline const string invalid_Placement_Command = "That command is invalid: please try again: ";
 inline const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat: ";
@@ -93,7 +100,7 @@ inline const string console_Move_Cursor_Up = "\u001b[1A";
 
 //String literal constants for regular expression patterns
 inline const regex regex_Menu_Selection("^[0-6]+$");
-inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]*$");
+inline const regex regex_Alphanumeric("^[a-zA-Z0-9 ]{1,15}*$");
 inline const regex regex_Setup_Menu_Selection("^[0-6]+$");
 inline const regex regex_Board_Setup("^([0-9]{1,2} ?[a-zA-Z]{1,2}[0-9]{1,2} ?[vVhH])+");
 inline const regex regex_Targeting("^([a-zA-Z]{1,2}[0-9]{1,2} ?)");

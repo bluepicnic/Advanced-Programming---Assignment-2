@@ -154,7 +154,7 @@ void Game::playGame()
     }
     else {
       //display turn menu and take human player input
-      targetMethod = ui_displayTargetSelection(noShots == 0);
+      targetMethod = ui_displayTargetSelection(mPlayers[mCurrentPlayer]->sayName(), noShots);
     } 
 
       switch(targetMethod) {
@@ -335,7 +335,7 @@ bool Game::resolutionDisplay(vector<string> resolutionText)
   shipCounts oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
     if (oppBoats.shipsAfloat == 0)
     {
-      ui_GameOverText(mPlayers[mCurrentPlayer], mPlayers[mInactivePlayer]);
+      ui_GameOverText(mPlayers[mCurrentPlayer]->sayName(), mPlayers[mInactivePlayer]->sayName());
       mGameState = GameState::End;
       return true;
     }

@@ -58,9 +58,9 @@ string HumanPlayer::declarePlayerName()
 {
   
   ui_saveCursorPos();
-  cout << "Please enter your name" << endl;
+  cout << name_Prompt << endl;
   //temporary string to store value, don't want to put into member variable without checking it's valid
-  string playerAlias = getLineString(regex_Alphanumeric, "That name is invalid, please only use alphanumeric characters: ");
+  string playerAlias = getLineString(regex_Alphanumeric, invalid_Name);
   
   
   return playerAlias;
