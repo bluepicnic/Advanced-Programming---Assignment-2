@@ -1,6 +1,3 @@
-
-
-
 ## Challenge Outline (academic standard: pass level detail: section required for pass) – 10%
 ### a. Summary and review of the problem, overall proposed solution.
 The problem I decided to tackle for my project was that of the game Battleship. (named adaship for the sake of this assignment) The game itself features two opposing players attempting to guess the placements of boats of varying sizes on one of two game boards while recording their guesses on another. Successful guesses are marked as hits on both the "ship" and "target" boards, while unsuccessful ones marked as misses on the target board of the current player. The game ends when all of a player's ships have been "destroyed" by idenifying their locations. 
@@ -39,10 +36,13 @@ My approach to quality and development strategy consisted of a regular testing s
 
 
 ### d. Analysis and decomposition of the overall problem into key ‘epic’ style tasks (linked to 1b, 1c).
-In order to effectively develop the application portion of my project, I made sure during the planning and preparation phases, to analyse the overall task at hand and decompose aspects of game into “epic” style tasks. These would later be broken down into more specific tasks.
+In order to effectively develop the application portion of my project, I made sure during the planning and preparation phases, to analyse the overall task at hand and decompose aspects of game into “epic” style tasks. 
+These would later be broken down into more specific tasks.
 Per the assignment brief, this included general gameplay considerations for the base battleship game, in addition to game modes that would be potentially implemented in later development phases, such as the “salvo” and hidden mines game modes. 
 There were also a number of wider considerations which comprised of problems that I identified before overall development began, namely menu creation & layout, input parsing, and file management. These were issues that I believed would take up a considerable amount of development time and resources, as well as being integral to the functionality of the game itself.  As such, these issues deserved their own “epics” to group sub-tasks under and were tracked alongside other wider issues. 
+
 I also included the setup phase of the battleship game as its own “epic” for similar reasons. As identified in section 1A of this report, there are aspects of the battleship game that become more convoluted and involved when the physical mediums of the game are taken away. Add to this fact that extra, computer game only functionality needed to be added on top, such as auto-placing boats during the setup phase, resulted in the “game setup” being allocated its own high-level task. 
+
 The final two “epics” I incorporated were related to the behaviour and logic behind the two inherited and derived classes of the player object, Human and AI players. Similar to the setup phase, the concept of a player for use in the command line console adaptation of battleship is much more complex than it is for the physical game. Not only are human players allowed to manually place ships much like they do in the physical game, but can also do so automatically with a randomised location. The assignment brief specifically calls for auto placement of a single boat, available boats (i.e. those not already placed, and all boats, which each come with their own challenges. The same applies to an AI player, which is a fresh consideration for the adapted game. While their decision making and mechanical navigation of the game is much more pre-determined, extra care needed to be taken to ensure an AI player is bound to the same rules as a human one. 
 
 I made use of the issue tracking software “Jira” to consider high level tasks and concepts, visualise progress through swimlanes and categorise tasks under “epics”.
@@ -71,8 +71,6 @@ I found the initial and intermediate stages of breaking down tasks to be quite e
 
 ## 2. Development (academic standard: merit level detail: section required for merit) – 15%
 ### a. Adoption and use of ‘good’ standards (linked to 1a, 1b, 1c).
-#### Merit: Statements with justifications/evidence/
-#### "Yes, because x/y"
 
 As part of my development strategy, I adopted and utilised a number of "good" programming standards that contributed to my code being readable and logical, in addition to encouraging good habits from the perspective of the programmer. This section will discuss the standard I personally adopted.
 
@@ -290,10 +288,9 @@ My initial design also featured a number of functions, included in the “AIPlay
 
 #### Phase 3 - Interaction with defined objects, Game loops and implementation 
 ##### Tasks
-The third development phase finally introduced key game objects into my implementation beyond their declaration within their specific files. Objects such as the board and boats which are associated with the player were able to be included in comprehensive output strings that made the player aware of the status of these objects with regards to the game. This was of course beneficial because the player was made aware of what state the game and its objects were in, and it helped to provide, in a number of forms, feedback to player input based on expectations.
+The third development phase finally introduced key game objects into my implementation beyond their declaration within their specific files. Objects such as the board and boats which are associated with the player were able to be included in comprehensive output strings that made the player aware of the status of these objects with regards to the game. This was of course beneficial because the player was made aware of what state the game and its objects were in, and it helped to provide, in a number of forms, feedback to player input based on previous expectations.
 
 These mechanical reactions to input helped to finalise the implementation of the setup stage of the game and the boat deployment functionality within, which fully bridged the gap between the game’s output and the state of its underlying data structures.  
-
 This was facilitated through the use of state machines, which were included in my designs from the offset, and were utilised within from this development phase onwards. Objects that had state machines assigned to them included the game itself, individual spaces on each of the game boards, and boats utilised by players. These were chosen due to their mutability of state and various behaviours in different scenarios, and to create cleaner, more concise code in lieu of using other variables to conditionally alter behaviour. 
 
 Also implemented during this phase were logical flow decisions in my code that unified existing menus and input prompts into a comprehensive system. For example, both the player and AI were able, by the end of the development phase, to place their boats on the game boards. The actions that could be taken by each type of player differed, naturally due to the lack of need to take input from an AI player, for example. This resulted in vastly different user journeys and experiences depending on the game mode selected and the player types included there in, which helped to diversify the content within my project and increase its complexity. 
@@ -301,37 +298,167 @@ Also implemented during this phase were logical flow decisions in my code that u
 Various gameplay related design patterns were implemented, such as the inclusion of a game loop, which kept the program running for as long as the player desired, appropriately resolving conditions that would otherwise end the game.  
 
 ##### Code Review
-As mentioned above, the third phase of development 
-![Code ](Images/stateMachine.PNG) 
-+ Implemented space colouring reacting to state machine (commit 18 - board.cpp)
-+ Manual player deployment algorithm -> lots of nesting, long if statements (commit 18 player.cpp)
-+ Utilising isHuman function showing true runtime polymorphism working. Showed true 
-+ Random boat deployment showing compile time polymorphism
-+ + Made all consts inline to prevent repition, reduce system resources and increa compile times
-  + 
+As mentioned above, the third phase of development saw state machines implemented in my project. An application of this was to inform the player of the status of their ships during setup and game play. Alongside information regarding their health, size, name and ID, the player is also made aware of the state of each individual boat, with a different string appearing depending on the state of the boat. The status updates during gameplay to keep the player informed. This is beneficial from a UX point of view, as there is no ambiguity as to the state of the player’s boats, of which the player is informed. 
+
+````
+switch (mStatus) {
+	    case BoatStatus::Inactive:
+	      cout << "Inactive";
+	      break;
+	    case BoatStatus::Deployed:
+	      for (auto it: mLocations) {
+	        boatSpaces << convertToLetter(it.colPos+1) << it.rowPos+1 << " ";
+	      }
+	      cout << boatSpaces.str();
+	      break;
+	    case BoatStatus::Destroyed:
+	      cout << "Destroyed";
+	      break;
+	  }
+	}
+
+`````
+Also implemented during this phase was the manual deployment algorithm for Players. This allowed users to place boats on the shipboard during the setup phase using an input string. The command is then separated into its component parts (if the string entered is in the correct format) and checked in this function to see if it is valid according to the game’s current configuration. The code for this can be seen below.
+
+`````
+  //check if boat ID is valid 
+  if (boatID <= mFleet.size() - 1 ) {
+    //check if coordinate is in range, depending on orientation 
+    if(targetPos.colPos < mPlayerBoards[0].getWidth() && targetPos.rowPos < mPlayerBoards[0].getHeight()) {
+      
+      if((orientation == "V" && (targetPos.rowPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getHeight()) || 
+        (orientation == "H" && (targetPos.colPos + mFleet[boatID].reportSize()) <= mPlayerBoards[0].getWidth())) {
+        
+      //reset existing boat placement, if already placed
+      recallBoat(boatID);
+        int column = 0; 
+        int row = 0;
+        Board tmpBoard = mPlayerBoards[0]; //store shipboard in case we wish to revert changes
+        for (int i = 0; i < mFleet[boatID].reportSize(); i++) {
+          
+          //check if each coordinate is occupied
+          if(mPlayerBoards[0].isOccupied({targetPos.rowPos + row, targetPos.colPos + column}) == false) {
+            
+            mPlayerBoards[0].updateBoard({targetPos.rowPos + row, targetPos.colPos + column}, SpaceState::Occupied );
+            provisionalLoc.push_back({targetPos.rowPos + row, targetPos.colPos + column});
+          }
+          
+          if (orientation == "V") {
+            row++;
+          } else {
+            column++;
+          }
+        }
+`````
+As can be seen, the function itself features an excessive amount of nesting to try and validate the command string entered by the player. While comprehensive, the code in this format does not follow “good” standards. This is because the code in the state seen above would be hard to debug due to it being less readable and harder to discern the purpose as the number of statements grow. Additionally, the statement used to check the orientation is excessively long and complex, which makes it harder to read and subsequently debug in the same fashion. This was refactored in later development phases. 
+The “constants.h” file stored numerous constant values starting in earlier development phases. In this development phase, I added the inline keyword to each constant found in the file. This is seen as a good practice in order to prevent compile-time repetition, in which the compiler will by default include an instance of each variable without a defined scope in each of the files it is included in. The presence of the inline keyword has the Linker step in and remove all but one instance. This results in potentially faster compile times and by extension can reduce system resources.
+
+The implementation of various game elements in this development phase actualised prior intentions to include both compile and runtime polymorphism in my project. The function “isHuman” found as a virtual function in the base class and implemented in both derived classes are an example of runtime polymorphism working in my code. While basic, these functions have multiple benefits, the first is that the implementations are unique to each derived class, which makes distinguishing between the two classes easier, which can aid debugging. The second is that by including the virtual keyword in the base class alongside the definition of the function, we make the base class abstract, which means that it cannot be instantiated, which has security benefits, as my code is designed to utilise the derived classes and their unique functionality, and not the base class by itself. The code for these functions and the definition of each can be found below. In the program itself, these are separated into their own respective header and implementation files.
+
+`````
+bool isHuman();
+bool AIPlayer::isHuman() //confirm player is an AI player
+{
+  return false;
+}
+`````
+`````
+   virtual bool isHuman() = 0; //determine if a player is human controlled
+`````
+   
+`````
+bool isHuman(); //identify player as a human
+
+bool HumanPlayer::isHuman()
+{
+  return true;
+}
+`````
+In terms of runtime polymorphism, I included overloaded variation of the “deployBoat” in the base player class during this development phase. This served the purpose of encouraging code reuse through calls to these functions. It can also help to reduce coupling between differing functionalities  In my implementation, two of the variants act as wrapper functions to handle either manual or auto boat placement. I then reaped the benefits of this style of polymorphism by including a call to a third deploy boat function, which held common functionality that completed the act of “placing” the boats on the relevant player’s boards. 
+`````
+bool deployBoat(string command); //wrapper function for manual boat deployment
+    void deployBoat(int boatID); //wrapper function for automatic boat deployment
+    bool deployBoat(int boatID, Coordinates loc, string orientation); //boat deployment
+`````
+
 ##### Changes
-+ Moved std to headers (commit 16) -> Good move, leaving them there was bad practice as it left potentialy for them to be included multiple times. Prevents naming clashes and unexpected behaviour 
-+ Moved split coords functionality into its own function to reduce the bloat of the player class. Further modularisation that upheld object oriented principles (commit 17)
-+ Moved deployboat functionality into its own funtion to prevent bloat and encapsulate (20)
-+ Removing conceptualised AI player funcitonality -> Could be achieved in base class, subverts repitition, would only call base class function if not fully realised
-+ Finalised display board function, made relatively pure
+As development shifted towards more complex implementations, I tried to clean up my code in areas where I felt refactoring would beneficial for readability, to maintain “good” standards or to improve performance. 
+For example, I moved the inclusion of numerous C++ Standard Template classes into the “headers.h” file from individuals scopes where they were being utilised. This not only allowed them to be used across my program, but also subverted an example of bad practice, as it left potential for those classes to be included multiple times. This would have a negative impact as it could lead to undefined and unexpected behaviour and potentially cause naming clashes within my code. 
+`````
+using std::setw; //used to set the width of an output stream 
+  using std::left; //used to align an input stream to the left
+  using std::right;
+  using std::internal;
+`````
+I also made efforts refactor elements of the “Player” class as well. Functionality originally found within the “deployBoat” function was split into two separate functions. Code that separated coordinates from command strings were added to a utility function called “splitCoords”, whereas the functionality to update player boards with boat placement information was placed in an overloaded version of the “deployBoat” function. This was done in order to reduce the bloat of the player class, especially the overly long iteration of the deploy boat function, which aided with later debugging and improved the readability of the code. Furthermore, the act of further modularising my code allowed me to further uphold object-oriented design principles. One drawback of thie splitCoords code is that it featured string literal “magic” values at this stage, which obviously betrays the previously mentioned “good” standards.
+`````
+Coordinates splitCoords(string coordsToSplit) 
+{
+
+  //find the locations of letters and numbers in a coordinate input
+  size_t rowStringPos = coordsToSplit.find_first_of("0123456789");
+  size_t colStringPos = coordsToSplit.find_first_not_of("0123456789");
+
+  //separate into two values
+  string rowPos = coordsToSplit.substr(rowStringPos);
+  string colPos = coordsToSplit.substr(colStringPos, rowStringPos);
+
+  //store in Coordinates object to return
+  Coordinates splitCoords;
+  splitCoords.colPos = convertFromLetter(colPos);
+  splitCoords.rowPos = stoi(rowPos);
+  splitCoords.rowPos--; //minus one from numerical side of the input to be in line with numbers for arrays
+
+  return splitCoords;
+}
+`````
+Finally, a major change I made during this development phase was the decision to remove conceptualised AI Player functionality related to automatic boat placement and shot firing (of which the shell code had been present since the first development phase) from my program. This was mostly due to the fact that an equivalent function with identical functionality had already been included in the base player class for use by a human player. This came with some benefits, including reducing the amount of repetition in my program, which would have detracted from any “good” standards I had adhered to.
 
 
 #### phase 4 - Input clear up,  Salvo
 ##### Tasks
-+ Adding additional prompts to input to improve UX
-+ Preventing human player from continuing with setup and turn until complete
-+  Taking input for multiple shots
+My final development phase focussed on making improvements to various input prompts, finalising the functionality of the main game, and adding features related to the salvo game mode. 
+
+I added additional strings of text throughout my program in order to prompt the user for various inputs. This was done in order to improve the user experience by making the player aware of exactly what they needed to enter at a given time. This was of benefit to the player, as certain aspects of the game have specific input options, and adding these strings made the player aware of the options available to them. 
+As part of finalising the finishing touches to the functionality of the main game, I included the functionality that prevents human players from transitioning between various game states until certain conditions had been met. For example, a player is unable to complete the setup stage of the game until all of their boats have been placed and is unable to end their turn until they’ve used all available shots. Also included as part of this task was to have the colour of the text pertaining to the option to continue change depending on whether or not the player is able to advance. This was advantageous from an UX perspective, as the user is clear when each phase ends and another begins and additionally, further exemplifies when state machines change, which aided with debugging. 
+
+A significant amount of development time in this phase was dedicated to the salvo game mode, specifically in handling the titular ability to fire multiple shots in a single action. This involved evaluating the input from the player and splitting it into individual shots which are then translated into coordinates. Several changes were also made to the game class related to Salvo game mode logic, which included tracking the number of shots taken, and repeating manual firing logic for each shot taken. This was enclosed in a loop, which runs even in the base game. This was done to save vertical space, prevent code bloat and reduce the amount of code reused specifically for the Salvo game. 
+
 ##### Code Review
 - Recursive function
 - Further modularisation but placing a long if statement into its own function isInbounds(). Subverted shotgun surgery by removing repetitive blocks, which in turn saved valuable development time by only have to make futher modifications in a single place
   Applied a defensive programming approach by including assertions surrounding board sizes
 ##### Changes
-- Ability to quit anywhere, not just input
-- Changes to playGame function in game class, which added support for multiple shots. 
-- Also added manual continue to player turns
-- Changes to acknowledge shot to output win text
+In order to wrap up development in this final phase, I needed to make sure my code was as robust as possible before, during, and after implementing the Salvo game mode. This included ensuring all base requirements were accounted for in light of these changes.
 
+This included the ability for human players to be able to quit from anywhere in the program. The exceptions to this were during turn and setup actions, such as firing shots and taking input to place ships. This change was beneficial because of the UX implications in that control is not taken away from the player during actions that are out of their control. This also fixed a bug where the player was unable to quit when spectating an AI only game, and had to restart the program or wait for the game to finish in order to return to the main menu. 
+
+There were also changes made to the “playGame” function in the “Game” class, which added support for multiple shots in various ways, including by checking for a win condition while shots are being taken and outputting game ending to the screen once all fired shots have been resolved. The addition of this game ending text, included as part of a change to “acknowledgeShot” function was also a new addition, which was included to keep the player better informed about the state of the game, this was alongside a further change that moved resolution text generated inside this function into a loop, to support the Salvo game as well.
+
+`````
+bool Game::resolutionDisplay(vector<string> resolutionText)
+{
+  mGameState = GameState::Resolution; //update game state 
+  
+  turnDisplay(); //display boards during resolution 
+  for (auto it : resolutionText) { //output outcome text
+    cout << it << endl << endl;
+  }
+
+  //check if shots this turn resulted in the game ending and display the resolution text associated with that
+  shipCounts oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
+    if (oppBoats.shipsAfloat == 0)
+    {
+      ui_GameOverText(mPlayers[mCurrentPlayer]->sayName(), mPlayers[mInactivePlayer]->sayName());
+      mGameState = GameState::End;
+      return true;
+    }
+  return (ui_ContinueText() == "0"); //otherwise continue with gameplay and display relevant text
+  
+}
+`````
+
+Other changes included the removal of various “magic” values which were subsequently placed into constant values, to ensure the maintenance of “good” standards and to centralise all constant values into one location, which would aid further code upkeep. 
 
 
 ### d. Phase n development: tasks, code review and changes (linked to 1d,1e).
@@ -360,7 +487,7 @@ There were several design key design challenges that needed to be considered thr
 
 One of the challenges I identified as part of my initial design was that of the player class, and the inclusion of an AI player.  I knew that as part of my implementation that there needed to be multiple game modes that pitted human players against AI opponents as well as fellow human players.  When considering this, I did identify that there were many aspects of a battleship game that an AI player shared with a human player, such as the game boards, data structures that stored ship information, and so on. However, the way in which an AI player operates and calculates its way through a game of battleship is, as one would expect, automated. A human player does have the option to automate the same aspects of its game as an AI player, such as placing ships and firing shots. It was the potential for extra functionality and the additional data that this would require, however, that led my initial design (which in this case remained throughout the project) to have the Human Player and AI player as separate data structures, inheriting from a base player class. Another key consideration that drove this decision was differentiating between the game flow of an AI player and a human player. As the automation of the aforementioned tasks in the case of an AI player would happen with minimal input from a user, with validation that occurs inherently without re-entry, whereas a human player can choose between manual and automated tasks; with manual selections requiring various levels of validation and parsing to ensure any input or selection is valid. This also affected the overall output of the program to the screen as well and would impact which menus and UI elements could be seen and interacted with depending on the type of player. For example, a human player would receive a menu with various options when placing boats onto their boards during a game setup, whereas an AI player would skip to the point after their boats have been placed, with no options visible and no input taken. 
 
-One design challenge that arose as a result of this decision however, was that when creating a new game of indeterminable type, the game itself would not inherently know which type of player would be present, despite our expectations as users to have specific instances of each type of player based on the menu selection. Because of this, I couldn't just instantiate multiple explicit instances of each player class regardless of game type, as this would be wasteful for system resources and would introduce unneeded repetition. Instead, I chose to adopt runtime polymorphism in order to achieve this through this use of pointers to the player base class, which later during my implementation became an abstract class. By utilising this method, I was able to create generate specific instances of AI and Human players as and when they were needed, according to game type. In addition, I would be able to access specific functionality for each player type and through my implemented isHuman function() (which was implemented polymorphically for each derived class, and was virtual in my base class) was able to identify each type of player. The code for this can be seen below.
+One design challenge that arose as a result of this decision however, was that when creating a new game of indeterminable type, the game itself would not inherently know which type of player would be present, despite the expectations users would have regarding specific instances of each type of player based on the menu selection. Because of this, I couldn't just instantiate multiple explicit instances of each player class regardless of game type, as this would be wasteful for system resources and would introduce unneeded repetition. Instead, I chose to adopt runtime polymorphism in order to achieve this through this use of pointers to the player base class, which later during my implementation became an abstract class. By utilising this method, I was able to create generate specific instances of AI and Human players as and when they were needed, according to game type. In addition, I would be able to access specific functionality for each player type and through my implemented isHuman function() (which was implemented polymorphically for each derived class, and was virtual in my base class) was able to identify each type of player. The code for this can be seen below.
 ```
 Player* Game::generatePlayers(int selection, int index) {
   //Player 1 will always be human unless its AI vs AI
@@ -449,7 +576,7 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
 
 ## 3. Evaluation (academic standard: distinction level detail: section required for distinction) – 10%
 ### a. Analysis with embedded examples of key code refactoring, reuse, smells.
-#### Distinction: Statements with deep justifications and discussions
+
 
 #### Refactoring
 Throughout the course of my battleship project, I made a conscious effort to refactor my code at various intervals, such as between develoment phases, or to facilitate specific functionality. This was a key concern throughout the project, as I was initially unsure where this would fit in amongst various other tasks, such as fixing bugs and improving UI/UX elements. (Refactoring Guru, n.d.) believes that refactoring can exist alongside bug fixing, and is an effective way of unearthing any bugs, since the ultimate aim of refactoring is to clean up one's code. They also recognise refactoring when adding a feature as a valid oppurtunity to do so as well. 
@@ -530,8 +657,6 @@ Similar considerations were also made within my “acknowledgeShot” function, 
 I also refactored 
 
 #### Reuse 
-
-Purposefully using runtime polymorphism for the player classes to prevent major code reuse. Player related game functionality kept in the game class to prevent reuse, with specific instances for each type being placed into helper functions, limiting code changes to a single location and centralises any changes that needed to be made. 
 
 I attempted to keep explicit code reuse in major functions to a minimum. Removing repetitive blocks of code became a common brief refactoring tasks for myself throughout development. It was within these functions that I was able to identify any repetitive blocks best, as they would be visible within the same scope and never too far removed from any reoccurrences. However, some instances of code reuse went overlooked and were most common when separated into different scopes. 
 
@@ -636,7 +761,7 @@ The benefits of runtime polymorphism are thus; to be able to invoke the function
 
 I felt this lent itself quite well to my project since I had multiple player class types included as part of my initial design, and utilising runtime polymorphism would enable me to make specific calls to member functions of those derived classes without including any extra code, or explicitly having to define instances of those object types. The inclusion of this 'advanced' feature may not have been used to its full potential from my perspective, but I still believe that its inclusion and implementation are valid.
 
-Implementing runtime polymorphism necessitated the use of dynamic memory allocation and pointers. This, at face value, betrayed one of the 15 standards in not conserving system resources, and opened my program up to potentially unwanted behaviour via memory leaks, which can be dangerous for a program. However, relatively speaking, my player classes have quite a minimal memory impact and overall size in bytes. In addition, I was very much aware of the scope of any player objects created, as outlined in my UML diagram, which noted that they are intrinsically tied to the lifetime of my Game class object. Therefore, so long as appropriate measures were taken to release the allocated memory upon each Game object's destruction, memory leaks would be prevented and system resources would be conserved. I would then be able to reap the benefits of dynamic memory allocation and runtime polymorphism without fear of memory based issues within my project. 
+Implementing runtime polymorphism necessitated the use of dynamic memory allocation and pointers. This, at face value, betrayed one of the 15 "good" standards in not conserving system resources, and opened my program up to potentially unwanted behaviour via memory leaks, which can be dangerous for a program. However, relatively speaking, my player classes have quite a minimal memory impact and overall size in bytes. In addition, I was very much aware of the scope of any player objects created, as outlined in my UML diagram, which noted that they are intrinsically tied to the lifetime of my Game class object. Therefore, so long as appropriate measures were taken to release the allocated memory upon each Game object's destruction, memory leaks would be prevented and system resources would be conserved. I would then be able to reap the benefits of dynamic memory allocation and runtime polymorphism without fear of memory based issues within my project. 
 
 I also utilised various IO features throughout my project. The regex header and type allowed for the deferral of comprehensive input parsing and error handling. This was especially useful for complex input scenarios such as manual boat placement and firing, where several other conditions, such as valid board placement needed to also be assessed. Iomanip was another useful header was utilised to manipulate various output strings, and contributed to the structure of UI elements such as the boat placement status summary and most importantly, the game boards themselves. Functionality such as setw was used to set the width of an output stream, which was used in tandem with left and right modifiers to affect the alignment. This contributed to a visually appealing and uniform output display that was used alongside standard output methods. 
 
@@ -685,15 +810,98 @@ In addition, singletons break the single responsibility principle and are hard t
 
 ### c. Features showcase and embedded innovations (with examples) - opportunity to ‘highlight’ best bits.
 
+Throughout my project, I was required to challenge myself in order to meet the requirements outlined in the assignment brief. Certain innovations and pieces of functionality stand out as exceptional examples of advanced programming methodologies, design patterns and features that not only remained throughout an iterative project, but actively contributed to its quality. In this section I will outline the features exemplify this.
+The conversion of letters to numbers was a feature required to output coordinates in the required format which was visible to the player. This can best be seen through column labels of the game boards during setup and gameplay. The function itself takes a full string as a parameter which is evaluated through a loop as a product of the individual characters that it consists of. It then uses the existence of C++’s Char type as an integral data type (that is to say, it is stored entirely as an integer) to subtract known values that represent letters to find the “true” value which can be directly mapped to the specific array indexes which are found on the player boards. This was an especially useful innovation, as no casting between primitive data types was required for this piece of functionality, which could have resulted in a loss of data had the Char type not been integral. Once discovered, the number is then added to a running total and raised to the appropriate power of 26 in order to reflect its position in the string and subsequently its position within the game’s coordinate system. I made effective use of the “cmath” header’s “pow” function to enable this functionality and ensure that every board size within the game’s allowed limits could be accounted for. 
+`````
+for (int i = 0; i < charsToConvert.size(); i++) {
+   //if there are two letters, the first number cannot calculate to 0, must start at a minimum of 1
+    int asciiL = (charsToConvert.size() == 2 && i == 0) ? 64 : 65;
+    
+    current = charsToConvert[i] ; 
+   //subract the ascii value 
+    index += (current - asciiL); 
+   
+  //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
+    index = (i < charsToConvert.size() - 1)  ? index *= pow(alpha, i + 1) : index;
+  }
+  return index;
+`````
+This feature was key to my project because it helped to provide a seamless conversion between the underlying data structures that made up the logical parts of the game and the elements that were visible to the player. This helped to provide a familiar experience for the users who have played or encountered battleship before, which enhanced their user journey as a result, and made it so that the underlying coordinate system of the game didn’t need to be reinvented for the sake of the project, which could have introduced an unnecessary level of complexity to my design which were beyond the scope of considerations when modelling this system.
+Another feature which benefitted my project was the inclusion of relevant finite state machines to track the status of various objects throughout my program. The benefits of the application of this design pattern were thus: debugging was made easier because specific states were associated with specific behaviour, which made it easier to tell when the implementation of an object did not match its design. Also, since each of the objects could only ever be in one state at any given time, the state pattern prevents the overlap of behaviour from one associated state to another by only making changes to associated data within or in transition between the defined states. A fantastic example of this in my code can be found in my board class with the “setStateColour” function, in which the state machine directly affects the data member found within the space struct associated with the board class to change the colour of output strings according to the space’s state at a specific location.  
+`````
+void Board::setStateColour(Coordinates colourLocation) 
+{
+  string stateColour = "";
+  
+  switch (spaces[colourLocation.rowPos][colourLocation.colPos].status) {
+    case SpaceState::Inactive: {
+      stateColour = text_Colour_Sky_Blue;
+      break;
+    }
+    
+    case SpaceState::Unoccupied: {
+      stateColour = text_Colour_Black;
+      break;
+    }
+    
+    case SpaceState::Occupied: {
+      stateColour = text_Colour_Yellow;
+      break;
+    }
+    
+    case SpaceState::Miss: {
+      stateColour = text_Colour_Default;
+      break;
+    }
+    
+    case SpaceState::Hit_Boat: {
+      stateColour = text_Colour_Red;
+      break;
+    }
+    
+    default: {
+      stateColour = text_Colour_Default;
+      break;
+    }
+    
+  }
+  //set a space's symbol colour depending on its state
+  spaces[colourLocation.rowPos][colourLocation.colPos].outputColour = stateColour;
+}
+`````
+The equivalent of the code above without a state machine would require direct comparisons between different objects and actions associated with the game board, such as firing shots on a player’s turn or the boats that each player possesses. This would increase the coupling between aspects of my code in a number of different ways, in no small part due to having to pass whole instances of user defined types between object member functions.
+As such, the use of this pattern also reduced the need to have these various unrelated conditions checking against other in order to match the resourcefulness that state machines offer, which further reduced the need for redundant code, overall reducing bloat and contributing to a cleaner system with less brittle code.  The use of finite state machines within games is well documented, dating back to some of the earliest and most prevalent examples of games, such as Pac Man, and is still widely used to this day. The ease of their implementation and debugging contributes to proving the usefulness of this tried and tested method (Bourg and Seemann, 2004). This is especially so when considering how well suited it is to solve the problems posed by this specific project.
 
-+ Conversion of letters to numbers. -> string manipulation, math functions (pow)
-+ 
-+ Relevant state machines -> advanced design pattern, used to track the state of various object. This made debugging easier and allowed for a number of mutable phases that my objects could have.  Ever present in game development as a whole and a well suited design pattern to solve the problems this project poses. Proves the usefulness of this tried and tested method.
-  + Grouping of common values into user defined structs
-  + 
-+ Runtime polymorphism and use of pointers (creation of dynamic objects) - could result in more efficient code if used widely, was more prevalent in my initial design. Allowed for creation of objects without knowing their type. Presented a decent base to work from in the future and was well suited to the task at hand and problems it solved in myfianl ccode , even if my implemtentation was limited.
-+ Recursive functions -> expensive resources wise, but very suitable for the task at hand,
-+ Generate players (factory function)
+My implementation of runtime polymorphism in conjunction with the factory function design pattern was another highlight within my code.
+
+My “Game” class contained a standard array of pointers to “Player” base class objects, which are not explicitly instantiated at compile time. Instead, my code makes use of a factory function to delegate the creation of these objects to the program itself, based on the type of game and the players included within. As defined in the game class however, my base player class is classified as abstract, which means that it cannot be instantiated purely as a member of the base class. As inherited extensions of the base class however, dynamically created instances derived classes can take their place instead, giving these created objects access to base class functionality in addition to that of their own. This is also beneficial in the sense that the use of pointer can contribute to more efficient code due to the application of memory addresses rather than values. The execution time of code can also be reduced in a correlative fashion when dealing with larger objects compared to using their standard reference values. In order to create these objects, I used a private function of the Game class “generatePlayers” to return an instance of a base class pointer, which can also include that of its derived classes. Effectively, this enables the system to define instances of its own objects, delegating decision making to the program and by extension, reduces the need to initialise class instances explicitly in code. This results in an overall reduction of the amount of code used within a project, saving on vertical space, and unnecessary redundancy. 
+
+`````
+Player* Game::generatePlayers(int selection, int index) //create a dynamic player, based on game mode 
+{
+  //Player 1 will always be human unless its AI vs AI
+  if (index == 0 && (selection % 3 != 0)) {
+    return new HumanPlayer;
+  }
+  else if (index == 0) {
+    return new AIPlayer(index);
+  }
+
+  //Player 2 will be an AI unless its a multiplayer game 
+  if (index == 1 && (selection != 2 && selection != 5)){
+    return new AIPlayer(index);
+  }
+  else if (index == 1) {
+    return new HumanPlayer;
+  }
+
+  return NULL;
+  
+} 
+`````
+
+The application of these two features in tandem provides a decent base to expand on my implementation in the future. The object-oriented nature of the project also proved that their usage was a good fit as it provided a unique, and not overly complex solution to problems identified at the start of development, namely, the handling of the logic assigned to different players and tracking them effectively. This is despite the fact that my implementation of runtime polymorphism was limited in my final code.
+
 
 ### d. Improved algorithms – research, design, implementation, and tested confirmation (with examples).
 
@@ -704,6 +912,7 @@ Conversion of numbers to letters
 Conversion of letters to numbers -> inclusion of pow function. 
 Pure check input function (with regex) -> research of the regex type, direct evaluation
 Acknowledge shot -> From deep nested conditionals to guard clauses with return routes. Research of guard clauses 
++ Recursive functions -> expensive resources wise as it ttakes up valuable stack space, but very suitable for the task at hand. Examples found used fibbonaci as an example, but the concept of a values that changes with each iteration 
 
 
 
@@ -766,7 +975,7 @@ int Ship::reportSize()
 
 When I constructed my initial design, I had a different, but misplaced understanding of the level of access that derived classes had to base class variables when inheriting publicly. This meant that I had designed my system and derived classes to manipulate data it did not have access to, giving the AIPlayer and HumanPlayer classes a heightened sense of importance. 
 
- and my understanding of derived classes access to base class variables, while still attempting to maintain a level of encapsulation. In many cases, I worked around these by including functions in the base class to relieve any potential coupling between classes and to maintain encapsulation, but in doing so I somewhat undermined my use of runtime polymorphism, relegating my dynamic derived classes to variations on functions that took input or generated values to perform a task, such as firing a torpedo or placing a boat. This is not to say that my application of this feature was invalid, but rather 
+I was required to revise part way through the project my understanding of derived classes access to base class variables, while still attempting to maintain a level of encapsulation that was outlined my initial design. In many cases, I worked around this by including functions in the base class to relieve any potential coupling between classes and to maintain encapsulation, but in doing so I somewhat undermined my use of runtime polymorphism, relegating my dynamic derived classes to variations on functions that took input or generated values to perform a task, such as firing a torpedo or placing a boat. This is not to say that my application of this feature was invalid, but rather, was not as prevalent as it could have been and was perhaps not as suitable for its current implementation at the project's eventual scale and capacity.
 
 My background as a programmer revolved around repetition of many of the basic aspects of C++ which resulted programming in a procedural and sometimes functional way. Through targeted personal development in the future, I could endeavour to become a multi-paradigm polyglot programmer. Thinking in an object oriented way would likely come with practice, too. 
 
@@ -796,3 +1005,4 @@ In conclusion, while my implementation lacked an outstandingly deep level of com
 - Kanjilal, J., 2022. Understanding code smells and how refactoring can help. [online] SearchSoftwareQuality. Available at: <https://www.techtarget.com/searchsoftwarequality/tip/Understanding-code-smells-and-how-refactoring-can-help#:~:text=Put%20simply%2C%20code%20smells%20are,in%20accordance%20with%20necessary%20standards.>.
 - Hilton, J., 2016. Why coupling will destroy your application and how to avoid it. [online] Jonhilton.net. Available at: <https://jonhilton.net/2016/03/09/why-coupling-will-destroy-your-application-and-how-to-avoid-it/>.
 - Fowler, M. and Beck, K., 1999. Refactoring: Improving the design of Existing Code. 1st ed. Boston: Addison-Wesley.
+- Bourg, D. and Seemann, G., 2004. AI for game developers. Beijing: O'Reilly.

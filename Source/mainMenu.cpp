@@ -1,7 +1,5 @@
 #include "../Headers/headers.h"
 
-
-
 void mainMenu()
 {
   int selection = -1; //all valid menu inputs are positive integers, so initialise as a negative

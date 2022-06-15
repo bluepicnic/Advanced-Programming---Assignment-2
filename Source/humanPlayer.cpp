@@ -61,7 +61,8 @@ string HumanPlayer::declarePlayerName()
   cout << name_Prompt << endl;
   //temporary string to store value, don't want to put into member variable without checking it's valid
   string playerAlias = getLineString(regex_Alphanumeric, invalid_Name);
-  
+  ui_returnCursorPos();
+  cout << clear_Console_Screen_Bottom;
   
   return playerAlias;
 }

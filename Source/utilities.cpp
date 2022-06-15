@@ -129,7 +129,7 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
     index += (current - asciiL); 
    
   //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
-   index = (i < charsToConvert.size() - 1)  ? index *= pow(26, i + 1) : index;
+    index = (i < charsToConvert.size() - 1)  ? index *= pow(alpha, i + 1) : index;
   }
 
   return index;
@@ -149,7 +149,8 @@ string getLineString(regex pattern, string error) {
     cin.clear();
     if (validString == true) {
       cout.flush();
-    } else cout << clear_Console_Line <<  error;
+    }
+    cout << clear_Console_Line <<  error;
   }
 
   return inputStr;
@@ -158,9 +159,9 @@ string getLineString(regex pattern, string error) {
 vector <string> separateCommands(string command) 
 {
   vector <string> commands; //return commands as list separated by index
-  size_t idNoPos = command.find_first_of("0123456789"); //boat ID will always be the first segement of a boat placement command
-  size_t startOfCoord = command.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz"); //
-  size_t orientationPos = command.find_last_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqurstuvwxyz");
+  size_t idNoPos = command.find_first_of(numbers); //boat ID will always be the first segement of a boat placement command
+  size_t startOfCoord = command.find_first_of(letters); //
+  size_t orientationPos = command.find_last_of(letters);
   //create separated strings based on the positions of these elements
   string idNo = command.substr(idNoPos, startOfCoord);
   string orientation = command.substr(orientationPos);
@@ -179,8 +180,8 @@ vector <string> separateCommands(string command)
 Coordinates splitCoords(string coordsToSplit) 
 {
   //find the locations of letters and numbers in a coordinate input
-  size_t rowStringPos = coordsToSplit.find_first_of("0123456789");
-  size_t colStringPos = coordsToSplit.find_first_not_of("0123456789");
+  size_t rowStringPos = coordsToSplit.find_first_of(numbers);
+  size_t colStringPos = coordsToSplit.find_first_not_of(numbers);
 
   //separate into two values
   string rowPos = coordsToSplit.substr(rowStringPos);
