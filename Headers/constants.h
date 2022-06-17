@@ -40,7 +40,7 @@ inline const string end_turn = "3. End Your Turn - Continue Game";
 
 //specific input prompts
 inline const string name_Prompt = "Please enter your name (15 characters max)";
-inline const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (1 d4 h): ";
+inline const string placement_Prompt = "Input a position using the following format: Boat ID, Location, Orientation (E.G. '1 a1 v'): ";
 inline const string boat_Auto_Place_Prompt = "Please select a boat to auto-place by entering an ID from the list above: ";
 inline const string menu_Num_Prompt = "Enter an option from the numbers above, or 0 to quit:";
 inline const string coord_Prompt = "Enter a coordinate (E.G. 'b7')";
@@ -50,9 +50,9 @@ inline const string return_Prompt = "Press any key to return to the main menu";
 //String constants for invalid input error messages
 inline const string invalid_Name = "That name is invalid, please only use alphanumeric characters (max 15): ";
 inline const string invalid_Menu_Input = "That selection is invalid: please try again: ";
-inline const string invalid_Placement_Command = "That command is invalid: please try again: ";
-inline const string invalid_Ship_Selection = "That boat does not exist: please enter the ID of a valid boat: ";
-inline const string invalid_Manual_Target = "That target is invalid";
+inline const string invalid_Placement_Command = "That command is invalid, please try again: ";
+inline const string invalid_Ship_Selection = "That boat does not exist, please enter the ID of a valid boat: ";
+inline const string invalid_Manual_Target = "That target is invalid, please try again:";
 
 //Headers for battleship game boards
 inline const string ship_Board_Header = "SHIP PLACEMENT BOARD";

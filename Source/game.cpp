@@ -141,7 +141,7 @@ void Game::playGame()
     int targetMethod = -1; 
     mGameState = GameState::Firing;
     shotOutcomes.clear(); //remove remaining outcome text from the previous turn
-    
+
     turnDisplay();
 
     //ai selection
@@ -279,27 +279,30 @@ void Game::gameHeader()
     currentState = "'s turn";
   }
   
-  ui_clearScreen();
+  
   cout << text_Colour_Cyan; //set colour for title
   cout << gameType() + mPlayers[0]->sayName() + " vs " + mPlayers[1]->sayName() + " | (" + mPlayers[mCurrentPlayer]->sayName() + currentState + ")" << endl << endl; //game title with player names
 }
 
 void Game::setupDisplay()
 {
+  //remove error lingering text
+  cout << clear_Console_Screen << std::flush;
   gameHeader(); //display current game info at top of screen
   mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
-  ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
 
 
 void Game::turnDisplay()
 {
+  ui_clearScreen();
+  cout << clear_Console_Screen << std::flush;
+  
   gameHeader(); //display current game info at top of screen
   mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
   mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
   mPlayers[mCurrentPlayer]->displayBoards(targetboard); //output select player boards
-  ui_saveCursorPos(); //Any menu or UI elements on the setup are displayed below this point, save the cursor position to return it here whenever the display changes
 }
 
 string Game::registerShot(Coordinates target) 
@@ -325,6 +328,7 @@ string Game::registerShot(Coordinates target)
 bool Game::resolutionDisplay(vector<string> resolutionText)
 {
   mGameState = GameState::Resolution; //update game state 
+  shipCounts oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
   
   turnDisplay(); //display boards during resolution 
   for (auto it : resolutionText) { //output outcome text
@@ -332,7 +336,7 @@ bool Game::resolutionDisplay(vector<string> resolutionText)
   }
 
   //check if shots this turn resulted in the game ending and display the resolution text associated with that
-  shipCounts oppBoats = mPlayers[mInactivePlayer]->reportBoatCounts();
+  
     if (oppBoats.shipsAfloat == 0)
     {
       ui_GameOverText(mPlayers[mCurrentPlayer]->sayName(), mPlayers[mInactivePlayer]->sayName());

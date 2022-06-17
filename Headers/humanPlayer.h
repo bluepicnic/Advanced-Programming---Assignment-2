@@ -9,7 +9,9 @@ class HumanPlayer :
 
       bool isHuman(); //identify player as a human
       vector<Coordinates> selectTarget(GameType gameMode, int numShots); //manually select a target based on input
+      
 
     private:
       string declarePlayerName(); //only used when creating a player
+      bool validTarget(vector<Coordinates> targets, int shots, vector<string> targetCommand);
 };

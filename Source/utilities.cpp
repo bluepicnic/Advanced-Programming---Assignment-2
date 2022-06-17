@@ -5,7 +5,7 @@
 string getSingleKeyInput() //get input from a single key upon key release
 {
   char buf = 0;
-  string rtnStr = "";
+  string userKey = "";
   struct termios old = {0};
 
   //obtain the attributes currently held by the console
@@ -27,7 +27,7 @@ string getSingleKeyInput() //get input from a single key upon key release
   if (read(0, &buf, 1) < 0) {
     perror ("read()");
   }
-  rtnStr.push_back(buf);
+  userKey.push_back(buf);
   old.c_lflag |= ICANON; //reset parameters
   old.c_lflag |= ECHO;
 
@@ -36,7 +36,7 @@ string getSingleKeyInput() //get input from a single key upon key release
     perror ("tcsetattr ~ICANON");
   }
 
-  return rtnStr;
+  return userKey;
 }
 
 bool fileExists(string file) //check if the file exists
@@ -129,9 +129,9 @@ int convertFromLetter(string charsToConvert)  //convert a letter to a number to 
     index += (current - asciiL); 
    
   //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
-    index = (i < charsToConvert.size() - 1)  ? index *= pow(alpha, i + 1) : index;
+    index = index * pow(alpha, (charsToConvert.size() - i) - 1);
   }
-
+  
   return index;
 }
 
@@ -197,7 +197,8 @@ Coordinates splitCoords(string coordsToSplit)
 }
 
 int rollRandomNumber(int max) 
-{    std::random_device roll;  //Will be used to obtain a seed for the random number engine
+{    
+    std::random_device roll;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(roll()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(0, max); //produces a random number between the two provided numbers
 
@@ -229,11 +230,11 @@ vector<string> splitSalvoShots(string &com, vector<string> &targets) //recursive
     if (strEnd > com.size()) { //continue until no further letter/number matches can be found
       strEnd = com.size(); //set to end of the string to avoid errors
     }
-    com = removeLeadTrailSpaces(com);
     com = com.substr(strEnd);
     
   }
-  targets.push_back(coord);
+  
+  targets.push_back(removeLeadTrailSpaces(coord));
 
   if (!(com == "")) {
     return splitSalvoShots(com, targets); //repeat if string isn't empty
@@ -252,12 +253,12 @@ bool isInBounds(Coordinates selection, int width, int height)
   return (selection.colPos < width && selection.rowPos < height);
 }
 
+
 void invalidBoard(int width, int height)
 {
   int maxSize = 80;
   int minSize = 5;
 
-  assert(width > minSize && width < maxSize);
-  assert(height > minSize && height < maxSize);
-  
+  assert(width >= minSize && width <= maxSize);
+  assert(height >= minSize && height <= maxSize);
 }

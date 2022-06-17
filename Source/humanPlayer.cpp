@@ -20,8 +20,6 @@ vector<Coordinates> HumanPlayer::selectTarget(GameType gameMode, int numShots)
   vector<Coordinates> manualTargets; //stores coordinates after raw strings have been checked
   vector<string> provisTargets; //raw inputs
   
-  int boardWidth = mPlayerBoards[0].getWidth();
-  int boardHeight = mPlayerBoards[0].getHeight();
   
   bool targetCommand = false;
   string targetSelection = "";
@@ -39,19 +37,39 @@ vector<Coordinates> HumanPlayer::selectTarget(GameType gameMode, int numShots)
     for(int i = 0; i < provisTargets.size(); i++) {
       provisTargets[i] = convertToUpper(provisTargets[i]);
       manualTargets.push_back(splitCoords(provisTargets[i]));
-
-      //check if coord is in bounds, hasn't been previously targeted and player has enough shots left to complete the action
-      if(isInBounds(manualTargets[i], boardWidth, boardHeight) && previouslyTargeted(manualTargets[i]) == false && manualTargets.size() <= numShots) {
-        targetCommand = true;
-      } else {
-        targetCommand = false;
-        manualTargets.clear();
-        provisTargets.clear();
-        break;
-      }
     }
+
+    targetCommand = validTarget(manualTargets, numShots, provisTargets);
+
+    if (targetCommand == false) {
+      manualTargets.clear();
+      provisTargets.clear();
+    }
+    
   }  
   return manualTargets;
+}
+
+bool HumanPlayer::validTarget(vector<Coordinates> targets, int shots, vector<string> targetCommand) {
+  int boardWidth = mPlayerBoards[0].getWidth();
+  int boardHeight = mPlayerBoards[0].getHeight();
+
+  //Sets only allow the insertion of unique values, if the length is less than the amount of commands we have, the commands aren't uniqie
+  set<string> uniqueCommands(targetCommand.begin(), targetCommand.end());
+
+  //Check:
+  //player has enough shots left to complete the action
+  if(targets.size() > shots) return false;
+
+  //command is unique
+  if (uniqueCommands.size() != targetCommand.size()) return false;
+
+  for (auto it : targets) {
+    if (isInBounds(it, boardWidth, boardHeight) == false) return false; //coord is in bounds
+    if (previouslyTargeted(it) == true) return false; //coord hasn't been previously targeted
+  }
+        
+  return true;
 }
 
 string HumanPlayer::declarePlayerName()

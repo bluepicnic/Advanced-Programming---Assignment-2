@@ -1,5 +1,5 @@
 /*External dependencies*/
-#include <iostream> //For input/output operations
+#include <iostream>
 #include <vector> //to access the vector variable size data container
 #include <string> //to perform string operations beyond simple C-style char* 
 #include <algorithm> 
@@ -11,6 +11,7 @@
 #include <random> //for functionality pertaining to random number generation (RNG); functions included are said to produce a better distribution of random numbers than standard functions such as rand() and srand()
 #include <climits> //contains constant values with the maximum possible values for primitive types
 #include <cassert> //used for assertions, to prevent the program from running in the event of a condition that should never occur.
+#include <set>
 
 #include <unistd.h> //for getting input from a single key
 #include <termios.h> //command line control 
@@ -31,6 +32,8 @@ using std::stringstream; //used to operate on strings
 using std::setw; //used to set the width of an output stream 
 using std::left; //used to align an input stream to the left
 using std::right; //used to align an input stream to the right
+using std::set;
+
 
 /*Project header files*/
 #include "constants.h"

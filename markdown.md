@@ -209,7 +209,7 @@ Due to this being the first development phase with few intricate implementations
 After I was satisfied with the progress made during this development phase, I made a conscious effort to return to files with temporary variable names, exposed string literal values and insignificant modularisation. This was done to ensure my code going forward adhered to a number of “good” standards and was overall more readable. In later phases and for the remainder of development, I refactored during and after a development phase was complete. This was to ensure my code was of a quality standard throughout. 
 
 
-### c. ..repeated for each development phase.
+### c. ..repeated for each development phase / d. Phase n development: tasks, code review and changes (linked to 1d,1e).
 
 #### Phase 2 - Various input and output developments, manipulation of input data
 ##### Tasks
@@ -266,16 +266,6 @@ void ui_returnCursorPos() //return the cursor position to the previously saved p
   cout.flush();
 }
 `````
-
-
-
-
-
-+ debug text present, but removed in later versions (Commit 10) 
-+ progression from simple outputs to manipulating strings (commit 10)
-+ Setup menu code very raw, not broken out into functions yet (commit 11 and older)
-+ Same goes for utility functions that don't fit with the object orientation of the game (commit 11 and older)
-+ Input captured in UI function (commit 16)
 ##### Changes
 In order to allow for the development of the player board outputs, I had to remove placeholder board outputs which were leftover from the previous development phase. This was an example of the routine refactoring I performed during each development phase so that improvements to code layout and flow were done in addition to adding new functionality and fixing bugs.
 I also moved the “convertToLetter” function from its position in the “mainmenu.cpp” file to its final position in the “utilities.cpp” file, which helped me adhere to object-oriented design principles by separating my code’s functionality into their own, independent modules, which promoted their reuse whilst not actively being repeated explicitly within my code, further improving its readability. 
@@ -415,7 +405,7 @@ Coordinates splitCoords(string coordsToSplit)
 Finally, a major change I made during this development phase was the decision to remove conceptualised AI Player functionality related to automatic boat placement and shot firing (of which the shell code had been present since the first development phase) from my program. This was mostly due to the fact that an equivalent function with identical functionality had already been included in the base player class for use by a human player. This came with some benefits, including reducing the amount of repetition in my program, which would have detracted from any “good” standards I had adhered to.
 
 
-#### phase 4 - Input clear up,  Salvo
+#### Phase 4 - Input clear up,  Salvo
 ##### Tasks
 My final development phase focussed on making improvements to various input prompts, finalising the functionality of the main game, and adding features related to the salvo game mode. 
 
@@ -425,9 +415,59 @@ As part of finalising the finishing touches to the functionality of the main gam
 A significant amount of development time in this phase was dedicated to the salvo game mode, specifically in handling the titular ability to fire multiple shots in a single action. This involved evaluating the input from the player and splitting it into individual shots which are then translated into coordinates. Several changes were also made to the game class related to Salvo game mode logic, which included tracking the number of shots taken, and repeating manual firing logic for each shot taken. This was enclosed in a loop, which runs even in the base game. This was done to save vertical space, prevent code bloat and reduce the amount of code reused specifically for the Salvo game. 
 
 ##### Code Review
-- Recursive function
-- Further modularisation but placing a long if statement into its own function isInbounds(). Subverted shotgun surgery by removing repetitive blocks, which in turn saved valuable development time by only have to make futher modifications in a single place
-  Applied a defensive programming approach by including assertions surrounding board sizes
+A major part of the development time spent on the salvo game mode was spent developing a recursive function that separates the firing coordinates entered and returns a vector of coordinate strings that is subsequently used to fire shots after being parsed in the same way as a regular shot. 
+
+The “splitSalvoShots” function utilises string manipulation techniques similar to the ones seen in other utility functions such as “separateCommands”. Each iteration, the function loops twice to alternate looking for the position of a letter and a number, which is appended to a string that is pushed back to the returned vector. These characters are then removed from the string, and while alphanumeric characters remain, the function calls itself, otherwise, it returns the vector. On the final iteration, instead of looking for a number, the function records the end of the last character to be recorded to the end of the string, as it will be unable to find an instance of the other character, which is used to denote the end of one character and the start of another. This function potentially features instances of stamp coupling due to values being passed by reference. However, it exemplifies an adherence to good standards by reducing the need for various levels of nesting (from conditionals and loops) by choosing this method over using loops or similar techniques. 
+`````
+vector<string> splitSalvoShots(string &com, vector<string> &targets) //recursive function
+{
+  
+  string coord = "";
+  for (int i = 0; i < 2; i++) { //coordinates always come in pairs
+    string otherCharType = (i == 0) ? numbers : letters; //search for the next instance of a letter/number depending on which term was searched for first
+
+    size_t strStart = com.find(com.front()); //get the start of the remaining string
+    size_t strEnd = com.find_first_of(otherCharType); //find the next half of the coordinate
+
+    coord += com.substr(strStart, strEnd);
+    if (strEnd > com.size()) { //continue until no further letter/number matches can be found
+      strEnd = com.size(); //set to end of the string to avoid errors
+    }
+    com = com.substr(strEnd);
+    
+  }
+  
+  targets.push_back(removeLeadTrailSpaces(coord));
+
+  if (!(com == "")) {
+    return splitSalvoShots(com, targets); //repeat if string isn't empty
+  } 
+  
+  return targets;
+}
+`````
+As part of a final set of refactoring tasks in the final phase of development, I broke out a lengthy, recurring if statement that checks if a coordinate is in bounds into its own function “isInBounds”. This reduced the need for shotgun surgery by removing these repetitive blocks, which in turn saved valuable development time by centralising any further modifications needed to this segment of code, this would also aid any maintenance efforts.
+
+`````
+bool isInBounds(Coordinates selection, int width, int height)
+{
+  return (selection.colPos < width && selection.rowPos < height);
+}
+`````
+
+In order to meet the requirements outlined in the assignment brief, I was required to support game board sizes between 5x5 and 80x80 which essentially encompassed boards of any size. The underlying code supports input for board sizes all the way up to 702x702, but I needed a way to prevent board sizes from being this large at the first instance. As such, I applied a defensive programming approach and included assertions surrounding game board sizes, where boards not between the minimum and maximum sizes. this was used to prevent unwanted behaviour that was not designed to occur. 
+
+`````
+void invalidBoard(int width, int height)
+{
+  int maxSize = 80;
+  int minSize = 5;
+
+  assert(width > minSize && width < maxSize);
+  assert(height > minSize && height < maxSize);
+}
+`````
+
 ##### Changes
 In order to wrap up development in this final phase, I needed to make sure my code was as robust as possible before, during, and after implementing the Salvo game mode. This included ensuring all base requirements were accounted for in light of these changes.
 
@@ -461,7 +501,7 @@ bool Game::resolutionDisplay(vector<string> resolutionText)
 Other changes included the removal of various “magic” values which were subsequently placed into constant values, to ensure the maintenance of “good” standards and to centralise all constant values into one location, which would aid further code upkeep. 
 
 
-### d. Phase n development: tasks, code review and changes (linked to 1d,1e).
+
 
 ### e. Ensuring quality through testing and resolving bugs (linked to 1a, 1b, 2a, 2b..2c).
 
@@ -636,7 +676,7 @@ Another application of refactoring was to eliminate existing code smells. Up unt
   
   ````
 
-Both aforementioned code smells prompted me to refactor this code by replacing the higher level conditionals with guard clauses, which offered an early return point from the function. This not only greatly improved the readability of my code by making the flow of code execution more apparent, but also encouraged me to make further improvements to the function. In the final version of my code, I replaced the statement within the second level of nested conditionals with a guard condition that contained a call to the “isInBounds” function. By decomposing this code into its own method, I not only further contributed to the modularisation of my code, but also made it easier to maintain and made the code more descriptive and clearer as a result. While a complex and long conditional still remains, I believe that this block is considerably harder to break down than the other previous nested conditionals, and, as the last if-statement block remaining would not offer a suitable return point from the function, especially with vital code it contains. Furthermore, a return point from the function is offered within the scope of the if-statement. Decomposing said function would also require a number of parameters to be passed into the function as well, which could cause code smells in the form of excessive parameters.
+Both aforementioned code smells prompted me to refactor this code by replacing the higher level conditionals with guard clauses, which offered an early return point from the function. This not only greatly improved the readability of my code by making the flow of code execution more apparent, but also encouraged me to make further improvements to the function. In the final version of my code, I replaced the statement within the second level of nested conditionals with a guard condition that contained a call to the “isInBounds” function. By decomposing this code into its own method, I not only further contributed to the modularisation of my code, but also made it easier to maintain and made the code more descriptive and clearer as a result. While a complex and long conditional still remains, I believe that this block is considerably harder to break down than the other previous nested conditionals, as the last if-statement block remaining would not offer a suitable return point from the function, especially with vital code it contains. Furthermore, a return point from the function is offered within the scope of the if-statement. Decomposing said function would also require a number of parameters to be passed into the function as well, which could cause code smells in the form of excessive parameters.
 
 Similar considerations were also made within my “acknowledgeShot” function, which also contained deep nested conditionals. I once again employed the use of guard clauses to reduce the level of nesting. In this case, further decomposition was not really possible due to the nested loop that needed to be iterated through in order to access a further data structure which contained the specific element that needed to be accessed. This was tied to a set location on the game board, which could only be occupied by a single entity. The refactoring of this code similarly improved the readability of the function and exemplified better programming standards. 
 
@@ -666,20 +706,23 @@ The setup display and turn display functions are almost functionally identical m
 `````
 void Game::setupDisplay()
 {
-  gameHeader(); 
-  mPlayers[mCurrentPlayer]->displayBoards(0); 
-  mPlayers[mCurrentPlayer]->fleetStatus(); 
-  ui_saveCursorPos(); 
+  //remove error lingering text
+  cout << clear_Console_Screen << std::flush;
+  gameHeader(); //display current game info at top of screen
+  mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
+  mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
 }
 
 
 void Game::turnDisplay()
 {
-  gameHeader(); 
-  mPlayers[mCurrentPlayer]->displayBoards(0); 
-  mPlayers[mCurrentPlayer]->fleetStatus(); 
-  mPlayers[mCurrentPlayer]->displayBoards(1); 
-  ui_saveCursorPos(); 
+  ui_clearScreen();
+  cout << clear_Console_Screen << std::flush;
+  
+  gameHeader(); //display current game info at top of screen
+  mPlayers[mCurrentPlayer]->displayBoards(shipboard); //output select player boards
+  mPlayers[mCurrentPlayer]->fleetStatus(); //output boat statuses
+  mPlayers[mCurrentPlayer]->displayBoards(targetboard); //output select player boards
 }
 `````
 On the subject of the Game class, it too features instances of reused code. The "isSpaceOccupied" and "previouslyTargeted" functions are functionally similar and evaluate a SpaceState variable in order to return a Boolean. The specific SpaceState each function evaluates is different, but apart from names, feature identical signatures. This reuse could easily be subverted by merging the two functions into one, and including the local variables as parameters in order to evaluate different SpaceState values, refactoring it into pure, yet versatile function. The two functions in question can be found below.
@@ -711,11 +754,9 @@ One unavoidable code smell, at least in its entirety, is that of coupling. It is
 Within my globally available modules, there was a high level of control coupling between my UI and input functions. This was because the input function impacted how the UI function executed instructions, acting as part of the return statement for many UI pieces of functionality. This interdependency could have resulted in unexpected behaviour, which again, thankfully did not happen, but the use of these modules in this way still contributed to a high level of coupling within my code. 
 
 `````
-
-void ui_ContinueText() 
-{
-  cout << "Press any key to confirm" << endl;
-  getLineSingleKey(regex_Any_Key, "Error");
+string ui_ContinueText() {
+	cout << continue_Prompt << endl;
+	return getLineSingleKey(regex_Any_Key, "");
 }
 `````
 
@@ -780,7 +821,7 @@ Using this function allowed me to take a split string and sanitize it for conver
 
 The notable design patterns I utilised for this project were that of finite state machines (FSM) and factory methods. I believed the FSM pattern lent itself well to the project since there were various objects, such as boats, spaces and the game itself that have mutable states of being and appropriate actions to go along with them. Said states were useful to track, as it gives an idea for the overall state of the program. It also assists with debugging by allowing us to associate various states with expected behaviour.  This is a commonly used pattern in game development (Berglund, 2017), among other applications. My sole factory method is used to create derived instances of the Player class with the generatePlayers() function, which can be seen below:
 ```
-Player* Game::generatePlayers(int selection, int index)
+Player* Game::generatePlayers(int selection, int index) //create a dynamic player, based on game mode 
 {
   //Player 1 will always be human unless its AI vs AI
   if (index == 0 && (selection % 3 != 0)) {
@@ -791,12 +832,14 @@ Player* Game::generatePlayers(int selection, int index)
   }
 
   //Player 2 will be an AI unless its a multiplayer game 
-  if (index == 1 && (selection != 2 && selection != 5 && selection != 8)){
+  if (index == 1 && (selection != 2 && selection != 5)){
     return new AIPlayer(index);
   }
   else if (index == 1) {
     return new HumanPlayer;
   }
+
+  return NULL;
   
 } 
 ```
@@ -811,6 +854,7 @@ In addition, singletons break the single responsibility principle and are hard t
 ### c. Features showcase and embedded innovations (with examples) - opportunity to ‘highlight’ best bits.
 
 Throughout my project, I was required to challenge myself in order to meet the requirements outlined in the assignment brief. Certain innovations and pieces of functionality stand out as exceptional examples of advanced programming methodologies, design patterns and features that not only remained throughout an iterative project, but actively contributed to its quality. In this section I will outline the features exemplify this.
+
 The conversion of letters to numbers was a feature required to output coordinates in the required format which was visible to the player. This can best be seen through column labels of the game boards during setup and gameplay. The function itself takes a full string as a parameter which is evaluated through a loop as a product of the individual characters that it consists of. It then uses the existence of C++’s Char type as an integral data type (that is to say, it is stored entirely as an integer) to subtract known values that represent letters to find the “true” value which can be directly mapped to the specific array indexes which are found on the player boards. This was an especially useful innovation, as no casting between primitive data types was required for this piece of functionality, which could have resulted in a loss of data had the Char type not been integral. Once discovered, the number is then added to a running total and raised to the appropriate power of 26 in order to reflect its position in the string and subsequently its position within the game’s coordinate system. I made effective use of the “cmath” header’s “pow” function to enable this functionality and ensure that every board size within the game’s allowed limits could be accounted for. 
 `````
 for (int i = 0; i < charsToConvert.size(); i++) {
@@ -822,11 +866,14 @@ for (int i = 0; i < charsToConvert.size(); i++) {
     index += (current - asciiL); 
    
   //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
-    index = (i < charsToConvert.size() - 1)  ? index *= pow(alpha, i + 1) : index;
+    index = index * pow(alpha, (charsToConvert.size() - i) - 1);
   }
+  
   return index;
+}
 `````
 This feature was key to my project because it helped to provide a seamless conversion between the underlying data structures that made up the logical parts of the game and the elements that were visible to the player. This helped to provide a familiar experience for the users who have played or encountered battleship before, which enhanced their user journey as a result, and made it so that the underlying coordinate system of the game didn’t need to be reinvented for the sake of the project, which could have introduced an unnecessary level of complexity to my design which were beyond the scope of considerations when modelling this system.
+
 Another feature which benefitted my project was the inclusion of relevant finite state machines to track the status of various objects throughout my program. The benefits of the application of this design pattern were thus: debugging was made easier because specific states were associated with specific behaviour, which made it easier to tell when the implementation of an object did not match its design. Also, since each of the objects could only ever be in one state at any given time, the state pattern prevents the overlap of behaviour from one associated state to another by only making changes to associated data within or in transition between the defined states. A fantastic example of this in my code can be found in my board class with the “setStateColour” function, in which the state machine directly affects the data member found within the space struct associated with the board class to change the colour of output strings according to the space’s state at a specific location.  
 `````
 void Board::setStateColour(Coordinates colourLocation) 
@@ -905,15 +952,102 @@ The application of these two features in tandem provides a decent base to expand
 
 ### d. Improved algorithms – research, design, implementation, and tested confirmation (with examples).
 
-research can also mean stuff like c++ ref
+As my project progressed through various development phases, the algorithms that were implemented occasionally needed to be altered and improved in order to meet requirements or fix bugs. This section will outline the algorithms that were improved in my program, and how I went about implementing them.  
+One of the first of my algorithms conceived, which was identified at the beginning of development as a key problem to solve was the conversion of letter. This was necessary in order to access player class member data structure indexes based on player input, enabling the player to perform key game functionality such as firing a shot on their turn, or placing a boat. The value being represented is the column value on the game boards. From the offset, I knew the size of the game boards used were directly tied to how complex the algorithm needed to be, as each letter introduced would increase the numerical value of the column significantly. 
 
-File parser -> use of fstream header
-Conversion of numbers to letters
-Conversion of letters to numbers -> inclusion of pow function. 
-Pure check input function (with regex) -> research of the regex type, direct evaluation
-Acknowledge shot -> From deep nested conditionals to guard clauses with return routes. Research of guard clauses 
-+ Recursive functions -> expensive resources wise as it ttakes up valuable stack space, but very suitable for the task at hand. Examples found used fibbonaci as an example, but the concept of a values that changes with each iteration 
+I correctly identified that the introduction of each letter as part of a column value would represent an increase of value to the power of 26. Thankfully, the requirements of the project specified that the max board size that was considerably less than even the maximum value for two letters.
+The need to work with exponents encouraged me to research functions used within C++ to allow values to be raised to the required power. Initial findings suggested the use of nested loops to increment values, however, this idea was discarded when it became apparent that this would introduce too deep a level of nesting due to having to loop through each of the letters used to represent the column value. This would betray the “good” practices that I endeavoured to adhere to and would ultimately make my code harder to debug due to a reliance on loops. Upon searching for another solution, I discovered the “cmath” library, and its included “pow” function, which included exactly the functionality I was looking for. The idea in this case being that each letter value converted to an appropriate number would then be raised to the power of its relative position in the string before being added to a running total.
+Retrieving the representative value of each letter before multiplying it was done by subtracting the ASCII value for a capital A, represented as number, from the value extracted in the input string. This would then represent the array value necessary in order to access a requested coordinate. 
+`````
+int convertFromLetter(string charsToConvert) 
+{
+  int index = 0;
+  int ch = 0;
+  char current = '-';
+  for (int i = 0; i < charsToConvert.size(); i++) {
+    current = charsToConvert[i]; 
+    ch = current - 65;
+    index += ch * pow(26, (charsToConvert.size() - i) - 1); //something like this...
+  }
 
+  return index;
+}
+`````
+However, my initial implementation did not consider for multi-letter column values correctly, as the value subtracted would effectively cancel out calculations made for all letters except the last one, not accounting for its position in the string, meant that the value could never go beyond the length of a standard alphabet.
+
+The revelation the value being subtracted would also change based on the number of letters representing a column meant that my initial solution was no longer suitable to meet the requirement of accommodating larger board sizes. This is when I made changes in order to improve my algorithm. 
+Further research uncovered the fact that each letter’s offset would increase as it approached the final letter on the right-hand side. Since I had only two letters to consider, I did not need to take this into account in my code, but it helped me to understand the concept of the algorithm further.
+Still making use of the “pow” function for calculating the final value of letters according to their position, I added a statement towards the start of the function that calculated the offset based on the position of the letter in the string. The final letter being converted would then account for array notation by being offset by the length of the alphabet entirely. 
+`````
+int convertFromLetter(string charsToConvert)  //convert a letter to a number to access board array positions
+{
+  //assume that string has been capitalised
+  int index = 0;
+  int ch = 0;
+  int alpha = 26;
+  
+  char current = '-';
+  
+ for (int i = 0; i < charsToConvert.size(); i++) {
+   //if there are two letters, the first number cannot calculate to 0, must start at a minimum of 1
+    int asciiL = (charsToConvert.size() == 2 && i == 0) ? 64 : 65;
+    
+    current = charsToConvert[i] ; 
+   //subract the ascii value 
+    index += (current - asciiL); 
+   
+  //calculate appended value of first letter to a power of 26, if a second letter is present, otherwise just use the regular value
+    index = index * pow(alpha, (charsToConvert.size() - i) - 1);
+  }
+
+  return index;
+}
+`````
+
+My function was then tested on larger and more uniform sized boards to ensure it worked and was translating the column values correctly. Both firing and boat placement worked as intended after this change, signifying that the improvements made worked with existing functionality to provide the correct values, fixing the bug within my code and contributing to enhanced functionality overall.
+
+Another improved algorithm was found in my player class, used to manually select a target for a human player. Originally this function was implemented with a single target selection in mind but was to be refactored in order to meet the requirements of the Salvo game mode. Within the function, input is taken in order to capture a coordinate to fire upon. Once the input is converted manually into my user defined “Coordinate” type, it is validated against a number of conditions related to the current state of the game. Initial considerations regarding validating the coordinate included: whether the selected coordinate was within the boundaries of the game board and if the coordinate had been previously targeted. 
+`````
+    //check if coord is in bounds
+    if(manualTarget.colPos < boardWidth && manualTarget.rowPos < boardHeight) {
+    //check if coords have been previously selected 
+      if (previouslyTargeted(manualTarget) == false) {
+        targetCommand = true;
+      }
+    } else {
+      targetCommand = false;
+    }
+  }
+`````
+With the introduction of the Salvo game mode, not only did the way in which the function handled coordinate data change, but so too did the conditions which validated a given coordinate. In the Salvo game mode, multiple shots can be taken at once. This necessitated a change to capture and split multiple targets taken from an input string which were placed in a string vector. The algorithm then loops through the string vector, pushing back targets to a vector of coordinates. The product of the function also changed, with it now returning this vector of coordinates instead of a lone coordinate. 
+
+The way in which these coordinates were validated also changed to fit the new game mode. In the original version of this function, coordinates were checked for validity against the aforementioned clauses through a pair of nested if-statements. This method of validation would not compliment the changes needed to be made as additional clauses related to Salvo game mode would need to be introduced. This would be detrimental to the standards I attempted to uphold as introducing the additional clauses in this manner would result in deep conditional nesting or sizeable if-statements. As a result, my code would have been harder to read and debug by adopting either of these approaches. Instead, in order to support the new clauses, which checked the Salvo firing input string for duplicate coordinates and if sufficient shots were available, I extracted the clauses into their own function “validTarget”, which was beneficial as it was yet another example of the modularisation of my code and emphasised the separation of responsibilities from one function to the next. 
+`````
+bool HumanPlayer::validTarget(vector<Coordinates> targets, int shots, vector<string> targetCommand) {
+  int boardWidth = mPlayerBoards[0].getWidth();
+  int boardHeight = mPlayerBoards[0].getHeight();
+
+  //Sets only allow the insertion of unique values, if the length is less than the amount of commands we have, the commands aren't uniqie
+  set<string> uniqueCommands(targetCommand.begin(), targetCommand.end());
+
+  //Check:
+  //player has enough shots left to complete the action
+  if(targets.size() > shots) return false;
+
+  //command is unique
+  if (uniqueCommands.size() != targetCommand.size()) return false;
+
+  for (auto it : targets) {
+    if (isInBounds(it, boardWidth, boardHeight) == false) return false; //coord is in bounds
+    if (previouslyTargeted(it) == true) return false; //coord hasn't been previously targeted
+  }
+        
+  return true;
+}
+`````
+It was upon trying to split these statements into their own guard clauses that I found out the vector container did not have built in functionality for checking for duplicates, which impacted my ability to search for duplicate coordinates in a player’s input string. This required me to research for a solution. Potential solutions that I uncovered as part of the algorithm header included the “unique” function, which removes duplicates from a given container, and “adjacent_find” which stops searching once adjacent duplicates had been found, were both unsuitable for my needs, in no small part due to the fact that the containers in question needed to be sorted. Because my coordinates in string form were alphanumeric, there was no easy way to sort these functions without writing an algorithm myself, which could have potentially been very inefficient to run, and would have consumed considerable amounts of precious development time constructing. 
+
+Instead, I looked to containers that did not allow duplicate values, such as C++’s Sets. Using a Set, I added the elements of the player string vector from the “selectTarget” function, which is included as a parameter to this function. From there, I was able to compare the sizes of the two containers, which, if not equal, meant that a duplicate coordinate was present in the input string. With all the guard clauses implemented, the breakaway function was tested and later integrated into the original function, the result of which is also evaluated there. As it made use of mostly existing code, the testing process for this function was relatively straightforward, thanks in no small part due to the easily debugged guard clauses found in the validTarget function. All aspects eventually passed testing.
 
 
 ### e. Reflective review, opportunities to improve and continued professional development.
